@@ -38,10 +38,13 @@ export CASE_ENKF=C384
 export CDATE=2017052000
 
 
-#===========================================================
-#===========================================================
-export NSTSMTH=YES          ##apply 9-point smoothing to nsst tref
+export NSTSMTH=YES                                  ##apply 9-point smoothing to nsst tref
 export NST_TF_CHG=$HOMEgfs/exec/nst_tf_chg.x
+export ZERO_BIAS=YES                                ##zeroed out all bias and radsat files 
+export zero_bias_dir=/gpfs/hps3/emc/global/noscrub/emc.glopara/ICS/bias_zero
+
+#===========================================================
+#===========================================================
 
 export ymd=`echo $CDATE | cut -c 1-8`
 export cyc=`echo $CDATE | cut -c 9-10`
@@ -91,7 +94,7 @@ export CASE=$CASE_HIGH
 export INIDIR=$RUNDIR/$CDUMP/$CASE
 export COMROT=$ROTDIR/gdas.$ymd/$cyc
 export OUTDIR=$COMROT/INPUT
-export DATA=$RUNDIR/$CASE
+export DATA=$INIDIR/stmp
 rm -rf $INIDIR $OUTDIR $DATA
 mkdir -p $INIDIR $OUTDIR  $DATA
 cd $INIDIR ||exit 8
@@ -193,6 +196,15 @@ if [ $? -ne 0 ] ; then
  exit 1
 fi
 
+if [ $CDUMP = "gdas" -a $ZERO_BIAS = "YES" ]; then
+   cd $COMROT
+   for ff in abias abias_air abias_pc radstat; do
+    mv gdas.t${cyc}z.${ff}  gdas.t${cyc}z.${ff}_save
+    cp -p ${zero_bias_dir}/gdas.t${cyc}z.${ff} .
+   done
+fi 
+
+
 [[ $CDUMP = gfs ]] && exit
 
 
@@ -249,14 +261,14 @@ mchar=mem$(printf %03i $mem)
 
 export COMROT=$ROTDIR/enkf.gdas.$ymd/$cyc/$mchar
 export OUTDIR=$COMROT/INPUT
-export DATA=$RUNDIR/$CASE/$mchar
+export DATA=$INIDIR/$mchar
 rm -rf $OUTDIR $DATA
 mkdir -p $OUTDIR $DATA
 
 atm=${CDUMP}.t${cyc}z.atmanl.nemsio
 sfc=${CDUMP}.t${cyc}z.sfcanl.nemsio
 nst=${CDUMP}.t${cyc}z.nstanl.nemsio
-rm -rf $atm $sfc $nst
+rm -rf $atm $sfc $nst 
 
 if [ $CDATE -le 2017072000 ]; then
    ln -fs siganl_${CDATE}_$mchar $atm
@@ -295,7 +307,6 @@ if [ $? -ne 0 ] ; then
  echo "chgres for enkf $CASE ${mchar} failed. exit"
  exit
 fi
-
 
 #---------------------------
 n=$((n+1))
