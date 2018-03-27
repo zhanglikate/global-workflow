@@ -5,7 +5,7 @@
 #BSUB -oo log.chgres.%J
 #BSUB -eo log.chgres.%J
 #BSUB -J fv3_chgres
-#BSUB -q dev
+#BSUB -q devmax
 #BSUB -M 2400
 #BSUB -W 06:00
 #BSUB -extsched 'CRAYLINUX[]'
@@ -35,7 +35,7 @@ export PSLOT=fv3fy18retro2
 export CDUMP=gdas
 export CASE_HIGH=C768            
 export CASE_ENKF=C384
-export CDATE=2017061918
+export CDATE=2017052000
 
 
 #===========================================================
@@ -169,18 +169,19 @@ fi
 #------------------------------
 if [ $NSTSMTH = "YES" ]; then
 #------------------------------
-   mv $nst fnsti
-   cat << EOF > tf_chg_parm.input
-    &config
-     nsmth=3,istyp=0,
-   /
-   EOF
-   $APRUNTF $NST_TF_CHG <tf_chg_parm.input 
-   mv fnsto $nst
-   if [ $? -ne 0 ] ; then
-    echo "NST_TF_CHG for $CDUMP $CASE failed. exit"
-    exit 1
-   fi
+mv $nst fnsti
+rm -f tf_chg_parm.input
+cat >tf_chg_parm.input <<EOF1
+&config
+nsmth=3,istyp=0,
+/
+EOF1
+$APRUNTF $NST_TF_CHG <tf_chg_parm.input 
+mv fnsto $nst
+if [ $? -ne 0 ] ; then
+  echo "NST_TF_CHG for $CDUMP $CASE failed. exit"
+  exit 1
+fi
 #------------------------------
 fi
 #------------------------------
@@ -261,27 +262,30 @@ if [ $CDATE -le 2017072000 ]; then
    ln -fs siganl_${CDATE}_$mchar $atm
    ln -fs sfcanl_${CDATE}_$mchar $sfc
    ln -fs nstanl_${CDATE}_$mchar $nst
+   cp     nstanl_${CDATE}_$mchar fnsti 
 else
    ln -fs gdas.t${cyc}z.ratmanl.${mchar}.nemsio $atm
    ln -fs gdas.t${cyc}z.sfcanl.${mchar}.nemsio $sfc
    ln -fs gdas.t${cyc}z.nstanl.${mchar}.nemsio $nst
+   cp     gdas.t${cyc}z.nstanl.${mchar}.nemsio fnsti
 fi
 
 #------------------------------
 if [ $NSTSMTH = "YES" ]; then
 #------------------------------
-   mv $nst fnsti
-   cat << EOF > tf_chg_parm.input
-    &config
-     nsmth=3,istyp=0,
-   /
-   EOF
-   $APRUNTF $NST_TF_CHG <tf_chg_parm.input
-   mv fnsto $nst
-   if [ $? -ne 0 ] ; then
-    echo "NST_TF_CHG for $CDUMP $CASE failed. exit"
-    exit 1
-   fi
+rm -f tf_chg_parm.input
+cat >tf_chg_parm.input <<EOF1
+&config
+nsmth=3,istyp=0,
+/
+EOF1
+$APRUNTF $NST_TF_CHG <tf_chg_parm.input
+rm -f $nst
+mv fnsto $nst
+if [ $? -ne 0 ] ; then
+  echo "NST_TF_CHG for $CDUMP $CASE failed. exit"
+  exit 1
+fi
 #------------------------------
 fi
 #------------------------------
