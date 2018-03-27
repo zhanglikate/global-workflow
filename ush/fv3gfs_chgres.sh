@@ -28,10 +28,10 @@ set -x
 #-------------------------------------------------------------------------------------------------
 
 export machine=WCOSS_C
-export HOMEgfs=/gpfs/hps3/emc/global/noscrub/Fanglin.Yang/git/fv3gfs/jjobs
+export HOMEgfs=/gpfs/hps3/emc/global/noscrub/Fanglin.Yang/git/fv3gfs/tic21f
 export PTMP="/gpfs/hps3/ptmp/$USER"
 
-export PSLOT=fv3fy18retro1
+export PSLOT=fv3fy18retro2
 export CDUMP=gdas
 export CASE_HIGH=C768            
 export CASE_ENKF=C384
@@ -39,6 +39,10 @@ export CDATE=2017061918
 
 
 #===========================================================
+#===========================================================
+export NSTSMTH=YES          ##apply 9-point smoothing to nsst tref
+export NST_TF_CHG=$HOMEgfs/exec/nst_tf_chg.x
+
 export ymd=`echo $CDATE | cut -c 1-8`
 export cyc=`echo $CDATE | cut -c 9-10`
 export yy=`echo $CDATE | cut -c 1-4`
@@ -57,6 +61,7 @@ if [ $machine = WCOSS_C ]; then
  module load PrgEnv-intel 2>>/dev/null
  export KMP_AFFINITY=disabled
  export APRUNC="aprun -n 1 -N 1 -j 1 -d $OMP_NUM_THREADS_CH -cc depth"
+ export APRUNTF='aprun -q -j1 -n1 -N1 -d1 -cc depth'
  export SUB=/u/emc.glopara/bin/sub_wcoss_c
  export ACCOUNT=FV3GFS-T2O
  export QUEUE=dev
@@ -65,6 +70,7 @@ elif [ $machine = THEIA ]; then
  module use -a /scratch3/NCEPDEV/nwprod/lib/modulefiles
  module load netcdf/4.3.0 hdf5/1.8.14 2>>/dev/null
  export APRUNC=time
+ export APRUNTF=time
  export SUB=/u/emc.glopara/bin/sub_theia
  export ACCOUNT=fv3-cpu
  export QUEUE=debug
@@ -154,10 +160,36 @@ while test ! -s $testfile -a $nsleep -lt $msleep;do
 done
 sleep 300
 
-[[ -s $testfile ]] && $HOMEgfs/ush/global_chgres_driver.sh
+if [ ! -s $testfile ]; then 
+  echo "$testfile does not exist, exit !"
+  exit 1
+fi
+
+
+#------------------------------
+if [ $NSTSMTH = "YES" ]; then
+#------------------------------
+   mv $nst fnsti
+   cat << EOF > tf_chg_parm.input
+    &config
+     nsmth=3,istyp=0,
+   /
+   EOF
+   $APRUNTF $NST_TF_CHG <tf_chg_parm.input 
+   mv fnsto $nst
+   if [ $? -ne 0 ] ; then
+    echo "NST_TF_CHG for $CDUMP $CASE failed. exit"
+    exit 1
+   fi
+#------------------------------
+fi
+#------------------------------
+
+
+$HOMEgfs/ush/global_chgres_driver.sh
 if [ $? -ne 0 ] ; then
  echo "chgres for $CDUMP $CASE failed. exit"
- exit
+ exit 1
 fi
 
 [[ $CDUMP = gfs ]] && exit
@@ -234,6 +266,25 @@ else
    ln -fs gdas.t${cyc}z.sfcanl.${mchar}.nemsio $sfc
    ln -fs gdas.t${cyc}z.nstanl.${mchar}.nemsio $nst
 fi
+
+#------------------------------
+if [ $NSTSMTH = "YES" ]; then
+#------------------------------
+   mv $nst fnsti
+   cat << EOF > tf_chg_parm.input
+    &config
+     nsmth=3,istyp=0,
+   /
+   EOF
+   $APRUNTF $NST_TF_CHG <tf_chg_parm.input
+   mv fnsto $nst
+   if [ $? -ne 0 ] ; then
+    echo "NST_TF_CHG for $CDUMP $CASE failed. exit"
+    exit 1
+   fi
+#------------------------------
+fi
+#------------------------------
 
 $HOMEgfs/ush/global_chgres_driver.sh
 if [ $? -ne 0 ] ; then
