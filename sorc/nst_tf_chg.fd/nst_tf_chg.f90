@@ -167,12 +167,21 @@ program nst_tref_chg
   tref=reshape(rwork1d,(/size(tref,1),size(tref,2)/))
 
 ! slmsk/land
-  call nemsio_readrecv(gfilei,'land',  'sfc', 1, rwork1d,iret)
-  if ( iret /= 0 ) write(6,*) 'readrecv for gfilei for slmsk', '  Status = ', iret
+  call nemsio_readrecv(gfilei,'land',  'sfc', 1, rwork1d,iret=iret)
+  write(*,*) ' nemsio_readrecv, land, iret = ',iret
 
+  if ( iret /= 0 ) then
+! For some retro run periods to prepare FY17 implementation, the sfc mask name could be slmsk 
+     print *,'could not read land, try to read slmsk instead as the old sfc mask name'
+     call nemsio_readrecv(gfilei,'slmsk','sfc',1,rwork1d,iret=iret)
+     if (iret /= 0) then
+        write(6,*) 'readrecv for gfilei for slmsk', '  Status = ', iret
+     endif
+  endif
   land=reshape(rwork1d,(/size(land,1),size(land,2)/))
 
-  call nemsio_writerecv(gfileo,'land','sfc',1,rwork1d,iret)
+  call nemsio_writerecv(gfileo,'land','sfc',1,rwork1d,iret=iret)
+
   if ( iret /= 0 ) write(6,*) 'writerecv for gfileo for land', '  Status = ', iret
 
   if ( nsmth == 100 ) then
@@ -191,14 +200,14 @@ program nst_tref_chg
      enddo
   else
      do n = 1, nsmth
-        write(*,'(a,I4)') ' smoth times : ',n
+        write(*,'(a,I4)') ' smooth times : ',n
         work2d = tref
         call smth9_msk(work2d,tref,int(land),lonb,latb,istyp)
      enddo
   endif
 
   rwork1d = reshape( tref,(/size(rwork1d)/) )
-  call nemsio_writerecv(gfileo,'tref','sfc',1,rwork1d,iret)
+  call nemsio_writerecv(gfileo,'tref','sfc',1,rwork1d,iret=iret)
   if ( iret /= 0 ) write(6,*) 'writerecv for gfileo for tref', '  Status = ', iret
 
 ! d_conv
@@ -212,9 +221,9 @@ program nst_tref_chg
   call nemsio_writerecv(gfileo,'ifd','sfc',1,rwork1d,iret)
   if ( iret /= 0 ) write(6,*) 'writerecv for gfileo for ifd', '  Status = ', iret
 ! qrain
-  call nemsio_readrecv(gfilei,'qrain',  'sfc', 1, rwork1d,iret)
+  call nemsio_readrecv(gfilei,'qrain',  'sfc', 1, rwork1d,iret=iret)
   if ( iret /= 0 ) write(6,*) 'readrecv for gfilei for qrain', '  Status = ', iret
-  call nemsio_writerecv(gfileo,'qrain','sfc',1,rwork1d,iret)
+  call nemsio_writerecv(gfileo,'qrain','sfc',1,rwork1d,iret=iret)
   if ( iret /= 0 ) write(6,*) 'writerecv for gfileo for ifd', '  Status = ', iret
 
   deallocate(rwork1d)
