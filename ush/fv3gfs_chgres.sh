@@ -218,8 +218,25 @@ export INIDIR=$RUNDIR/$CDUMP/$CASE
 rm -rf $INIDIR; mkdir -p $INIDIR 
 cd $INIDIR ||exit 8
 
-if [ $CDATE -le 2017072000 ]; then
- oldexp=prnemsrn
+
+if [ $CDATE -le 2017072012 ]; then
+   if [ $CDATE -ge 2016110100 ]; then
+     oldexp=prnemsrn
+   elif [ $CDATE -ge 2016050100 ]; then
+     oldexp=pr4rn_1605
+   elif [ $CDATE -ge 2015121500 ]; then
+     oldexp=pr4rn_1512
+   elif [ $CDATE -ge 2015050200 ]; then
+     oldexp=pr4rn_1505
+   elif [ $CDATE -ge 2014073000 ]; then
+     oldexp=pr4rn_1408
+   elif [ $CDATE -ge 2014050100 ]; then
+     oldexp=pr4rn_1405
+   else
+     echo "NEMS GSM retro ICs do not exit, exit"
+     exit 1
+   fi
+
  HPSSPATH=/5year/NCEPDEV/emc-global/emc.glopara/WCOSS_C/$oldexp    ##use q3fy17 nems gfs parallel ics
  tarball_enkf_atm=${CDATE}gdas.enkf.anl.tar
  tarball_enkf_sfcnst=${CDATE}gdas.enkf.sfcanl.tar

@@ -149,7 +149,7 @@
  print*
  print*,'OPEN OUTPUT FILE: ',trim(output_file)
  call nemsio_open(gfile, output_file, gaction, iret=iret, gdatatype="bin4", &
-                  nmeta=8, modelname="FV3GFS", nrec=nrec, &
+                  nmeta=8, modelname="GFS", nrec=nrec, &
                   idate=idate, dimx=i_output, &
                   dimy=j_output, dimz=lev, ntrac=ntrac, & 
                   ncldt=ncldt, idvc=idvc, idsl=idsl, idvm=idvm, &
