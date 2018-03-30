@@ -1178,8 +1178,8 @@ CC due to rounding and interpolation errors, correct it here -G.P. Lou:
 !
           data(7+nflx) = psfc * 100.                   ! SURFACE PRESSURE (PA)
           data(6+nflx) = pmsl(np)                           
-          dtemp = .0065 * (grids(np,1) - elevstn(np))
-!!          dtemp = .0100 * (grids(np,1) - elevstn(np))
+!!          dtemp = .0065 * (grids(np,1) - elevstn(np))
+          dtemp = .0100 * (grids(np,1) - elevstn(np))
           sfc(37,np) = data(6+nflx) * .01
           sfc(39,np) = zp2(2)   !500 hPa height       
 !
