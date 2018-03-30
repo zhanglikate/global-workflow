@@ -51,9 +51,9 @@ rm -f -r ${COMOUT}/bufr.${cycle}
 mkdir ${COMOUT}/bufr.${cycle}
 
 # Extract number of vertical levels from $STARTHOUR atmospheric file
-#fhr3=$(printf %03i $STARTHOUR)
-#ATMFCS=$COMIN/${RUN}.${cycle}.atmf${fhr3}.nemsio
-#export LEVS=$($NEMSIOGET $ATMFCS dimz | awk '{print $2}')
+fhr3=$(printf %03i $STARTHOUR)
+ATMFCS=$COMIN/${RUN}.${cycle}.atmf${fhr3}.nemsio
+export LEVS=$($NEMSIOGET $ATMFCS dimz | awk '{print $2}')
 
 ### Loop for the hour and wait for the sigma and surface flux file:
 export FSTART=$STARTHOUR
