@@ -5,7 +5,7 @@
 #BSUB -oo log.chgres.%J
 #BSUB -eo log.chgres.%J
 #BSUB -J fv3_chgres
-#BSUB -q devmax
+#BSUB -q dev
 #BSUB -M 2400
 #BSUB -W 06:00
 #BSUB -extsched 'CRAYLINUX[]'
@@ -31,11 +31,11 @@ export machine=WCOSS_C
 export HOMEgfs=/gpfs/hps3/emc/global/noscrub/Fanglin.Yang/git/fv3gfs/tic21f
 export PTMP="/gpfs/hps3/ptmp/$USER"
 
-export PSLOT=fv3fy18retro2
-export CDUMP=gdas
+export PSLOT=fv3test
+export CDUMP=gfs
 export CASE_HIGH=C768            
 export CASE_ENKF=C384
-export CDATE=2017052000
+export CDATE=2018032300
 
 
 export NSTSMTH=YES                                  ##apply 9-point smoothing to nsst tref
@@ -92,7 +92,7 @@ fi
 #----------------------------
 export CASE=$CASE_HIGH
 export INIDIR=$RUNDIR/$CDUMP/$CASE
-export COMROT=$ROTDIR/gdas.$ymd/$cyc
+export COMROT=$ROTDIR/${CDUMP}.$ymd/$cyc
 export OUTDIR=$COMROT/INPUT
 export DATA=$INIDIR/stmp
 rm -rf $INIDIR $OUTDIR $DATA
@@ -200,7 +200,7 @@ if [ $CDUMP = "gdas" -a $ZERO_BIAS = "YES" ]; then
    cd $COMROT
    for ff in abias abias_air abias_pc radstat; do
     mv gdas.t${cyc}z.${ff}  gdas.t${cyc}z.${ff}_save
-    cp -p ${zero_bias_dir}/gdas.t${cyc}z.${ff} .
+    cp -p ${zero_bias_dir}/gdas.t18z.${ff} gdas.t${cyc}z.${ff}
    done
 fi 
 
