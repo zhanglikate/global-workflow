@@ -36,15 +36,24 @@ export INCREMENT=12
 export OUTFILE=meteomrf
 export MAKEBUFR=NO
 export F00FLAG=YES
+
+if [ $FHMAX_HF_GFS -gt 0 -a $FHOUT_HF_GFS -gt 0 ]
+  then
+    export NINT1=${FHOUT_HF_GFS:-1}
+    export NEND1=${FHMAX_HF_GFS:-120}
+  else
+    export NINT3=${FHOUT_GFS:-3}
+fi
+
 ##export SIGLEVEL=${SIGLEVEL:-$FIXgfs/global_siglevel.l${LEVS}.txt}
 #export SIGLEVEL=/gpfs/hps/nco/ops/nwprod/global_shared.v14.0.1/fix/fix_am/global_siglevel.l64.txt
 rm -f -r ${COMOUT}/bufr.${cycle}
 mkdir ${COMOUT}/bufr.${cycle}
 
 # Extract number of vertical levels from $STARTHOUR atmospheric file
-fhr3=$(printf %03i $STARTHOUR)
-ATMFCS=$COMIN/${RUN}.${cycle}.atmf${fhr3}.nemsio
-export LEVS=$($NEMSIOGET $ATMFCS dimz | awk '{print $2}')
+#fhr3=$(printf %03i $STARTHOUR)
+#ATMFCS=$COMIN/${RUN}.${cycle}.atmf${fhr3}.nemsio
+#export LEVS=$($NEMSIOGET $ATMFCS dimz | awk '{print $2}')
 
 ### Loop for the hour and wait for the sigma and surface flux file:
 export FSTART=$STARTHOUR
