@@ -111,7 +111,7 @@
       integer :: n3dfercld,iseedl,time
       integer :: istat(npoint)
       logical :: trace
-      logical, parameter :: debugprint=.false.
+      logical, parameter :: debugprint=.true.
       character             lprecip_accu*3
       real, parameter :: ERAD=6.371E6
       real, parameter :: DTR=3.1415926/180.
@@ -119,8 +119,9 @@
       integer :: nf1, fint
       integer :: nend1, nint1, nint3
       character*150 :: fngrib2
-      character(len=20)  :: VarName
+      character(len=20)  :: VarNameP, VarNameCP
       integer recn_dpres,recn_delz,recn_dzdt
+      integer :: jrec
 
       nsig = 11
       nsfc = 12
@@ -128,6 +129,7 @@
           recn_dpres = 0
           recn_delz = 0
           recn_dzdt = 0
+          jrec = 0
         lprecip_accu='yes'
 
 !      call sigio_sropen(nsig,trim(fnsig),iret)
@@ -564,17 +566,27 @@
        endif
 ! for accumulated precipitation:
 ! read meta data to see if precip has zero bucket
-      VarName='lprecip_accu'
-      call nemsio_getheadvar(ffile,trim(VarName),lprecip_accu,iret)
-      if (iret /= 0) then
-        if(debugprint)print*,trim(VarName),
-     &  " not found in file-Assign non-zero precip bucket"
+!!      call nemsio_getheadvar(ffile,trim(VarName),lprecip_accu,iret)
+      call nemsio_searchrecv(ffile,jrec,'prate_ave','sfc',1,iret=iret)
+      if (jrec > 0) then
+        lprecip_accu='yes'
+        VarNameP='prate_ave'
+        VarNameCP='cprat_ave'
+        if(debugprint)print*,trim(VarNameP),
+     &  " Continous precipitation rate found (no bucket)",
+     &  "iret= ", iret
+         else 
         lprecip_accu='no'
+        VarNameP='prateb_ave'
+        VarNameCP='cpratb_ave'
+        if(debugprint)print*,trim(VarNameP),
+     &  " Continous precipitation rate NOT found (with bucket)",
+     &  "iret= ", iret
       end if
 
         if(lprecip_accu == 'yes') then
         if(debugprint) print*, 'continuous precipitation'
-      call nemsio_readrecvw34(ffile2,'prate_ave','sfc',
+      call nemsio_readrecvw34(ffile2,trim(VarNameP),'sfc',
      & 1,data=dum1d2,iret=iret)
       if (iret /= 0) then
         print*,'total precip not found'
@@ -584,7 +596,7 @@
      & '1sample precip rate= ',dum1d(im/2+(jm/4-1)*im),
      +         dum1d(im/2+(jm/3-1)*im),dum1d(im/2+(jm/2-1)*im)
        end if
-      call nemsio_readrecvw34(ffile,'prate_ave','sfc',
+      call nemsio_readrecvw34(ffile,trim(VarNameP),'sfc',
      & 1,data=dum1d,iret=iret)
       if (iret /= 0) then
         print*,'prate_ave not found'
@@ -609,15 +621,15 @@
      +         dum2d(im/2,jm/3,9),dum2d(im/2,jm/2,9)
 
 ! convective precip
-      call nemsio_readrecvw34(ffile2,'cprat_ave','sfc',
+      call nemsio_readrecvw34(ffile2,trim(VarNameCP),'sfc',
      & 1,data=dum1d2,iret=iret)
       if (iret /= 0) then
-        print*,'convective precip not found'
+        print*,'convective precip not found= ', trim(VarNameCP)
       end if
-      call nemsio_readrecvw34(ffile,'cprat_ave','sfc',
+      call nemsio_readrecvw34(ffile,trim(VarNameCP),'sfc',
      & 1,data=dum1d,iret=iret)
       if (iret /= 0) then
-        print*,'cprat_ave not found'
+        print*,'cprat_ave not found= ', trim(VarNameCP)
       else
           ap=fhour-fint
         do j=1,jm
@@ -630,9 +642,9 @@
       end if
 
 !for bucketed precipitation:
-      else     !if not precip_accu
+      else     !if precip_accu = 'no'
         if(debugprint) print*, 'bucketed precipitation'
-        if(debugprint)print*,trim(VarName), lprecip_accu
+        if(debugprint)print*,trim(VarNameP), lprecip_accu
       if ( mod(nf1,6) .eq. 0) then
          do j=1,jm
           do i=1,im
@@ -642,7 +654,7 @@
        print*, 'mod(nf1,6)= ', nf1
       print*,'sample fhour zhour zhour2,6= ', fhour, zhour, zhour2
       else
-      call nemsio_readrecvw34(ffile2,'prate_ave','sfc',
+      call nemsio_readrecvw34(ffile2,trim(VarNameP),'sfc',
      & 1,data=dum1d,iret=iret)
       if (iret /= 0) then
         print*,'total precip not found'
@@ -660,7 +672,7 @@
          end do
        end if
        end if
-      call nemsio_readrecvw34(ffile,'prate_ave','sfc',
+      call nemsio_readrecvw34(ffile,trim(VarNameP),'sfc',
      & 1,data=dum1d,iret=iret)
       if (iret /= 0) then
         print*,'prate_ave not found'
@@ -691,7 +703,7 @@
          end do
        print*, 'cpcp mod(nf1,6)= ', nf1
       else
-      call nemsio_readrecvw34(ffile2,'cprat_ave','sfc',
+      call nemsio_readrecvw34(ffile2,trim(VarNameCP),'sfc',
      & 1,data=dum1d,iret=iret)
       if (iret /= 0) then
         print*,'convective precip not found'
@@ -705,7 +717,7 @@
         end do
       end if
       end if     !precip_accu
-      call nemsio_readrecvw34(ffile,'cprat_ave','sfc',
+      call nemsio_readrecvw34(ffile,trim(VarNameCP),'sfc',
      & 1,data=dum1d,iret=iret)
       if (iret /= 0) then
         print*,'cprat_ave not found'
