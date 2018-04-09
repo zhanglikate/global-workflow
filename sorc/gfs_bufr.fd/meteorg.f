@@ -111,7 +111,7 @@
       integer :: n3dfercld,iseedl,time
       integer :: istat(npoint)
       logical :: trace
-      logical, parameter :: debugprint=.true.
+      logical, parameter :: debugprint=.false.
       character             lprecip_accu*3
       real, parameter :: ERAD=6.371E6
       real, parameter :: DTR=3.1415926/180.
