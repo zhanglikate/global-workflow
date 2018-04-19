@@ -60,8 +60,8 @@ export USHbufrsnd=${USHbufrsnd:-$HOMEbufrsnd/ush}
 export SCRbufrsnd=${SCRbufrsnd:-$HOMEbufrsnd/scripts}
 
 # Run setpdy and initialize PDY variables
-setpdy.sh
-. ./PDY
+#setpdy.sh
+#. ./PDY
 
 ##############################
 # Define COM Directories

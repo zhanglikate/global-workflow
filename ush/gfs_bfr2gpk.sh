@@ -43,7 +43,7 @@ date
 ##done
   cat $BPATH/bufr.*.${PDY}${cyc} > bufr.combined
 date
-namsnd << EOF > /dev/null
+mpirun -np 12 namsnd << EOF > /dev/null
 SNBUFR   = bufr.combined
 SNOUTF   = ${outfilbase}.snd
 SFOUTF   = ${outfilbase}.sfc

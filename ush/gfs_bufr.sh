@@ -95,12 +95,8 @@ done
 #  define input BUFR table file.
 ln -sf $PARMbufrsnd/bufr_gfs_class1.tbl fort.1
 ln -sf ${STNLIST:-$PARMbufrsnd/bufr_stalist.meteo.gfs} fort.8
-#ln -sf metflxmrf fort.12
-#ln -sf $SIGLEVEL fort.13
 
 #startmsg
-export APRUN=${APRUN_POSTSND:-'aprun -n 12 -N 3 -j 1'}
-${APRUN:-mpirun.lsf} ${GBUFR:-$EXECbufrsnd/gfs_bufr} < gfsparm > out_gfs_bufr_$FEND
+mpirun -np 12 $EXECbufrsnd/gfs_bufr < gfsparm > out_gfs_bufr_$FEND
 export err=$?
 
-##rm  metflxmrf gfs12.dat 

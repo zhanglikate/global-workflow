@@ -59,18 +59,7 @@ EOF
        rm $DATA/${m}/bufrout
     done
 
-#    if test $SENDCOM = 'NO'
-    if test $SENDCOM = 'YES'
-    then 
-      if [ $SENDDBN = 'YES' ] ; then
-         cp $DATA/${m}/gfs_collective$m.fil $pcom/gfs_collective$m.postsnd_$cyc
-         $DBNROOT/bin/dbn_alert NTC_LOW BUFR $job $pcom/gfs_collective$m.postsnd_$cyc
-      fi
+      cp $DATA/${m}/gfs_collective$m.fil $pcom/gfs_collective$m.postsnd_$cyc
       cp $DATA/${m}/gfs_collective$m.fil ${COMOUT}/bufr.${cycle}/.
-    fi
-
-##    let "m=m+1"
-
-##  done
 
 #exit
