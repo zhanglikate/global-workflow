@@ -18,7 +18,9 @@ fi
 export FORECASTSH="$HOMEgfs/scripts/exglobal_fcst_nemsfv3gfs.sh"
 #export FCSTEXECDIR="$HOMEfv3gfs/NEMS/exe"
 export FCSTEXECDIR="$HOMEgfs/exec"
-export FCSTEXEC="fv3_gfs_nh.prod.32bit.x"
+#export FCSTEXEC="fv3_gfs_nh.prod.32bit.x"
+export FCSTEXEC="nems_fv3_mom6_cice5.x"
+
 export npe_fv3=$npe_fcst # This is model resolution dependent, see note above
 
 if [ $QUILTING = ".true." ]; then

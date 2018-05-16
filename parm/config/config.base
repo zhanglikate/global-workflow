@@ -75,10 +75,10 @@ fi
 if [ $machine = "THEIA" ]; then
 
     # USER specific paths
-    export HOMEDIR="/scratch4/NCEPDEV/global/save/$USER"
+    export HOMEDIR="/scratch4/NCEPDEV/nems/save/$USER"
     export STMP="/scratch4/NCEPDEV/stmp3/$USER"
     export PTMP="/scratch4/NCEPDEV/stmp4/$USER"
-    export NOSCRUB="/scratch4/NCEPDEV/global/noscrub/$USER"
+    export NOSCRUB="/scratch4/NCEPDEV/nems/noscrub/$USER"
 
     # Base directories for various builds
     export BASE_GIT="/scratch4/NCEPDEV/global/save/glopara/git"
@@ -246,7 +246,7 @@ export INCREMENTS_TO_ZERO="'delz_inc','clwmr_inc','icmr_inc'"
 
 
 # Archiving options
-export HPSSARCH="YES"        # save data to HPSS archive
+export HPSSARCH="NO"        # save data to HPSS archive
 export ARCH_CYC=18           # Archive data at this cycle for warm_start capability. Cannot be 00
 export ARCH_WARMICFREQ=6     # Archive frequency in days for warm_start capability
 export ARCH_FCSTICFREQ=3     # Archive frequency in days for gdas and gfs forecast-only capability

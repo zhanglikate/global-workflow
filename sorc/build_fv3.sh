@@ -17,7 +17,13 @@ if [ ! -d "../exec" ]; then
 fi
 
 cd fv3gfs.fd/
-FV3=$( pwd -P )/FV3
-cd tests/
-./compile.sh "$FV3" "$target" "NCEP64LEV=Y HYDRO=N 32BIT=Y" 1
-mv -f fv3_1.exe ../NEMS/exe/fv3_gfs_nh.prod.32bit.x
+
+#FV3=$( pwd -P )/FV3
+#cd tests/
+#./compile.sh "$FV3" "$target" "NCEP64LEV=Y HYDRO=N 32BIT=Y" 1
+#mv -f fv3_1.exe ../NEMS/exe/fv3_gfs_nh.prod.32bit.x
+
+# Not a 32-bit build, may need to change later for bit-reproducibility checks
+./NEMS/NEMSAppBuilder app=coupledFV3_MOM6_CICE
+cd ./NEMS/exe
+mv NEMS.x nems_fv3_mom6_cice5.x

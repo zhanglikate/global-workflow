@@ -52,10 +52,11 @@ echo " .... Building fv3 .... "
 #------------------------------------
 # build gsi
 #------------------------------------
-$Build_gsi && {
-echo " .... Building gsi .... "
-./build_gsi.sh > $logs_dir/build_gsi.log 2>&1
-}
+# Fails on Theia - modulefile 'proc' error exit
+# $Build_gsi && {
+# echo " .... Building gsi .... "
+# ./build_gsi.sh > $logs_dir/build_gsi.log 2>&1
+# }
 
 #------------------------------------
 # build ncep_post
