@@ -116,6 +116,7 @@ if [ $machine = "THEIA" ]; then
 
 fi
 
+export print_esmf=".false."
 # Toggle to turn on/off GFS downstream processing.
 export DO_BUFRSND="NO"
 export DO_GEMPAK="NO"
@@ -124,6 +125,9 @@ export DO_AWIPS="NO"
 # NO for retrospective parallel; YES for real-time parallel
 export REALTIME="NO"
 
+# Coupled model options
+export CPLFLX=".F."
+export cpl=".false."
 
 ####################################################
 # DO NOT ADD MACHINE DEPENDENT STUFF BELOW THIS LINE
@@ -236,10 +240,10 @@ if [ $DOHYBVAR = "YES" ]; then
 fi
 
 # If YES, NSST is turned on in anal and/or fcst steps
-export DONST="YES"
+export DONST="NO"
 
 # The switch to apply SST elevation correction or not
-export nst_anl=.true.
+export nst_anl=.false.
 
 # Analysis increments to zero in CALCINCEXEC
 export INCREMENTS_TO_ZERO="'delz_inc','clwmr_inc','icmr_inc'"

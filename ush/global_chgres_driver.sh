@@ -88,6 +88,9 @@ else
  fi
 fi
 
+# PT Testing - using CFSv2/EMC_ugcs nemsio ICs
+ictype=opsgfs
+
 if [ $ictype = oldgfs ]; then   # input data is old spectral sigio format.
 
  if [ ${ATMANL:-"NULL"} = "NULL" ]; then
@@ -111,6 +114,12 @@ if [ $ictype = oldgfs ]; then   # input data is old spectral sigio format.
  LATB_ATM=$((CRES*2))
  LONB_SFC=$((CRES*4))
  LATB_SFC=$((CRES*2))
+
+ #LONB_ATM=1760
+ #LATB_ATM=880
+ #LONB_SFC=1760
+ #LATB_SFC=880
+
  if [ $CRES -gt 768 -o $gtype = stretch -o $gtype = nest ]; then
    JCAP_CASE=1534
    LONB_ATM=3072
@@ -132,6 +141,13 @@ elif [ $ictype = opsgfs ]; then   # input data is nemsio format.
    export NSTANL=$INIDIR/${CDUMP}.t${cyc}z.nstanl.nemsio
   fi
  fi
+
+ # PT Testing
+ export ATMANL=$INIDIR/gfsanl.$CDATE
+ export SFCANL=$INIDIR/sfnanl.$CDATE
+ export NSTANL=NULL
+ # end PT Testing
+
 
  export SOILTYPE_INP=statsgo
  export VEGTYPE_INP=igbp
@@ -159,6 +175,12 @@ export VEGTYPE_OUT=igbp
 export FNZORC=igbp
 
 export SIGLEVEL=${FIXam}/global_hyblev.l${LEVS}.txt
+
+# NO PT testing export 
+#LONSPERLAT=${FIXam}/global_lonsperlat.t574.1152.576.txt
+#LONSPERLAT=${FIXam}/global_lonsperlat.t574.1760.880.txt
+# global_lonsperlat.t574.1760.880.txt
+
 if [ $LEVS = 128 ]; then export SIGLEVEL=${FIXam}/global_hyblev.l${LEVS}B.txt; fi
 export FNGLAC=${FIXam}/global_glacier.2x2.grb
 export FNMXIC=${FIXam}/global_maxice.2x2.grb

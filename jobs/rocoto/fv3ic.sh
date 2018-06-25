@@ -64,7 +64,26 @@ COMOUT="$ROTDIR/$CDUMP.$PDY/$cyc"
 [[ ! -d $COMOUT ]] && mkdir -p $COMOUT
 cd $COMOUT || exit 99
 rm -rf INPUT
-$NLN $OUTDIR .
+#PT since INPUT directory is also used by MOM6 ICs, do not link, copy instead
+#$NLN $OUTDIR .
+mkdir INPUT
+cd INPUT
+$NCP $OUTDIR/* .
+
+# If coupled, copy mom6 and cice initial conditions
+#PT need to figure out how to handle coldstart COMOUT, separate directory or same directory with overwrite during warmstart.
+#It can get hacky if design is not thought out well
+# This is currently in prep script called from exglobal - move to here eventually
+#if [ $cpl = ".true." ] ; then
+#
+  #cd $COMOUT/INPUT 
+  #$NCP $ICSDIR/$CDATE/mom6/MOM6_restart_$CDATE.tar .
+  #tar -xvf MOM6_restart_$CDATE.tar  
+#
+  #cd $COMOUT
+  #$NCP $ICSDIR/$CDATE/cice5/cice5_model_0.25.res_$CDATE.nc .
+#
+#fi
 
 ###############################################################
 # Exit cleanly

@@ -63,7 +63,7 @@ cp -r $srcDir/tools share/src/.
 
 echo "Done..."
 
-for freNCToolsDir in tools/make_hgrid tools/make_solo_mosaic tools/fregrid
+for freNCToolsDir in tools/make_hgrid tools/make_solo_mosaic tools/fregrid tools/make_coupler_mosaic
 do
   set +x
   echo "////////////////////////////////////////////////////////////////////////////////"

@@ -84,8 +84,16 @@ FCSTEXECDIR=${FCSTEXECDIR:-$HOMEgfs/sorc/fv3gfs.fd/NEMS/exe}
 FCSTEXEC=${FCSTEXEC:-fv3_gfs.x}
 PARM_FV3DIAG=${PARM_FV3DIAG:-$HOMEgfs/parm/parm_fv3diag}
 
+#PT - probably not supposed to call another script this deep, but easier for testing
+#PT - can bring script into here later
+CPLPREPSH=${CPLPREPSH:-$HOMEgfs/scripts/prep_coupled_fcst.sh}
+
 # Model config options
 APRUN_FV3=${APRUN_FV3:-${APRUN_FCST:-${APRUN:-""}}}
+echo "PT DEBUG : APRUN_FV3 is $APRUN_FV3"
+echo "PT DEBUG: APRUN_FCST is $APRUN_FCST"
+echo "PT DEBUG: APRUN is $APRUN"
+
 NTHREADS_FV3=${NTHREADS_FV3:-${NTHREADS_FCST:-${nth_fv3:-1}}}
 cores_per_node=${cores_per_node:-${npe_node_max:-24}}
 ntiles=${ntiles:-6}
@@ -197,6 +205,8 @@ if [ $warm_start = ".true." ]; then
     read_increment=".false."
     res_latlon_dynamics="''"
   fi
+
+  #PT For coupled copy mediator restarts from cold start
 
 else ## cold start                            
 
@@ -697,6 +707,7 @@ cat > input.nml <<EOF
   isot         = ${isot:-"1"}
   debug        = ${gfs_phys_debug:-".false."}
   nstf_name    = $nstf_name
+  cplflx       = ${cplflx:-".F."} 
   nst_anl      = $nst_anl
   psautco      = ${psautco:-"0.0008,0.0005"}
   prautco      = ${prautco:-"0.00015,0.00015"}
@@ -908,6 +919,56 @@ fi
 #------------------------------------------------------------------
 # run the executable
 
+if [ $cpl = ".true." ] ; then
+
+  # Run short forecast to generate mediator restarts for cold-start initialization
+  if [ $warm_start = ".false." ] ; then
+
+#PT - Coupled 
+#PT - Create nems.configure for coupled model (cold or warm)
+#PT - setup/copy MOM6 and CICE5 ICs, fixed files, and namelists (diag_table ice_in, etc.)
+#PT - if cold start run FCSTEXEC to generate mediator restarts, atm restarts not needed for this
+#PT - and use the coldstart nems.configure 
+#PT - if warm_start then also copy saved coupled restarts from someplace
+#PT - then continue normally
+#PT - pseudocode
+
+    # Copy the _mosaic.nc file for fms for FV3, specified in new grid_spec.nc file
+    #$NLN $FIXfv3/$CASE/${CASE}_mosaic.nc  $DATA/INPUT
+
+    # First remove these links that were created above - PT Testing still
+    # Different ones are copied in in the prep script
+    for n in $(seq 1 $ntiles); do
+      rm $DATA/INPUT/${CASE}_grid.tile${n}.nc
+      rm $DATA/INPUT/oro_data.tile${n}.nc
+    done
+    # rm $DATA/INPUT/grid_spec.nc
+
+    # Prepare for coldstart
+    $CPLPREPSH cold
+    export ERR=$?
+    export err=$ERR
+    $ERRSCRIPT || exit $err
+
+    SAVEFHMAX=$FHMAX
+    export FHMAX=1
+    # run forecast for 1 hour
+    $NCP $FCSTEXECDIR/$FCSTEXEC $DATA/.
+    export OMP_NUM_THREADS=$NTHREADS_FV3
+    $APRUN_FV3 $DATA/$FCSTEXEC 1>&1 2>&2
+    export ERR=$?
+    export err=$ERR
+    $ERRSCRIPT || exit $err
+    export FHMAX=$SAVEFHMAX
+  fi
+
+  # Then prepare for warm-start
+  $CPLPREPSH warm
+  export ERR=$?
+  export err=$ERR
+  $ERRSCRIPT || exit $err
+fi
+
 $NCP $FCSTEXECDIR/$FCSTEXEC $DATA/.
 export OMP_NUM_THREADS=$NTHREADS_FV3
 $APRUN_FV3 $DATA/$FCSTEXEC 1>&1 2>&2
@@ -920,6 +981,8 @@ if [ $SEND = "YES" ]; then
   # Copy model restart files
   cd $DATA/RESTART
   mkdir -p $memdir/RESTART
+
+  #PT - Coupled: add coupled restarts, mediator, cice5, and mom6
 
   # Only save restarts at single time in RESTART directory
   # Either at restart_interval or at end of the forecast
