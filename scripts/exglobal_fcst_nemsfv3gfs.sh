@@ -851,6 +851,8 @@ EOF
 
   cat >> input.nml << EOF
   $nam_stochy_nml
+  fhstoch = ${fhstoch:-"-999."}
+  stochini = ${stochini:-".false."}  
 /
 EOF
 
