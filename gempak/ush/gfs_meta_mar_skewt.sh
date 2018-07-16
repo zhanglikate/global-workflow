@@ -276,7 +276,7 @@ export err=$?;err_chk
 
 done
 
-gpend
+$GEMEXE/gpend
 
 #####################################################
 # GEMPAK DOES NOT ALWAYS HAVE A NON ZERO RETURN CODE
