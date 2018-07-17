@@ -33,14 +33,17 @@ case $case_in in
         export WRTIOBUF="4M"
         ;;
     "C96")
-        export DELTIM=450
+        #export DELTIM=450
+        export DELTIM=1800
         export layout_x=4
-        export layout_y=4
+        export layout_y=6
         export npe_node_fcst=24
         export nth_fv3=1
-        export cdmbgwd="0.125,3.0"  # mountain blocking and gravity wave drag
+        # export cdmbgwd="0.125,3.0"  # mountain blocking and gravity wave drag
+        export cdmbgwd="3.5,0.25"   # mountain blocking and gravity wave drag
         export WRITE_GROUP=1
-        export WRTTASK_PER_GROUP=24
+        #export WRTTASK_PER_GROUP=24
+        export WRTTASK_PER_GROUP=6
         export WRTIOBUF="4M"
         ;;
     "C192")

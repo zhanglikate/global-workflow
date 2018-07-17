@@ -21,6 +21,9 @@ export FCSTEXECDIR="$HOMEgfs/exec"
 #export FCSTEXEC="fv3_gfs_nh.prod.32bit.x"
 export FCSTEXEC="nems_fv3_mom6_cice5.x"
 
+export CPLPREPSH=${CPLPREPSH:-$HOMEgfs/scripts/prep_coupled_fcst.sh}
+
+
 export npe_fv3=$npe_fcst # This is model resolution dependent, see note above
 
 if [ $QUILTING = ".true." ]; then
@@ -53,6 +56,16 @@ if [ $imp_physics -eq 99 ]; then # ZhaoCarr
     export ncld=1
     export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/field_table_zhaocarr"
     export nwat=2
+
+    # PT adding these for coupled config
+    export n_sponge=24
+    export tau=5.
+    export nord=2
+    export dddmp=0.1
+    export d4_bg=0.12
+    export hord_mt_nh_nonmono=6
+    export hord_xx_nh_nonmono=6
+    export vtdm4_nh_nonmono=0.02
 
 elif [ $imp_physics -eq 6 ]; then # WSM6
     export ncld=2
