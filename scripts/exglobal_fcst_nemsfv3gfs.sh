@@ -90,9 +90,6 @@ CPLPREPSH=${CPLPREPSH:-$HOMEgfs/scripts/prep_coupled_fcst.sh}
 
 # Model config options
 APRUN_FV3=${APRUN_FV3:-${APRUN_FCST:-${APRUN:-""}}}
-echo "PT DEBUG : APRUN_FV3 is $APRUN_FV3"
-echo "PT DEBUG: APRUN_FCST is $APRUN_FCST"
-echo "PT DEBUG: APRUN is $APRUN"
 
 NTHREADS_FV3=${NTHREADS_FV3:-${NTHREADS_FCST:-${nth_fv3:-1}}}
 cores_per_node=${cores_per_node:-${npe_node_max:-24}}
@@ -499,7 +496,6 @@ start_day:               $SDAY
 start_hour:              $SHOUR
 start_minute:            0
 start_second:            0
-nhours_fcst:             $FHMAX
 RUN_CONTINUE:            ${RUN_CONTINUE:-".false."}
 ENS_SPS:                 ${ENS_SPS:-".false."}
 
@@ -530,6 +526,13 @@ nfhout_hf:               $FHOUT_HF
 nsout:                   $NSOUT
 EOF
 
+# PT - since cold start only runs 1 hour, followed by a full forecast, this has to be broken up
+if [ $cpl = ".false." ] ; then
+  cat >> model_configure <<EOF
+  nhours_fcst:             $FHMAX  
+EOF
+fi
+
 #&coupler_nml
 #  months = ${months:-0}
 #  days = ${days:-$((FHMAX/24))}
@@ -555,18 +558,6 @@ cat > input.nml <<EOF
   data_set = 'reynolds_oi'
   date_out_of_range = 'climo'
   $amip_interp_nml
-/
-
-&atmos_model_nml
-  blocksize = $blocksize
-  chksum_debug = $chksum_debug
-  dycore_only = $dycore_only
-  fdiag = $FDIAG
-  fhmax = $FHMAX
-  fhout = $FHOUT
-  fhmaxhf = $FHMAX_HF
-  fhouthf = $FHOUT_HF
-  $atmos_model_nml
 /
 
 &diag_manager_nml
@@ -883,6 +874,23 @@ EOF
 
 fi
 
+# PT - since cold start only runs 1 hour, followed by a full forecast, this has to be broken up
+if [ $cpl = ".false." ] ; then
+  cat >> input.nml <<EOF
+&atmos_model_nml
+  blocksize = $blocksize
+  chksum_debug = $chksum_debug
+  dycore_only = $dycore_only
+  fdiag = $FDIAG
+  fhmax = $FHMAX
+  fhout = $FHOUT
+  fhmaxhf = $FHMAX_HF
+  fhouthf = $FHOUT_HF
+  $atmos_model_nml
+/
+
+EOF
+fi
 
 #------------------------------------------------------------------
 # make symbolic links to write forecast files directly in memdir
@@ -940,18 +948,17 @@ if [ $cpl = ".true." ] ; then
     # Different ones are copied in in the prep script
     for n in $(seq 1 $ntiles); do
       rm $DATA/INPUT/${CASE}_grid.tile${n}.nc
-      rm $DATA/INPUT/oro_data.tile${n}.nc
+      #rm $DATA/INPUT/oro_data.tile${n}.nc
     done
     # rm $DATA/INPUT/grid_spec.nc
 
-    # Prepare for coldstart
-    $CPLPREPSH cold
-    export ERR=$?
-    export err=$ERR
-    $ERRSCRIPT || exit $err
-
     SAVEFHMAX=$FHMAX
-    export FHMAX=1
+    FHMAX=1
+
+    # Prepare for coldstart
+    inistep=cold
+    . $CPLPREPSH
+
     # run forecast for 1 hour
     $NCP $FCSTEXECDIR/$FCSTEXEC $DATA/.
     export OMP_NUM_THREADS=$NTHREADS_FV3
@@ -959,15 +966,19 @@ if [ $cpl = ".true." ] ; then
     export ERR=$?
     export err=$ERR
     $ERRSCRIPT || exit $err
-    export FHMAX=$SAVEFHMAX
-  fi
+
+    FHMAX=$SAVEFHMAX
+  fi  # if warmstart = false
+
+  # Copy mediator restarts - already in RUNDIR
 
   # Then prepare for warm-start
-  $CPLPREPSH warm
-  export ERR=$?
-  export err=$ERR
-  $ERRSCRIPT || exit $err
+  inistep=warm
+  . $CPLPREPSH
 fi
+
+echo "PT DEBUG - about to run forecast in $0"
+ls -al
 
 $NCP $FCSTEXECDIR/$FCSTEXEC $DATA/.
 export OMP_NUM_THREADS=$NTHREADS_FV3
@@ -975,6 +986,9 @@ $APRUN_FV3 $DATA/$FCSTEXEC 1>&1 2>&2
 export ERR=$?
 export err=$ERR
 $ERRSCRIPT || exit $err
+
+echo "PT DEBUG - exiting right after forecast in $0"
+exit $err
 
 #------------------------------------------------------------------
 if [ $SEND = "YES" ]; then
@@ -996,6 +1010,8 @@ if [ $SEND = "YES" ]; then
       $NMV $file ${rPDY}.${rcyc}0000.$file
     done
 
+    # PT - this isn't saving restarts to $memdir (COM) - data will be 
+    # annihilated if KEEPDATA = NO
   else
 
     # time-stamp exists at restart_interval time, just copy
