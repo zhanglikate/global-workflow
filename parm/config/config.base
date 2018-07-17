@@ -126,8 +126,8 @@ export DO_AWIPS="NO"
 export REALTIME="NO"
 
 # Coupled model options
-export CPLFLX=".F."
-export cpl=".false."
+export cplflx=".T."
+export cpl=".true."
 
 ####################################################
 # DO NOT ADD MACHINE DEPENDENT STUFF BELOW THIS LINE
