@@ -10,7 +10,7 @@
 set -x
 #
 export PS4='MAR_SKEWT:$SECONDS + '
-mkdir $DATA/MAR_SKEWT
+mkdir -p -m 775 $DATA/MAR_SKEWT
 cd $DATA/MAR_SKEWT
 cp $FIXgempak/datatype.tbl datatype.tbl
 

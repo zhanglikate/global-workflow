@@ -10,7 +10,7 @@
 set -x
 #
 export PS4='MAR_QL_F${fend}:$SECONDS + '
-mkdir -p $DATA/MAR_QL
+mkdir -p -m 775  $DATA/MAR_QL
 cd $DATA/MAR_QL
 cp $FIXgempak/datatype.tbl datatype.tbl
 
