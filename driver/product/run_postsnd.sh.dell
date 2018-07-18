@@ -67,7 +67,7 @@ export FHMAX_HF_GFS=120
 export FHOUT_HF_GFS=1
 export launcher="mpirun -n"
 export APRUN_POSTSND="$launcher $npe_postsnd"
-export APRUN_POSTSNDCFP="$launcher $npe_postsndcfp"
+export APRUN_POSTSNDCFP="$launcher $npe_postsndcfp cfp"
 else
 ##For Theia, Jet################
 export FHMAX_HF_GFS=0
