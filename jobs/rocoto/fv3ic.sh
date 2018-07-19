@@ -50,18 +50,12 @@ if [ $cpl = ".true." ] ; then
 
   # Copy the CICE5 and MOM6 ICs from UGCSICSDIR
  
-  echo "PT DEBUG: Where am I?"
-  pwd
-  
   $NCP $UGCSICSDIR/cice5_model_0.25.res_$CDATE.nc $ICSDIR/$CDATE/cice5_cfsv2/
   status=$?
   [[ $status -ne 0 ]] && exit $status
 
+  cd $ICSDIR/$CDATE/mom6_cfsv2
   tar -xvf $UGCSICSDIR/MOM6_restart_2016100300.tar MOM6_IC_TS.nc
-  status=$?
-  [[ $status -ne 0 ]] && exit $status
-
-  $NMV MOM6_IC_TS.nc $UGCSICSDIR/mom6_cfsv2  
   status=$?
   [[ $status -ne 0 ]] && exit $status
 
