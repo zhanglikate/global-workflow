@@ -171,6 +171,32 @@ elif [ $ics_from = "pargfs" ]; then
         exit 1
     fi
 
+elif [ $ics_from = "cfsv2" ]; then
+
+  rc=0
+  # gfsanl.2016100300 -> siganl.gdas.2016100300.T574.nemsio
+  # sfnanl.2016100300 -> sfcanl.gdas.2016100300.T574.nemsio
+
+  # Create links just to satisify dependencies for fv3ic workflow job
+  if [ -e $UGCSICSDIR/t574/gfsanl.$CDATE ]; then
+    $NLN $UGCSICSDIR/t574/gfsanl.$CDATE siganl.${CDUMP}.$CDATE
+  else
+    $rc=1
+  fi
+
+  if [ -e $UGCSICSDIR/t574/sfnanl.$CDATE ]; then
+    $NLN $UGCSICSDIR/t574/sfnanl.$CDATE sfcanl.${CDUMP}.$CDATE
+  else
+    $rc=2
+  fi
+
+  if [ $rc -ne 0 ] ; then
+    echo "ics_from = $ics_from is not fully implemented yet"
+    echo "Please use the EMC_ugcs workflow to generate T574 ICs"
+    echo "These can then be used in the fv3ic.sh to generate ICs for this model"
+    exit $rc
+  fi
+ 
 else
 
     echo "ics_from = $ics_from is not supported, ABORT!"

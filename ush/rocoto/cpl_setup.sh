@@ -55,7 +55,11 @@ YMD=`echo $IDATE | cut -c1-8`
 HH=`echo $IDATE | cut -c9-10`
 mkdir -p $COMROT/$PSLOT/gfs.$YMD/$HH/INPUT
 cd $COMROT/$PSLOT/gfs.$YMD/$HH/INPUT
-cp -p $ICSDIR/$IDATE/gfs/C$RES/INPUT/* .
+
+# Copy the ICs if they exist, otherwise the workflow will generate them from EMC_ugcs ICs
+if [ -d $ICSDIR/$IDATE/gfs/C$RES/INPUT ] ; then
+  cp -p $ICSDIR/$IDATE/gfs/C$RES/INPUT/* .
+fi
 
 # Come back to this folder
 cd $CWD
