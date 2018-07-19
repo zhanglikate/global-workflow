@@ -23,8 +23,12 @@ pwd=$(pwd -P)
 #--model fix fields
 if [ $machine == "cray" ]; then
     FIX_DIR="/gpfs/hps3/emc/global/noscrub/emc.glopara/git/fv3gfs/fix"
+    CPLFIX_DIR=""
 elif [ $machine = "theia" ]; then
     FIX_DIR="/scratch4/NCEPDEV/global/save/glopara/git/fv3gfs/fix"
+   
+    # For now it is here. Move to emc-nemspara after testing.
+    CPLFIX_DIR="/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FIXFV3CPL"
 fi
 cd ${pwd}/../fix                ||exit 8
 for dir in fix_am fix_fv3 fix_orog fix_fv3_gmted2010 ; do
@@ -32,6 +36,10 @@ for dir in fix_am fix_fv3 fix_orog fix_fv3_gmted2010 ; do
 done
 $LINK $FIX_DIR/* .
 
+# Add fixed files needed for coupled fv3-mom6-cice5
+$LINK $CPLFIX_DIR/fix_cice5    .
+$LINK $CPLFIX_DIR/fix_mom6     .
+$LINK $CPLFIX_DIR/fix_fv3grid  .
 
 #--add gfs_post file
 cd ${pwd}/../jobs               ||exit 8

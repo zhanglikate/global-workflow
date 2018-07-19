@@ -38,11 +38,24 @@ export DATA="$RUNDIR/$CDATE/$CDUMP/fv3ic$$"
 [[ -d $DATA ]] && rm -rf $DATA
 
 # Input GFS initial condition files
-export INIDIR="$ICSDIR/$CDATE/$CDUMP"
-export ATMANL="$ICSDIR/$CDATE/$CDUMP/siganl.${CDUMP}.$CDATE"
-export SFCANL="$ICSDIR/$CDATE/$CDUMP/sfcanl.${CDUMP}.$CDATE"
-if [ -f $ICSDIR/$CDATE/$CDUMP/nstanl.${CDUMP}.$CDATE ]; then
+if [ $cpl = ".true." ] ; then
+
+  # If running a coupled forecast, the first step of IC prep is done with the EMC_ugcs workflow.
+  # Eventually a separate workflow task can be generated to do this
+  # The output of the EMC_ugcs prepareics task become inputs to the next step and need to be here:
+  # UGCSICSDIR is specified in config.base
+  export INIDIR="$UGCSICSDIR/t574"
+  export ATMANL="$UGCSICSDIR/t574/gfsanl.$CDATE"
+  export SFCANL="$UGCSICSDIR/t574/sfnanl.$CDATE"
+
+else
+
+  export INIDIR="$ICSDIR/$CDATE/$CDUMP"
+  export ATMANL="$ICSDIR/$CDATE/$CDUMP/siganl.${CDUMP}.$CDATE"
+  export SFCANL="$ICSDIR/$CDATE/$CDUMP/sfcanl.${CDUMP}.$CDATE"
+  if [ -f $ICSDIR/$CDATE/$CDUMP/nstanl.${CDUMP}.$CDATE ]; then
     export NSTANL="$ICSDIR/$CDATE/$CDUMP/nstanl.${CDUMP}.$CDATE"
+  fi
 fi
 
 # Output FV3 initial condition files
@@ -69,21 +82,6 @@ rm -rf INPUT
 mkdir INPUT
 cd INPUT
 $NCP $OUTDIR/* .
-
-# If coupled, copy mom6 and cice initial conditions
-#PT need to figure out how to handle coldstart COMOUT, separate directory or same directory with overwrite during warmstart.
-#It can get hacky if design is not thought out well
-# This is currently in prep script called from exglobal - move to here eventually
-#if [ $cpl = ".true." ] ; then
-#
-  #cd $COMOUT/INPUT 
-  #$NCP $ICSDIR/$CDATE/mom6/MOM6_restart_$CDATE.tar .
-  #tar -xvf MOM6_restart_$CDATE.tar  
-#
-  #cd $COMOUT
-  #$NCP $ICSDIR/$CDATE/cice5/cice5_model_0.25.res_$CDATE.nc .
-#
-#fi
 
 ###############################################################
 # Exit cleanly

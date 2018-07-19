@@ -18,11 +18,13 @@ fi
 
 cd fv3gfs.fd/
 
+# This builds the non-coupled model
 #FV3=$( pwd -P )/FV3
 #cd tests/
 #./compile.sh "$FV3" "$target" "NCEP64LEV=Y HYDRO=N 32BIT=Y" 1
 #mv -f fv3_1.exe ../NEMS/exe/fv3_gfs_nh.prod.32bit.x
 
+# This builds the coupled model - app version
 # Not a 32-bit build, may need to change later for bit-reproducibility checks
 ./NEMS/NEMSAppBuilder app=coupledFV3_MOM6_CICE
 cd ./NEMS/exe

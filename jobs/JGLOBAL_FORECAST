@@ -1,6 +1,8 @@
 #!/bin/ksh
 set -x
 
+# Test
+
 export RUN_ENVIR=${RUN_ENVIR:-"nco"}
 export PS4='$SECONDS + '
 date
@@ -102,16 +104,31 @@ msg="HAS BEGUN on `hostname`"
 postmsg "$jlogfile" "$msg"
 $LOGSCRIPT
 
-# If coupled:
-# Call prep coupled cold
-# Run exglobal
-# Call prep coupled restart
+# If coupled, run a cold start for 1 hour
+if [ $cpl = ".true." ] ; then
 
+  export FHMAX=$FHMAX_COLD
+  . $CPLPREPSH cold
+  status=$?
+  [[ $status -ne 0 ]] && exit $status
+
+  ${FORECASTSH:-$SCRgfs/exglobal_fcst_nemsfv3gfs.sh.ecf}
+  status=$?
+  [[ $status -ne 0 ]] && exit $status
+
+  export FHMAX=$FHMAX_GFS
+  . $CPLPREPSH warm
+  status=$?
+  [[ $status -ne 0 ]] && exit $status
+
+fi
 
 ${FORECASTSH:-$SCRgfs/exglobal_fcst_nemsfv3gfs.sh.ecf}
 status=$?
 [[ $status -ne 0 ]] && exit $status
 
+
+# Add saving of ocean and ice files here
 
 ##############################################
 # End JOB SPECIFIC work

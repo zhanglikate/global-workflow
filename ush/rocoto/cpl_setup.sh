@@ -1,22 +1,27 @@
 #!/bin/sh
+set -x
 
 echo "Load modules first"
-#module load rocoto
-#module load hpss
+source /usr/Modules/3.2.10/init/sh
+module load rocoto
+module load hpss
 
 CWD=`pwd`
 
 # ./setup_expt_fcstonly.py --pslot $PSLOT --configdir $CONFIGDIR --idate $IDATE --edate $EDATE --res $RES --gfs_cyc $GFS_CYC --comrot $COMROT --expdir $EXPDIR
 
 # $PSLOT is the name of your experiment
-#PSLOT=fv3_2015040100
-PSLOT=c96_fv3
+PSLOT=test_c96
+
+# $COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you.
+COMROT=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/COMFV3
+mkdir -p $COMROT
 
 # $CONFIGDIR is the path to the /config folder under the copy of the system you're using (i.e. ../parm/config/)
-#CONFIGDIR=/gpfs/hps3/emc/climate/noscrub/Patrick.Tripp/fv3gfs/parm/config
-CONFIGDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/fv3gfs/parm/config
+CONFIGDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/new.fv3gfs/parm/config
 
-ICSDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FV3ICS
+# do not export ICSDIR, causes error in py script
+ICSDIR=$COMROT/FV3ICS
 
 # $IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)
 #IDATE=2017073118
@@ -24,7 +29,6 @@ IDATE=2016100300
 #IDATE=2015040100
 
 # $EDATE is the ending date of your run (YYYYMMDDCC) and is the last cycle that will complete
-#EDATE=2017073118
 EDATE=2016100300
 #EDATE=2015040100
 
@@ -34,15 +38,8 @@ RES=96
 # $GFS_CYC is the forecast frequency (0 = none, 1 = 00z only [default], 2 = 00z & 12z, 4 = all cycles)
 GFS_CYC=1
 
-# $COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you.
-
-#COMROT=/gpfs/hps3/emc/climate/noscrub/Patrick.Tripp/COMFV3
-COMROT=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/COMFV3
-mkdir -p $COMROT
-
 # $EXPDIR is the path to your experiment directory where your configs will be placed and where you will find your workflow monitoring files (i.e. rocoto database and xml file). DO NOT include PSLOT folder at end of path, it will be built for you.
 
-#EXPDIR=/gpfs/hps3/emc/climate/noscrub/Patrick.Tripp/EXPFV3
 EXPDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/EXPFV3
 mkdir -p $EXPDIR
 
@@ -52,10 +49,8 @@ mkdir -p $EXPDIR
 # Change noscrub dirs from global to climate
 # Change account to CFS-T20
 
-# Link ICs
-# mkdir -p /gpfs/hps3/emc/climate/noscrub/Patrick.Tripp/COMFV3/fvtest1/gdas.20170731/18
-# cd /gpfs/hps3/emc/climate/noscrub/Patrick.Tripp/COMFV3/fvtest1/gdas.20170731/18
-# ln -s /gpfs/hps3/emc/climate/noscrub/Patrick.Tripp/ICSDIR/2017073118/gfs/C96/INPUT INPUT
+# Copy ICs : can put in a loop if running multiple cycles
+
 YMD=`echo $IDATE | cut -c1-8`
 HH=`echo $IDATE | cut -c9-10`
 mkdir -p $COMROT/$PSLOT/gfs.$YMD/$HH/INPUT

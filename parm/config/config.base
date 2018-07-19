@@ -16,6 +16,7 @@ if [ $machine = "THEIA" ]; then
 
     export ACCOUNT="fv3-cpu"
     export QUEUE="batch"
+    #export QUEUE="debug"
     export QUEUE_ARCH="service"
 
 elif [ $machine = "WCOSS_C" ]; then
@@ -37,6 +38,11 @@ export USHgfs=$HOMEgfs/ush
 export UTILgfs=$HOMEgfs/util
 export EXECgfs=$HOMEgfs/exec
 export SCRgfs=$HOMEgfs/scripts
+
+# For coupled
+export FIXcice=$HOMEgfs/fix/fix_cice5
+export FIXmom=$HOMEgfs/fix/fix_mom6
+export FIXgrid=$HOMEgfs/fix/fix_fv3grid
 
 ########################################################################
 
@@ -149,7 +155,7 @@ export NCP="/bin/cp -p"
 export NMV="/bin/mv"
 export NLN="/bin/ln -sf"
 export VERBOSE="YES"
-export KEEPDATA="NO"
+export KEEPDATA="YES"
 export CHGRP_CMD="chgrp rstprod"
 export NEMSIOGET="$HOMEgfs/exec/nemsio_get"
 
@@ -167,6 +173,7 @@ export ROTDIR="@ROTDIR@/$PSLOT"
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
+export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"
 export ATARDIR="/NCEPDEV/$HPSS_PROJECT/1year/$USER/$machine/scratch/$PSLOT"
 
 # Commonly defined parameters in JJOBS
@@ -204,10 +211,13 @@ export gfs_cyc=@gfs_cyc@ # 0: no GFS cycle, 1: 00Z only, 2: 00Z and 12Z only, 4:
 
 # GFS output and frequency
 export FHMIN_GFS=0
-export FHMAX_GFS=120
-export FHOUT_GFS=3
+export FHMAX_GFS=24
+export FHOUT_GFS=6
 export FHMAX_HF_GFS=0
 export FHOUT_HF_GFS=1
+
+# Output for coldstart only 1 hour
+export FHMAX_COLD=1
 
 # I/O QUILTING, true--use Write Component; false--use GFDL FMS
 # if quilting=true, choose OUTPUT_GRID as cubed_sphere_grid in netcdf or gaussian_grid

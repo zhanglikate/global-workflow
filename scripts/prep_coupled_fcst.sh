@@ -1,56 +1,42 @@
 #!/bin/ksh
 set -xa
 
-#if [ $# -ne 1 ] ; then
-  #echo "Usage: $0 [ cold | warm | restart ]"
-  #exit -1
-#fi
+if [ $# -ne 1 ] ; then
+  echo "Usage: $0 [ cold | warm | restart ]"
+  exit -1
+fi
 
-#inistep=$1   # cold warm restart
+inistep=$1   # cold warm restart
 
-mkdir -p RESTART restart history OUTPUT
+# Directories
+DATA=${DATA:-$pwd/fv3tmp$$}    # temporary running directory
+ROTDIR=${ROTDIR:-$pwd}         # rotating archive directory
+ICSDIR=${ICSDIR:-$pwd}         # cold start initial conditions
 
-# For coupled
-mkdir -p MOM6_OUTPUT MOM6_RESTART
+if [ ! -d $ROTDIR ]; then mkdir -p $ROTDIR; fi
+if [ ! -d $DATA ]; then mkdir -p $DATA ;fi
+mkdir -p $DATA/RESTART $DATA/INPUT
+mkdir -p $DATA/restart $DATA/history $DATA/OUTPUT
+mkdir -p $DATA/MOM6_OUTPUT $DATA/MOM6_RESTART
+cd $DATA || exit 8
 
 # Copy CICE5 IC - pre-generated from CFSv2
-cp -p $ICSDIR/$CDATE/cice5/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc
+cp -p $ICSDIR/$CDATE/cice5_cfsv2/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc
 
 # Copy CICE5 fixed files, and namelists
-ICEFIXDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FIXFV3CPL/cice5
-cp -p $ICEFIXDIR/kmtu_cice_NEMS_mx025.nc .
-cp -p $ICEFIXDIR/grid_cice_NEMS_mx025.nc .
+cp -p $FIXcice/kmtu_cice_NEMS_mx025.nc .
+cp -p $FIXcice/grid_cice_NEMS_mx025.nc .
 
 cd INPUT
 
 # Copy MOM6 ICs
-cp -p $ICSDIR/$CDATE/mom6/* .
+cp -p $ICSDIR/$CDATE/mom6_cfsv2/* .
 
 # Copy MOM6 fixed files
-#OCNFIXDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FIXFV3CPL/mom6
-#cp -p $OCNFIXDIR/UGCS_MOM6_INPUT_025/INPUT/* .
-
+cp -p $FIXmom/INPUT/* .
 
 # Copy grid_spec and mosaic files
-# Copy the _mosaic.nc file for fms for FV3, specified in new grid_spec.nc file
- #$NLN $FIXfv3/$CASE/${CASE}_mosaic.nc  $DATA/INPUT
-
-GRIDFIXDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FIXFV3CPL/$CASE
-
-# First remove existing link
-rm grid_spec.nc
-cp -p $GRIDFIXDIR/INPUT/* .
-
-#if [ $FHOUT -eq 6 ] ; then
-  #cp -p MOM_input.V0 MOM_input
-  #cp -p diag_table.6hr diag_table
-#elif [ $FHOUT -eq 3 ] ; then
-  #cp -p MOM_input.V0.3hrly MOM_input
-  #cp -p diag_table.3hr diag_table
-#elif [ $FHOUT -eq 1 ] ; then
-  #cp -p MOM_input.V0.1hrly MOM_input
-  #cp -p diag_table.1hr diag_table
-#fi
+cp -pf $FIXgrid/$CASE/* .
 
 #cp -p diag_table ..
 #cp -p data_table ..
@@ -72,25 +58,9 @@ DumpFields=${NEMSDumpFields:-false}
 if [[ $inistep = "cold" ]]; then
   restart_interval=0
   coldstart=true     # this is the correct setting
-
- # Save existing input.nml since it has to be reused with different fhmax value
- $NCP input.nml save.input.nml
-
- # Save existing model_configure since it has to be reused with different nhours_fcst
- $NCP model_configure save.model_configure
-
 else
   restart_interval=${restart_interval:-1296000}    # Interval in seconds to write restarts
   coldstart=false
-
-  # If this is a warm start directly followed by a cold start, restore the namelists
-  if [ -e save.input.nml ] ; then
-    $NCP save.input.nml input.nml
-  fi
-
-  if [ -e save.model_configure ] ; then
-    $NCP save.model_configure model_configure
-  fi
 fi
 
 # Clean up un-needed files after cold start
@@ -249,7 +219,6 @@ restart_interval=${restart_interval:-1296000}    # restart write interval in sec
 #dumpfreq="'s'"
 dumpfreq_n=$restart_interval                     # restart write interval in seconds
 
-#PT Debug - matching compset ice_in
 npt=999
 dumpfreq="'y'"
 histfreq_n=6
@@ -617,30 +586,12 @@ cat > ice_in <<eof
 eof
 
 
-rtype=${rtype:-"n"}
+#rtype=${rtype:-"n"}
 
 # specify restart
-if [ $inistep = 'restart' ] ; then
-  rtype="r"
-fi
-
-cat >> model_configure <<EOF
-  nhours_fcst:             $FHMAX  
-EOF
-
-cat >> input.nml <<EOF
-&atmos_model_nml
-  blocksize = $blocksize
-  chksum_debug = $chksum_debug
-  dycore_only = $dycore_only
-  fdiag = $FDIAG
-  fhmax = $FHMAX
-  fhout = $FHOUT
-  fhmaxhf = $FHMAX_HF
-  fhouthf = $FHOUT_HF
-  $atmos_model_nml
-/
-EOF
+#if [ $inistep = 'restart' ] ; then
+  #rtype="r"
+#fi
 
 #cat >> input.nml <<EOF
 #&nam_stochy
@@ -666,35 +617,6 @@ EOF
 #  ISEED_SPPT=3,
 #/
 #EOF
-
-# Add to input.nml
-cat >> input.nml <<eof
-
-&MOM_input_nml
-  output_directory = 'MOM6_OUTPUT/',
-  input_filename = '${rtype}'
-  restart_input_dir = 'INPUT/',
-  restart_output_dir = 'MOM6_RESTART/',
-  parameter_filename = 'INPUT/MOM_input',
-                       'INPUT/MOM_override'
-/
-eof
-
-
-# PT DEBUG - checking to see if a namelist param is causing issue
-#cd INPUT
-#cp -p input.nml.compset ../input.nml
-#cp -p model_configure.compset ../model_configure
-#
-#cp -p data_table.run ../data_table
-#cp -p diag_table.run ../diag_table
-#cp -p field_table.run ../field_table
-#
-#cd ..
-
-# PT DEBUG - bringing in files from compset test
-echo "PT DEBUG : bringing in files from compset test : $GRIDFIXDIR"
-cp -pf $GRIDFIXDIR/* .
 
 # normal exit
 # -----------

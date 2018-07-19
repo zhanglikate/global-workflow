@@ -23,7 +23,6 @@ export FCSTEXEC="nems_fv3_mom6_cice5.x"
 
 export CPLPREPSH=${CPLPREPSH:-$HOMEgfs/scripts/prep_coupled_fcst.sh}
 
-
 export npe_fv3=$npe_fcst # This is model resolution dependent, see note above
 
 if [ $QUILTING = ".true." ]; then
@@ -124,6 +123,9 @@ elif [[ "$CDUMP" == "gfs" ]] ; then # GFS cycle specific parameters
         export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_orig"
     fi
 
+    if [ $cpl = ".true." ] ; then
+        export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_cpl"
+    fi
 fi
 
 # Regrid tiles to global Gaussian grid in NEMSIO

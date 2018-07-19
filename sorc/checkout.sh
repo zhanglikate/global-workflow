@@ -4,12 +4,13 @@ set -xu
 topdir=$(pwd)
 echo $topdir
 
-echo fv3gfs checkout ...
+echo fv3gfs coupled checkout ...
 if [[ ! -d fv3gfs.fd ]] ; then
     rm -f ${topdir}/checkout-fv3gfs.log
     git clone --recursive gerrit:EMC_FV3-MOM6-CICE5 fv3gfs.fd >> ${topdir}/checkout-fv3gfs.log 2>&1
     cd fv3gfs.fd
-    git checkout dcf5f6f60e4cbf6bd4fde1e96609f0dbc72073e8
+    # The following corresponds to a commit on the "usingSST" branch 
+    git checkout 007e14667eb3c156a1746357de342033285967d3
     git submodule update --init --recursive
     cd ${topdir}
 else
