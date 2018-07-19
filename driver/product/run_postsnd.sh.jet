@@ -4,7 +4,7 @@
 #PBS -N postsnd
 #PBS -A hfv3gfs
 #PBS -l partition=xjet:sjet:vjet:tjet
-#PBS -l nodes=4:ppn=3
+#PBS -l nodes=6:ppn=2
 #PBS -l walltime=02:30:00
 
 ############################################
