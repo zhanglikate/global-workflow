@@ -1,26 +1,21 @@
 #!/bin/sh
 
-#BSUB -J jgfs_gempak_upapgif_00
-#BSUB -o /gpfs/hps3/ptmp/Boi.Vuong/output/gfs_gempak_upapgif_00.o%J
-#BSUB -e /gpfs/hps3/ptmp/Boi.Vuong/output/gfs_gempak_upapgif_00.o%J
+#BSUB -J gfs_gempak_00
+#BSUB -o /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_gempak_00.o%J
+#BSUB -e /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_gempak_00.o%J
 #BSUB -q debug
-#BSUB -cwd /gpfs/hps3/ptmp/Boi.Vuong/output
+#BSUB -cwd /gpfs/dell2/ptmp/Boi.Vuong/output
 #BSUB -W 00:30
 #BSUB -P GFS-T2O
-#BSUB -R rusage[mem=1000]
+#BSUB -n 24                                     # 24 tasks 
+#BSUB -R span[ptile=12]                         # 12 task per node
+#BSUB -R affinity[core(1):distribute=balance]   # using 12 cores on node and bind to 1 core per task and distribute across sockets
 
-export OMP_NUM_THREADS=1
 export KMP_AFFINITY=disabled
-export OMP_STACKSIZE=1024m
-export MP_LABELIO=yes
-export MP_STDOUTMODE=ordered
 
 export PDY=`date -u +%Y%m%d`
-# export PDY=20180515
+export PDY=20180712
 
-export PDY1=`expr $PDY - 1`
-
-# export cyc=06
 export cyc=00
 export cycle=t${cyc}z
 
@@ -30,43 +25,43 @@ date
 
 ####################################
 ##  Load the GRIB Utilities module
-#####################################
+####################################
 
-. $MODULESHOME/init/sh
-module load PrgEnv-intel/5.2.56
-module load cfp-intel-sandybridge/1.1.0
-module load ESMF-intel-sandybridge/3_1_0rp5
-module load iobuf/2.0.7
-module load craype-hugepages2M
-module load craype-haswell
-module load prod_envir
-module load prod_util
-module load grib_util/1.0.3
-module load util_shared/1.0.6
+module load EnvVars/1.0.2
+module load ips/18.0.1.163
+module load CFP/2.0.1
+module load impi/18.0.1
+module load lsf/10.1
+module load prod_util/1.1.0
+module load grib_util/1.0.6
+module load prod_envir/1.0.2
 #
-#   This is a test version of UTIL_SHARED.v1.0.7 on CRAY
+#   This is a test version of UTIL_SHARED.v1.0.8 on DELL
 #
-# module use /usrx/local/nceplibs/util_shared.v1.0.7/modulefiles
-# module load util_shared/1.0.7
-
+module load dev/util_shared/1.0.8
+#
+#  This is a test GEMPAK version 7.3.0 on DELL
+#
+module use  /gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/modulefiles
+module load gempak/7.3.0
 ###########################################
 # Now set up GEMPAK/NTRANS environment
 ###########################################
-module load gempak/7.3.0
+# module use -a /gpfs/dell1/nco/ops/nwpara/modulefiles/
+# module load gempak/7.3.1
 
 module list
 
-##############################################
-# Define COM, PCOM, COMIN  directories
-##############################################
-
+############################################
+# Define COM, COMOUTwmo, COMIN  directories
+############################################
 # set envir=prod or para to test with data in prod or para
-# export envir=para
- export envir=prod
+ export envir=para
+# export envir=prod
 
 export SENDCOM=YES
 export KEEPDATA=YES
-export job=gfs_gempak_upapgif_${cyc}
+export job=gfs_gempak_${cyc}
 export pid=${pid:-$$}
 export jobid=${job}.${pid}
 
@@ -74,9 +69,9 @@ export jobid=${job}.${pid}
 export SENDDBN=YES
 export DBNROOT=/gpfs/hps/nco/ops/nwprod/prod_util.v1.0.24/fakedbn
 
-export DATAROOT=/gpfs/hps3/ptmp/Boi.Vuong/output
-export NWROOT=/gpfs/hps3/emc/global/noscrub/Boi.Vuong/svn
-export COMROOT2=/gpfs/hps3/ptmp/Boi.Vuong/com
+export DATAROOT=/gpfs/dell2/ptmp/Boi.Vuong/output
+export NWROOT=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git
+export COMROOT2=/gpfs/dell2/ptmp/Boi.Vuong/com
 
 mkdir -m 775 -p ${COMROOT2} ${COMROOT2}/logs ${COMROOT2}/logs/jlogfiles
 export jlogfile=${COMROOT2}/logs/jlogfiles/jlogfile.${jobid}
@@ -103,34 +98,28 @@ export FIXgfs=${FIXgfs:-$HOMEgfs/gempak/fix}
 export USHgfs=${USHgfs:-$HOMEgfs/gempak/ush}
 export SRCgfs=${SRCgfs:-$HOMEgfs/scripts}
 
-######################################
-# Set up the GEMPAK directory
-#######################################
-export HOMEgempak=${HOMEgempak:-${NWROOTp1}/gempak}
-export FIXgempak=${FIXgempak:-$HOMEgempak/fix}
-export USHgempak=${USHgempak:-$HOMEgempak/ush}
-
 ###################################
 # Specify NET and RUN Name and model
 ####################################
 export NET=${NET:-gfs}
 export RUN=${RUN:-gfs}
 export model=${model:-gfs}
-export MODEL=GFS
 
 ##############################################
 # Define COM directories
 ##############################################
 if [ $envir = "prod" ] ; then
 #  This setting is for testing with GFS (production)
-  export COMIN=/gpfs/hps/nco/ops/com/nawips/prod/gfs.${PDY}         ### NCO PROD
-  export COMINgfs=/gpfs/hps/nco/ops/com/gfs/prod/gfs.${PDY}         ### NCO PROD
+  export COMIN=/gpfs/hps/nco/ops/com/gfs/prod/${RUN}.${PDY}         ### NCO PROD
 else
-  export COMIN=/gpfs/hps3/ptmp/emc.glopara/ROTDIRS/prfv3rt1/gfs.${PDY}/${cyc}/nawips ### EMC PARA Realtime
-  export COMINgfs=/gpfs/hps3/ptmp/emc.glopara/ROTDIRS/prfv3rt1/gfs.${PDY}/${cyc} ### EMC PARA Realtime
+#  export COMIN=/gpfs/dell2/ptmp/emc.glopara/ROTDIRS/prfv3rt1/${RUN}.${PDY}/${cyc} ### EMC PARA Realtime on DELL
+
+ export COMIN=/gpfs/hps3/ptmp/emc.glopara/ROTDIRS/prfv3rt1/${RUN}.${PDY}/${cyc} ### EMC PARA Realtimea on CRAY
+
+#  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${RUN}.${PDY}/${cyc} ### Boi PARA
 fi
 
-export COMOUT=${COMOUT:-${COMROOT2}/${NET}/${envir}/${RUN}.${PDY}/${cyc}}
+export COMOUT=${COMROOT2}/${NET}/${envir}/${RUN}.${PDY}/${cyc}/nawips
 
 if [ $SENDCOM = YES ] ; then
   mkdir -m 775 -p $COMOUT
@@ -139,4 +128,4 @@ fi
 #############################################
 # run the GFS job
 #############################################
-sh $HOMEgfs/jobs/JGFS_GEMPAK_NCDC_UPAPGIF
+sh $HOMEgfs/jobs/JGFS_GEMPAK
