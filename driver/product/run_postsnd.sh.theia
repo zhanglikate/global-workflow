@@ -4,7 +4,7 @@
 #PBS -N postsnd
 ##PBS -A fv3-cam
 #PBS -A fv3-cpu
-#PBS -l nodes=4:ppn=3
+#PBS -l nodes=6:ppn=3
 #PBS -l walltime=02:30:00
 
 ############################################
