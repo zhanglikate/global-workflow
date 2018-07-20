@@ -57,6 +57,17 @@ elif [ $step = "post" ]; then
         export memory_post="3072M"
     fi
 
+elif [ $step = "ocnpost" ]; then
+
+    export wtime_ocnpost="00:30:00"
+    export wtime_ocnpost_gfs="00:30:00"
+    export npe_ocnpost=1
+    export npe_node_ocnpost=1
+    export npe_node_dwn=24   # Not sure what this is
+    if [[ "$machine" == "WCOSS_C" ]]; then
+        export memory_post="3072M"
+    fi
+
 elif [ $step = "vrfy" ]; then
 
     export wtime_vrfy="03:00:00"

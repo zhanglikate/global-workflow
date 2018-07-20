@@ -11,7 +11,7 @@ CWD=`pwd`
 # ./setup_expt_fcstonly.py --pslot $PSLOT --configdir $CONFIGDIR --idate $IDATE --edate $EDATE --res $RES --gfs_cyc $GFS_CYC --comrot $COMROT --expdir $EXPDIR
 
 # $PSLOT is the name of your experiment
-PSLOT=test_c96
+PSLOT=wfdebug
 
 # $COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you.
 COMROT=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/COMFV3

@@ -43,6 +43,8 @@ export SCRgfs=$HOMEgfs/scripts
 export FIXcice=$HOMEgfs/fix/fix_cice5
 export FIXmom=$HOMEgfs/fix/fix_mom6
 export FIXgrid=$HOMEgfs/fix/fix_fv3grid
+# For coupled ocnpost
+export OCNFIXDIR=$HOMEgfs/fix/fix_ocnice
 
 ########################################################################
 
@@ -173,8 +175,11 @@ export ROTDIR="@ROTDIR@/$PSLOT"
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
-export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"
 export ATARDIR="/NCEPDEV/$HPSS_PROJECT/1year/$USER/$machine/scratch/$PSLOT"
+
+# For coupled
+export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"
+export UGCSsrc="$NOSCRUB/EMC_ugcs"
 
 # Commonly defined parameters in JJOBS
 export envir=${envir:-"prod"}

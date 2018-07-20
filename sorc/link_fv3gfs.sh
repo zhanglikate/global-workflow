@@ -37,6 +37,7 @@ done
 $LINK $FIX_DIR/* .
 
 # Add fixed files needed for coupled fv3-mom6-cice5
+$LINK $CPLFIX_DIR/fix_ocnice   .
 $LINK $CPLFIX_DIR/fix_cice5    .
 $LINK $CPLFIX_DIR/fix_mom6     .
 $LINK $CPLFIX_DIR/fix_fv3grid  .

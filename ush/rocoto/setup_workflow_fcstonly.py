@@ -34,7 +34,7 @@ import rocoto
 import workflow_utils as wfu
 
 
-taskplan = ['getic', 'fv3ic', 'fcst', 'post', 'vrfy', 'arch']
+taskplan = ['getic', 'fv3ic', 'fcst', 'post', 'ocnpost', 'vrfy', 'arch']
 
 def main():
     parser = ArgumentParser(description='Setup XML workflow and CRONTAB for a forecast only experiment.', formatter_class=ArgumentDefaultsHelpFormatter)
@@ -118,6 +118,7 @@ def get_definitions(base):
     strings.append('\t<!-- Experiment related directories -->\n')
     strings.append('\t<!ENTITY EXPDIR "%s">\n' % base['EXPDIR'])
     strings.append('\t<!ENTITY ROTDIR "%s">\n' % base['ROTDIR'])
+    strings.append('\t<!ENTITY RUNDIR "%s">\n' % base['RUNDIR'])
     strings.append('\t<!ENTITY ICSDIR "%s">\n' % base['ICSDIR'])
     strings.append('\n')
     strings.append('\t<!-- Directories for driving the workflow -->\n')
@@ -297,6 +298,28 @@ def get_workflow(dict_configs, cdump='gdas'):
                               metatask='post', varname=varname1, varval=varval1, vardict=vardict)
     tasks.append(task)
     tasks.append('\n')
+
+
+    # ice/ocn post
+    deps = []
+    data = '&ROTDIR;/%s.@Y@m@d/@H/%s.t@Hz.log#dep#.nemsio' % (cdump, cdump)
+    #gfs.t00z.logf000.nemsio
+    #ocn_2016_10_03_01.nc
+    #iceh_06h.2016-10-03-21600.nc
+    dep_dict = {'type': 'data', 'data': data}
+    deps.append(rocoto.add_dependency(dep_dict))
+    dependencies = rocoto.create_dependency(dep=deps)
+    fhrgrp = rocoto.create_envar(name='FHRGRP', value='#grp#')
+    fhrlst = rocoto.create_envar(name='FHRLST', value='#lst#')
+    ocnpostenvars = envars + [fhrgrp] + [fhrlst]
+    varname1, varname2, varname3 = 'grp', 'dep', 'lst'
+    varval1, varval2, varval3 = get_postgroups(dict_configs['ocnpost'], cdump=cdump)
+    vardict = {varname2: varval2, varname3: varval3}
+    task = wfu.create_wf_task('ocnpost', cdump=cdump, envar=ocnpostenvars, dependency=dependencies,
+                              metatask='ocnpost', varname=varname1, varval=varval1, vardict=vardict)
+    tasks.append(task)
+    tasks.append('\n')
+
 
     # vrfy
     deps = []
