@@ -55,6 +55,7 @@ if [ $cpl = ".true." ] ; then
   status=$?
   [[ $status -ne 0 ]] && exit $status
 
+  mkdir -p $ICSDIR/$CDATE/mom6_cfsv2
   cd $ICSDIR/$CDATE/mom6_cfsv2
   tar -xvf $UGCSICSDIR/MOM6_restart_2016100300.tar MOM6_IC_TS.nc
   status=$?

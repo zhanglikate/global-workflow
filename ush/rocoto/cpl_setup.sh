@@ -11,7 +11,7 @@ CWD=`pwd`
 # ./setup_expt_fcstonly.py --pslot $PSLOT --configdir $CONFIGDIR --idate $IDATE --edate $EDATE --res $RES --gfs_cyc $GFS_CYC --comrot $COMROT --expdir $EXPDIR
 
 # $PSLOT is the name of your experiment
-PSLOT=wfdebug
+PSLOT=gfdlphys
 
 # $COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you.
 COMROT=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/COMFV3
@@ -23,8 +23,13 @@ CONFIGDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/new.fv3gfs/parm/config
 # do not export ICSDIR, causes error in py script
 ICSDIR=$COMROT/FV3ICS
 
+# Link the existing FV3ICS folder to here, I prefer this directory to be in main directory, but changing in script can cause issues
+mkdir -p $COMROT
+cd $COMROT
+mkdir -p ../FV3ICS
+ln -s ../FV3ICS .
+
 # $IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)
-#IDATE=2017073118
 IDATE=2016100300
 #IDATE=2015040100
 
