@@ -11,7 +11,7 @@ CWD=`pwd`
 # ./setup_expt_fcstonly.py --pslot $PSLOT --configdir $CONFIGDIR --idate $IDATE --edate $EDATE --res $RES --gfs_cyc $GFS_CYC --comrot $COMROT --expdir $EXPDIR
 
 # $PSLOT is the name of your experiment
-PSLOT=gfdlphys
+PSLOT=c384_test
 
 # $COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you.
 COMROT=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/COMFV3
@@ -29,6 +29,8 @@ cd $COMROT
 mkdir -p ../FV3ICS
 ln -s ../FV3ICS .
 
+cd $CWD
+
 # $IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)
 IDATE=2016100300
 #IDATE=2015040100
@@ -38,7 +40,7 @@ EDATE=2016100300
 #EDATE=2015040100
 
 # $RES is the resolution of the forecast (i.e. 768 for C768)
-RES=96
+RES=384
 
 # $GFS_CYC is the forecast frequency (0 = none, 1 = 00z only [default], 2 = 00z & 12z, 4 = all cycles)
 GFS_CYC=1
