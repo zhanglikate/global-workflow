@@ -49,8 +49,9 @@ if [ $cpl = ".true." ] ; then
   export SFCANL="$UGCSICSDIR/t574/sfnanl.$CDATE"
 
   # Copy the CICE5 and MOM6 ICs from UGCSICSDIR
- 
-  $NCP $UGCSICSDIR/cice5_model_0.25.res_$CDATE.nc $ICSDIR/$CDATE/cice5_cfsv2/
+
+  mkdir -p $ICSDIR/$CDATE/cice5_cfsv2 
+  $NCP $UGCSICSDIR/cice5_model_0.25.res_$CDATE.nc $ICSDIR/$CDATE/cice5_cfsv2
   status=$?
   [[ $status -ne 0 ]] && exit $status
 
