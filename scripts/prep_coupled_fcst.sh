@@ -49,6 +49,9 @@ cp -pf $FIXgrid/$CASE/* .
 cd ..
 
 # Setup namelists
+
+# PT DEBUG - temporarily setting this to the same as DELTIM until CICE is connected
+# FAILED at C96 with DELTIM=450 and OCNTIM=1800, OCNTIM=DELTIM works, see config.fv3
 export OCNTIM=${OCNTIM:-1800}
 export DELTIM=${DELTIM:-1800}
 
@@ -77,15 +80,10 @@ if [ $CASE = "C96" ] ; then
   OCN_petlist_bounds=${OCN_petlist_bounds:-'150 389'}
   ICE_petlist_bounds=${ICE_petlist_bounds:-'390 509'}
 elif [ $CASE = "C384" ] ; then
-  # <!ENTITY RESOURCES_FCST_GFS "<nodes>22:ppn=12</nodes>">
-  #MED_petlist_bounds=${MED_petlist_bounds:-'0 263'}
-  #ATM_petlist_bounds=${ATM_petlist_bounds:-'0 263'}
-  #OCN_petlist_bounds=${OCN_petlist_bounds:-'264 503'}
-  #ICE_petlist_bounds=${ICE_petlist_bounds:-'504 623'}
-  MED_petlist_bounds=${MED_petlist_bounds:-'0 197'}
-  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 197'}    #192+wrtgrps
-  OCN_petlist_bounds=${OCN_petlist_bounds:-'198 437'}  #240
-  ICE_petlist_bounds=${ICE_petlist_bounds:-'438 557'}  #120
+  MED_petlist_bounds=${MED_petlist_bounds:-'0 263'}
+  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 263'}    #192+wrtgrps
+  OCN_petlist_bounds=${OCN_petlist_bounds:-'264 503'}  #240
+  ICE_petlist_bounds=${ICE_petlist_bounds:-'504 623'}  #120
 else
   echo "$CASE not supported for coupled yet"
   exit -1
