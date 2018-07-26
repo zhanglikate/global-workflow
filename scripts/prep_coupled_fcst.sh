@@ -80,10 +80,17 @@ if [ $CASE = "C96" ] ; then
   OCN_petlist_bounds=${OCN_petlist_bounds:-'150 389'}
   ICE_petlist_bounds=${ICE_petlist_bounds:-'390 509'}
 elif [ $CASE = "C384" ] ; then
+  # This is 4x8 layout * 6 - worked
   MED_petlist_bounds=${MED_petlist_bounds:-'0 263'}
-  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 263'}    #192+wrtgrps
+  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 263'}    #192+wrtgrps(72)
   OCN_petlist_bounds=${OCN_petlist_bounds:-'264 503'}  #240
   ICE_petlist_bounds=${ICE_petlist_bounds:-'504 623'}  #120
+
+  # This is 6x12 layout * 6 = 432 + 72 # didn't work
+  #MED_petlist_bounds=${MED_petlist_bounds:-'0 503'}
+  #ATM_petlist_bounds=${ATM_petlist_bounds:-'0 503'}    #432+wrtgrps(72)
+  #OCN_petlist_bounds=${OCN_petlist_bounds:-'504 743'}  #240
+  #ICE_petlist_bounds=${ICE_petlist_bounds:-'744 863'}  #120
 else
   echo "$CASE not supported for coupled yet"
   exit -1
