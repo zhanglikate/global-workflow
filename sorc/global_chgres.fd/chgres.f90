@@ -140,6 +140,8 @@
 !                                        DECREASES TOWARDS THE POLE).  THIS FILE DEFINES
 !                                        THE REDUCED GRID.
 !   UNIT   31    chgres.inp.nst          NSST FILE FOR INPUT GRID (NSTIO OR NEMSIO FORMAT)
+!                                        NOTE: FV3GFS OUTPUTS NSST FIELDS IN THE SURFACE
+!                                        FILE - chgres.inp.sfc
 !   UNIT   ??    chgres.fv3.orog.t[1-6]  FV3 OROGRAPHY AND LAND MASK.  ONE FILE FOR EACH
 !                                        SIX GLOBAL TILES (NETCDF FORMAT)
 !   UNIT   ??    chgres.fv3.grd.t[1-6]   FV3 GRID SPECS FILE. ONE FILE FOR EACH SIX
@@ -250,7 +252,7 @@
       REAL,ALLOCATABLE        :: GEOLAT(:,:), GEOLON(:,:), TMPVAR(:,:)
       REAL,ALLOCATABLE        :: TMPLAT(:,:), TMPLON(:,:)
       REAL                    :: FCSTHOUR, NSST_FHOUR
-      INTEGER                 :: IOLPL3,NLPL3
+      INTEGER                 :: IOLPL3,NLPL3,FILESZ
       INTEGER,ALLOCATABLE     :: LPL3(:)
       REAL, ALLOCATABLE       :: AK(:), BK(:), CK(:), VCOORD(:,:),   &
                                  VCOORDI(:,:), VCOORDO(:,:)
@@ -261,7 +263,7 @@
       TYPE(NEMSIO_HEADV) :: GFSHEADVI
       TYPE(NEMSIO_DBTA)  :: GFSDATAI
       TYPE(NEMSIO_DBTA)  :: GFSDATAO
-      CHARACTER(8)       :: FILETYPE
+      CHARACTER(8)       :: FILETYPE, MODELNAME
       CHARACTER(LEN=16)  :: FILETYPE2
 !
 ! Define local vars:
@@ -798,6 +800,7 @@
                                 NFSECONDN=GFSHEADI%NFSECONDN,       &
                                 NFSECONDD=GFSHEADI%NFSECONDD,       &
                                 VERSION=GFSHEADI%VERSION,           &
+                                MODELNAME=MODELNAME,                &
                                 NREC=GFSHEADI%NREC,                 &
                                 DIMX=GFSHEADI%DIMX,                 &
                                 DIMY=GFSHEADI%DIMY,                 &
@@ -839,6 +842,13 @@
         PRINT*," JCAP:      ",GFSHEADI%JCAP
         PRINT*," NTRAC:     ",GFSHEADI%NTRAC
         PRINT*," NCLDT:     ",GFSHEADI%NCLDT
+! note: in some fv3gfs files, the number of tracers (ntrac) is 8.  That
+! number includes cloud cover, which is not processed by chgres.  So
+! don't use ntrac.  Instead compute it from the number of cloud species
+! (ncldt) plus 2 (o3 and specific hum).
+        IF(TRIM(MODELNAME) == "FV3GFS") THEN
+          GFSHEADI%NTRAC = GFSHEADI%NCLDT + 2
+        ENDIF
         PRINT*," IDSL:      ",GFSHEADI%IDSL
         PRINT*," IDVC:      ",GFSHEADI%IDVC
         PRINT*," IDVM:      ",GFSHEADI%IDVM
@@ -863,9 +873,17 @@
         ALLOCATE(GFSHEADVI%CPI(GFSHEADI%NTRAC+1))
         ALLOCATE(GFSHEADVI%RI(GFSHEADI%NTRAC+1))
 
-        CALL NEMSIO_GETFILEHEAD(GFILEI, VCOORD=GFSHEADVI%VCOORD,    &
+        IF(TRIM(MODELNAME) == 'FV3GFS') THEN
+          CALL NEMSIO_GETFILEHEAD(GFILEI, VCOORD=GFSHEADVI%VCOORD,    &
+                                IRET=IRET1)
+          GFSHEADVI%CPI = -999.
+          GFSHEADVI%RI  = -999.
+          NOPDPVV = .FALSE.
+        ELSE
+          CALL NEMSIO_GETFILEHEAD(GFILEI, VCOORD=GFSHEADVI%VCOORD,    &
                                 CPI=GFSHEADVI%CPI, RI=GFSHEADVI%RI, &
                                 IRET=IRET1)
+        ENDIF
 
         IF(IRET1.NE.0 ) THEN
           PRINT*, 'FATAL ERROR READNG NEMSIO FILE HEADER. IRET: ', IRET1
@@ -904,7 +922,12 @@
           ALLOCATE(GFSDATAI%W(LONB,LATB,LEVSI))
         ENDIF 
 
-        CALL NEMSIO_GFS_RDGRD(GFILEI,GFSDATAI,IRET=IRET)
+        IF(TRIM(MODELNAME) == "FV3GFS") THEN
+          CALL READ_FV3GFS_ATMS_DATA_NEMSIO(GFILEI, GFSDATAI, GFSHEADI, &
+                                         VCOORDI, (LEVSI+1), GFSHEADI%NVCOORD)
+        ELSE
+          CALL NEMSIO_GFS_RDGRD(GFILEI,GFSDATAI,IRET=IRET)
+        ENDIF
 
         CALL NEMSIO_CLOSE(GFILEI,IRET=IRET)
 
@@ -914,7 +937,11 @@
           LEVSO = LEVSI
         ENDIF
 
-        NTRACO = GFSHEADI%NTRAC
+        IF (NTRAC > 0) THEN
+          NTRACO = NTRAC
+        ELSE
+          NTRACO = GFSHEADI%NTRAC
+        ENDIF
 
         IF(IDVT > 0)THEN
           IDVTO = IDVT
@@ -922,14 +949,14 @@
           IDVTO = GFSHEADI%IDVT
         ENDIF
 
-        IF (NTRACO == 3 .AND. IDVTO == 21) THEN
-          PRINT*,'INPUT FILE TRACERS: SPFH, O3MR, CLWMR'
-        ELSE
-          PRINT*,'- FATAL ERROR: CHGRES ASSUMES NTRACO=3 AND IDVT=21'
-          PRINT*,'- INPUT FILE VALUES ARE ',NTRACO,IDVT
-          PRINT*,'- STOP.'
-          CALL ERREXIT(27)
-        ENDIF
+!       IF (NTRACO == 3 .AND. IDVTO == 21) THEN
+!         PRINT*,'INPUT FILE TRACERS: SPFH, O3MR, CLWMR'
+!       ELSE
+!         PRINT*,'- FATAL ERROR: CHGRES ASSUMES NTRACO=3 AND IDVT=21'
+!         PRINT*,'- INPUT FILE VALUES ARE ',NTRACO,IDVT
+!         PRINT*,'- STOP.'
+!         CALL ERREXIT(27)
+!       ENDIF
 
         IF(IDVC  >  0) THEN
           IDVCO = IDVC
@@ -999,6 +1026,9 @@
         IF (NTRACO == GFSHEADI%NTRAC) THEN
           CPI(0:NTRACO) = GFSHEADVI%CPI(1:NTRACO+1)
           RI(0:NTRACO)  = GFSHEADVI%RI(1:NTRACO+1)
+        ELSEIF (IDVC == 2) THEN
+          CPI(0:NTRACO) = -999.
+          RI(0:NTRACO)  = -999.
         ELSE
           PRINT *,'FATAL ERROR: You have different Tracers from input,',  &
           ' make sure to provide CPI & RI, for generalized coordinate.'
@@ -1043,18 +1073,6 @@
             ZSI(:,:) = GFSDATAI%ZS(:,J1:J2)
             PSI(:,:) = GFSDATAI%PS(:,J1:J2)
 
-            IF (.NOT. NOPDPVV) THEN
-              PI(:,:,:) = GFSDATAI%P(:,J1:J2,:)
-            ELSE
-              DO L = 1, LEVSI
-                DO J = 1, JL
-                  DO I = 1, LONB
-                    PI(I,J,L) = VCOORDI(L,1) + VCOORDI(L,2)*PSI(i,j)
-                  ENDDO
-                ENDDO
-              ENDDO
-            ENDIF
-
             TI(:,:,:) = GFSDATAI%T(:,J1:J2,:)
             UI(:,:,:) = GFSDATAI%U(:,J1:J2,:)
             VI(:,:,:) = GFSDATAI%V(:,J1:J2,:)
@@ -1063,26 +1081,25 @@
               QI(:,:,:,N) = GFSDATAI%Q(:,J1:J2,:,N)
             ENDDO
 
+            TIV = TI*(1.+(461.50/287.05-1)*QI(:,:,:,1))  ! virtual temperature
+
+            IF (.NOT. NOPDPVV) THEN
+              PI(:,:,:) = GFSDATAI%P(:,J1:J2,:)
+            ELSE
+              CALL SIGIO_MODPRD(IJL,IJX,LEVSI,GFSHEADI%NVCOORD,   &
+                                GFSHEADI%IDVC,GFSHEADI%IDSL,VCOORDI,IRET, &
+                                PS=PSI,T=TIV,PM=PI)
+            ENDIF
+
             IF ( NREC == GFSHEADI%NREC .AND. .NOT. NOPDPVV ) THEN
+              WI(:,:,:) = GFSDATAI%W(:,J1:J2,:)
+            ELSEIF (TRIM(MODELNAME) == "FV3GFS" .AND. .NOT. NOPDPVV ) THEN
               WI(:,:,:) = GFSDATAI%W(:,J1:J2,:)
             ELSE
               WI = 0.
             ENDIF
 
-            TIV = TI*(1.+(461.50/287.05-1)*QI(:,:,:,1))  ! virtual temperature
-
             GFSDATAO%ZS(:,J1:J2) = ZSI
-
-            CALL SIGIO_MODPRD(IJL,IJX,LEVSI,GFSHEADI%NVCOORD,   &
-                              GFSHEADI%IDVC,GFSHEADI%IDSL,VCOORDI,IRET,  &
-                              PS=PSI,T=TIV,PM=PI)
-
-            TI = TIV / (1.+(461.50/287.05-1)*QI(:,:,:,1))  ! virtual temperature
- 
-            IF(ANY(TI == 0)) THEN
-              PRINT *,'WARNING: tmp=0,j1=',j1,'j2=',j2,'tmp=',MAXVAL(TI),MINVAL(TI)
-            ENDIF
-
             GFSDATAO%PS(:,J1:J2) = PSI
 
 !-----------------------------------------------------------------------
@@ -1217,8 +1234,10 @@
         CALL SFCIO_SCLOSE(NSFCI, IRET)
       ELSE
         CALL NEMSIO_OPEN(GFILEISFC,'chgres.inp.sfc','read',IRET=IRET)
-        CALL NEMSIO_GETFILEHEAD(GFILEISFC,GTYPE=FILETYPE,IRET=IRET)
-        PRINT *,'OPEN chgres.inp.sfc,iret=',IRET, 'gtype=',FILETYPE
+        CALL NEMSIO_GETFILEHEAD(GFILEISFC,GTYPE=FILETYPE,  &
+                                MODELNAME=MODELNAME,IRET=IRET)
+        PRINT *,'OPEN chgres.inp.sfc,iret=',IRET, 'gtype=',FILETYPE,  &
+                'modelname= ',modelname
         IF (TRIM(FILETYPE) == 'NEMSIO' .AND. IRET == 0) THEN
           INPTYP = 1
           CALL NEMSIO_CLOSE(GFILEISFC, IRET=IRET)
@@ -1230,11 +1249,20 @@
 
       IF (NSFCO == 0) GOTO 80
 
-      INQUIRE (FILE="./chgres.inp.nst", EXIST=DO_NSST)
-      IF (DO_NSST .AND. NSFCO == 0) THEN
-        PRINT*,'FATAL ERROR: WHEN CONVERTING AN NSST RESTART FILE,'
-        PRINT*,'YOU MUST ALSO CONVERT A SURFACE RESTART FILE.'
-        CALL ERREXIT(33)
+! FV3GFS SURFACE FILES CONTAIN BOTH SFC AND NSST FIELDS
+
+      IF (TRIM(MODELNAME) == "FV3GFS") THEN
+        DO_NSST=.TRUE.
+      ELSE
+        FILESZ=0
+        DO_NSST=.FALSE.
+        INQUIRE (FILE="./chgres.inp.nst", SIZE=FILESZ)
+        IF (FILESZ > 0) DO_NSST=.TRUE.
+        IF (DO_NSST .AND. NSFCO == 0) THEN
+          PRINT*,'FATAL ERROR: WHEN CONVERTING AN NSST RESTART FILE,'
+          PRINT*,'YOU MUST ALSO CONVERT A SURFACE RESTART FILE.'
+          CALL ERREXIT(33)
+        ENDIF
       ENDIF
 
       IF(INPTYP==2) THEN
@@ -1290,9 +1318,15 @@
 
       ELSE
 
-        CALL READ_GFS_SFC_DATA_NEMSIO (IMI, JMI, LSOILI, IVSI, SFCINPUT,  &
-     &                       F10MI, T2MI, Q2MI, UUSTARI, FFMMI, FFHHI,    &
-     &                       SRFLAGI, TPRCPI)
+        IF (TRIM(MODELNAME) == "FV3GFS") THEN
+          CALL READ_FV3GFS_SFC_DATA_NEMSIO (IMI, JMI, LSOILI, SFCINPUT,  &
+                               F10MI, T2MI, Q2MI, UUSTARI, FFMMI, FFHHI,    &
+                               SRFLAGI, TPRCPI)
+        ELSE
+          CALL READ_GFS_SFC_DATA_NEMSIO (IMI, JMI, LSOILI, IVSI, SFCINPUT,  &
+                               F10MI, T2MI, Q2MI, UUSTARI, FFMMI, FFHHI,    &
+                               SRFLAGI, TPRCPI)
+        ENDIF
 
       ENDIF
       
@@ -1475,9 +1509,16 @@
         ALLOCATE(MASK_INPUT(IMI,JMI))
 
         IF (INPTYP == 1) THEN
-          CALL READ_GFS_NSST_DATA_NEMSIO (MASK_INPUT,NSST_INPUT,IMI,JMI, &
-                   NUM_NSST_FIELDS,NSST_YEAR,NSST_MON,NSST_DAY,  &
-                   NSST_HOUR,NSST_FHOUR)
+          IF(TRIM(MODELNAME) == "FV3GFS") THEN ! for fv3, surface and nst
+                                               ! records in same file.
+            CALL READ_FV3GFS_NSST_DATA_NEMSIO (MASK_INPUT,NSST_INPUT,IMI,JMI, &
+                     NUM_NSST_FIELDS,NSST_YEAR,NSST_MON,NSST_DAY,  &
+                     NSST_HOUR,NSST_FHOUR)
+          ELSE
+            CALL READ_GFS_NSST_DATA_NEMSIO (MASK_INPUT,NSST_INPUT,IMI,JMI, &
+                     NUM_NSST_FIELDS,NSST_YEAR,NSST_MON,NSST_DAY,  &
+                     NSST_HOUR,NSST_FHOUR)
+          ENDIF
         ELSEIF (INPTYP == 2) THEN
           CALL READ_GFS_NSST_DATA_NSTIO (IMI,JMI,NUM_NSST_FIELDS,       &
                                     NSST_INPUT, MASK_INPUT,NSST_YEAR,   &
