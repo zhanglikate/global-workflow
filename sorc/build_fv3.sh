@@ -16,6 +16,8 @@ if [ ! -d "../exec" ]; then
   mkdir ../exec
 fi
 
+if [ $target = theia ]; then target=theia.intel ; fi
+
 cd fv3gfs.fd/
 
 # This builds the non-coupled model
