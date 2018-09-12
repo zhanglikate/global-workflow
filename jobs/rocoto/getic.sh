@@ -205,6 +205,8 @@ else
 fi
 ###############################################################
 
+#BL2018
+exit 0 
 # Copy pgbanl file to COMROT for verification
 COMROT=$ROTDIR/${CDUMP}.$PDY/$cyc
 [[ ! -d $COMROT ]] && mkdir -p $COMROT

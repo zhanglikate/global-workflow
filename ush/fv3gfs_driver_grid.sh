@@ -11,7 +11,7 @@
 #BSUB -extsched 'CRAYLINUX[]'
 #----THEIA JOBCARD
 #PBS -N fv3_grid_driver
-#PBS -A fv3-cpu
+#PBS -A marine-cpu
 #PBS -o log.grid.$PBS_JOBID
 #PBS -e log.grid.$PBS_JOBID
 #PBS -l nodes=1:ppn=24
@@ -20,7 +20,7 @@
 
 set -ax
 
-#machine=THEIA
+machine=THEIA
 export machine=${machine:-WCOSS_C}
 
 ulimit -a
@@ -75,7 +75,8 @@ export script_dir=$home_dir/ush
 export exec_dir=$home_dir/exec
 
 #export out_dir=$home_dir/fix/C${res}
-export out_dir=/gpfs/hps3/ptmp/$LOGNAME/fv3_grid/fix/C${res}
+export out_dir=/scratch4/NCEPDEV/stmp4/Bin.Li/fv3gfs/fix/mine/C${res}
+#export out_dir=/gpfs/hps3/ptmp/$LOGNAME/fv3_grid/fix/C${res}
 mkdir -p $out_dir $TMPDIR
 cd $TMPDIR ||exit 8
 

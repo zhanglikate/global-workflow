@@ -53,7 +53,7 @@ def set_paths():
 def get_accountinfo():
 
     if machine in ['THEIA']:
-        queue, account = 'batch', 'fv3-cpu'
+        queue, account = 'batch', 'marine-cpu'
     elif machine in ['WCOSS_C']:
         queue, account = 'dev', 'FV3GFS-T2O'
     elif machine in ['WCOSS_DELL_P3']:

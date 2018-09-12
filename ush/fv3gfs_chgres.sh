@@ -23,7 +23,7 @@
 
 #----THEIA JOBCARD
 ##PBS -N fv3_chgres_driver
-##PBS -A fv3-cpu
+##PBS -A marine-cpu
 ##PBS -o log.chgres
 ##PBS -e log.chgres
 ##PBS -l nodes=1:ppn=24

@@ -13,6 +13,7 @@ echo "BEGIN: config.ocnpost"
 
 # No. of concurrent post jobs [0 implies sequential]
 #export NPOSTGRP=0
+#export NPOSTGRP=1
 export NPOSTGRP=5
 
 # Post driver job that calls gfs_nceppost.sh and downstream jobs

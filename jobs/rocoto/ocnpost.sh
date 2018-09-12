@@ -140,9 +140,14 @@ for fhr in $fhrlst; do
     status=$?
     [[ $status -ne 0 ]] && exit $status
     echo "fhr is 0, only copying ice initial conditions... exiting"
+#BL2018
     exit 0 # only copy ice initial conditions.
+#BL2018
   else
+#BL2018
     $NCP -p history/iceh_`printf "%0.2d" $FHOUT`h.${YYYY}-${MM}-${DD}-`printf "%5.5d" ${SS}`.nc $COMOUT/ice$VDATE.$ENSMEM.$IDATE.nc
+#    $NCP -p history/iceh.${YYYY}-${MM}-${DD}.nc $COMOUT/ice$VDATE.$ENSMEM.$IDATE.nc
+#BL2018
     status=$?
     [[ $status -ne 0 ]] && exit $status
   fi

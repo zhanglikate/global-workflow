@@ -9,8 +9,7 @@ if [[ ! -d fv3gfs.fd ]] ; then
     rm -f ${topdir}/checkout-fv3gfs.log
     git clone --recursive gerrit:EMC_FV3-MOM6-CICE5 fv3gfs.fd >> ${topdir}/checkout-fv3gfs.log 2>&1
     cd fv3gfs.fd
-    # The following corresponds to a commit on the "usingSST" branch 
-    git checkout 007e14667eb3c156a1746357de342033285967d3
+    git checkout de863975ba792d8d0dcd3e38f24e4b28a5f7fc14
     git submodule update --init --recursive
     cd ${topdir}
 else

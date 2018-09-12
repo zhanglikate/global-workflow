@@ -30,6 +30,7 @@ if [ $type = "gfs" ]; then
   rm -f gfs_nemsioa.txt
   rm -f gfs_nemsiob.txt
   rm -f gfs_restarta.txt
+  rm -f ocn_ice.txt
   touch gfsa.txt
   touch gfsb.txt
   touch gfs_pgrb2b.txt
@@ -37,10 +38,15 @@ if [ $type = "gfs" ]; then
   touch gfs_nemsioa.txt
   touch gfs_nemsiob.txt
   touch gfs_restarta.txt
+  touch ocn_ice.txt
 
   dirname="./gfs.${PDY}/${cyc}/"
   head="gfs.t${cyc}z."
 
+# ocn and ice
+  echo $cpl
+  echo  "${dirname}ice*             " >>ice.txt
+  echo  "${dirname}ocn*             " >>ocn.txt
   #..................
   echo  "${dirname}${head}pgrb2b.0p25.anl                  " >>gfs_pgrb2b.txt
   echo  "${dirname}${head}pgrb2b.0p25.anl.idx              " >>gfs_pgrb2b.txt

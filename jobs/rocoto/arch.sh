@@ -151,6 +151,12 @@ if [ $status -ne 0  ]; then
 fi
 
 cd $ROTDIR
+#BL2018
+# ocn and ice files
+    for targrp in ocn ice; do
+        htar -P -cvf $ATARDIR/$CDATE/${targrp}.tar `cat $ARCH_LIST/${targrp}.txt`
+    done
+#BL2018
 
 if [ $CDUMP = "gfs" ]; then
 

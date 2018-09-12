@@ -151,8 +151,8 @@ if [ $inistep = "cold" ] ; then
 cat >> nems.configure <<eof
 # Coldstart Run Sequence #
 runSeq::
-  @${OCNTIM}.0
-    @${DELTIM}.0
+  @1800.0
+    @1800.0
       MED MedPhase_prep_atm
       MED -> ATM :remapMethod=redist
       ATM
@@ -177,11 +177,11 @@ else   # NOT a coldstart
 cat >> nems.configure <<eof
 # Forecast Run Sequence #
 runSeq::
-  @${OCNTIM}.0
+  @1800.0
     MED MedPhase_prep_ocn
     MED -> OCN :remapMethod=redist
     OCN
-    @${DELTIM}.0
+    @1800.0
       MED MedPhase_prep_ice
       MED MedPhase_prep_atm
       MED -> ATM :remapMethod=redist
@@ -214,7 +214,8 @@ fi
 
 iceic=cice5_model.res_$CDATE.nc
 year=$(echo $CDATE|cut -c 1-4)
-stepsperhr=$((3600/$DELTIM))
+#stepsperhr=$((3600/$DELTIM))
+stepsperhr=${stepsperhr:-2}
 nhours=$($NHOUR $CDATE ${year}010100)
 steps=$((nhours*stepsperhr))
 npt=$((FHMAX*$stepsperhr))      # Need this in order for dump_last to work
@@ -224,9 +225,11 @@ restart_interval=${restart_interval:-1296000}    # restart write interval in sec
 #dumpfreq="'s'"
 dumpfreq_n=$restart_interval                     # restart write interval in seconds
 
-npt=999
+#BL2018
+#npt=999
 dumpfreq="'y'"
 histfreq_n=6
+#histfreq_n=0
 
 cat > ice_in <<eof  
 &setup_nml
@@ -234,7 +237,7 @@ cat > ice_in <<eof
   , use_leap_years = .true.
   , year_init      = $year
   , istep0         = $steps
-  , dt             = $DELTIM.0
+  , dt             = 1800.0
   , npt            = $npt
   , ndtd           = 1
   , runtype        = '$runtyp' 
@@ -247,8 +250,8 @@ cat > ice_in <<eof
   , restart_dir    = './restart/'
   , restart_file   = 'iced'
   , pointer_file   = './restart/ice.restart_file'
-  , dumpfreq       = $dumpfreq
-  , dumpfreq_n     = $dumpfreq_n
+  , dumpfreq       = d
+  , dumpfreq_n     = 40
   , dump_last      = .false.
   , diagfreq       = 6
   , diag_type      = 'stdout'
@@ -261,7 +264,7 @@ cat > ice_in <<eof
   , lonpnt(2)      = -45.
   , dbug           = .false.
   , histfreq       = 'm','d','h','x','x'
-  , histfreq_n     =  1 , 0 , $histfreq_n , 1 , 1
+  , histfreq_n     =  1 , 0 , 6,  1 , 1
   , hist_avg       = .true.
   , history_dir    = './history/'
   , history_file   = 'iceh'
@@ -400,7 +403,6 @@ cat > ice_in <<eof
   , trestore        =  90
   , restore_ice     = .false.
 /
-
 &icefields_nml
     f_tmask        = .true.
   , f_tarea        = .true.
@@ -428,9 +430,9 @@ cat > ice_in <<eof
   , f_fswdn        = 'mdhxx' 
   , f_flwdn        = 'mdhxx'
   , f_snow         = 'x' 
-  , f_snow_ai      = 'mdhxx' 
+  , f_snow_ai      = 'm' 
   , f_rain         = 'x' 
-  , f_rain_ai      = 'mdhxx' 
+  , f_rain_ai      = 'm' 
   , f_sst          = 'mdhxx' 
   , f_sss          = 'mdhxx' 
   , f_uocn         = 'm' 
@@ -439,7 +441,7 @@ cat > ice_in <<eof
   , f_fswfac       = 'm'
   , f_fswabs       = 'x' 
   , f_fswabs_ai    = 'm' 
-  , f_albsni       = 'm' 
+  , f_albsni       = 'mdhxx' 
   , f_alvdr        = 'x'
   , f_alidr        = 'x'
   , f_albice       = 'x'
@@ -457,14 +459,14 @@ cat > ice_in <<eof
   , f_Tair         = 'mdhxx' 
   , f_Tref         = 'x' 
   , f_Qref         = 'x'
-  , f_congel       = 'm' 
-  , f_frazil       = 'm' 
-  , f_snoice       = 'm' 
+  , f_congel       = 'mdhxx' 
+  , f_frazil       = 'mdhxx' 
+  , f_snoice       = 'mdhxx' 
   , f_dsnow        = 'x' 
-  , f_melts        = 'm'
-  , f_meltt        = 'm'
-  , f_meltb        = 'm'
-  , f_meltl        = 'm'
+  , f_melts        = 'mdhxx'
+  , f_meltt        = 'mdhxx'
+  , f_meltb        = 'mdhxx'
+  , f_meltl        = 'mdhxx'
   , f_fresh        = 'x'
   , f_fresh_ai     = 'm'
   , f_fsalt        = 'x'
@@ -478,23 +480,23 @@ cat > ice_in <<eof
   , f_fmeltt_ai    = 'x' 
   , f_strairx      = 'm' 
   , f_strairy      = 'm' 
-  , f_strtltx      = 'mdhxx' 
-  , f_strtlty      = 'mdhxx' 
+  , f_strtltx      = 'x' 
+  , f_strtlty      = 'x' 
   , f_strcorx      = 'x' 
   , f_strcory      = 'x' 
-  , f_strocnx      = 'x' 
-  , f_strocny      = 'x' 
+  , f_strocnx      = 'm' 
+  , f_strocny      = 'm' 
   , f_strintx      = 'x' 
   , f_strinty      = 'x'
-  , f_strength     = 'm'
-  , f_divu         = 'm'
-  , f_shear        = 'm'
-  , f_sig1         = 'm' 
-  , f_sig2         = 'm' 
-  , f_dvidtt       = 'm' 
-  , f_dvidtd       = 'm' 
-  , f_daidtt       = 'm'
-  , f_daidtd       = 'm' 
+  , f_strength     = 'x'
+  , f_divu         = 'x'
+  , f_shear        = 'x'
+  , f_sig1         = 'x' 
+  , f_sig2         = 'x' 
+  , f_dvidtt       = 'x' 
+  , f_dvidtd       = 'x' 
+  , f_daidtt       = 'x'
+  , f_daidtd       = 'x' 
   , f_mlt_onset    = 'm'
   , f_frz_onset    = 'm'
   , f_hisnap       = 'x'
@@ -505,8 +507,8 @@ cat > ice_in <<eof
   , f_FY           = 'x'
   , f_aicen        = 'x'
   , f_vicen        = 'x'
-  , f_Tinz         = 'mdhxx'
-  , f_Sinz         = 'mdhxx'
+  , f_Tinz         = 'x'
+  , f_Sinz         = 'x'
   , f_Tsnz         = 'x'
   , f_fsurfn_ai    = 'x'
   , f_fcondtopn_ai = 'x'
@@ -540,10 +542,10 @@ cat > ice_in <<eof
     f_apondn       = 'x'
   , f_apeffn       = 'x'
   , f_hpondn       = 'x'
-  , f_apond        = 'm'
-  , f_hpond        = 'm'
-  , f_ipond        = 'm'
-  , f_apeff        = 'm'
+  , f_apond        = 'mdhxx'
+  , f_hpond        = 'mdhxx'
+  , f_ipond        = 'mdhxx'
+  , f_apeff        = 'mdhxx'
   , f_apond_ai     = 'm'
   , f_hpond_ai     = 'm'
   , f_ipond_ai     = 'm'
@@ -589,7 +591,6 @@ cat > ice_in <<eof
   , f_Cdn_ocn      = 'x'
 /
 eof
-
 
 #rtype=${rtype:-"n"}
 
