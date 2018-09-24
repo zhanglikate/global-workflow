@@ -20,17 +20,17 @@ mkdir -p $COMROT
 
 # $CONFIGDIR is the path to the /config folder under the copy of the system you're using (i.e. ../parm/config/)
 #CONFIGDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/new.fv3gfs/parm/config
-CONFIGDIR=/scratch4/NCEPDEV/stmp4/Bin.Li/fv3gfs/parm/config
+CONFIGDIR=/scratch4/NCEPDEV/stmp4/Bin.Li/fv3gfs3/parm/config
 
 # do not export ICSDIR, causes error in py script
 #BL2018
 #ICSDIR=$COMROT/FV3ICS
 #
 FROM_HPSS=/scratch4/NCEPDEV/nems/noscrub/Bin.Li/FROM_HPSS
-FV3DATA=$FROM_HPSS/2016010100/gfs/C384/INPUT
+FV3DATA=$FROM_HPSS/2016040100/gfs/C384/INPUT
 ICSDIR=$FV3DATA
-ICE_DIR=$FROM_HPSS/2016010100/cice5_cfsv2
-OCN_DIR=$FROM_HPSS/2016010100/mom6_cfsv2
+ICE_DIR=$FROM_HPSS/2016040100/cice5_cfsv2
+OCN_DIR=$FROM_HPSS/2016040100/mom6_cfsv2
 
 # Link the existing FV3ICS folder to here, I prefer this directory to be in main directory, but changing in script can cause issues
 mkdir -p $COMROT
@@ -42,11 +42,11 @@ ln -s $FROM_HPSS/* ../FV3ICS
 cd $CWD
 
 # $IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)
-IDATE=2016010100
+IDATE=2016040100
 #IDATE=2015040100
 
 # $EDATE is the ending date of your run (YYYYMMDDCC) and is the last cycle that will complete
-EDATE=2016010100
+EDATE=2016040100
 #EDATE=2015040100
 
 # $RES is the resolution of the forecast (i.e. 768 for C768)

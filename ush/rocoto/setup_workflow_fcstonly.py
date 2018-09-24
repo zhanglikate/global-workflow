@@ -306,7 +306,8 @@ def get_workflow(dict_configs, cdump='gdas'):
 
     # ice/ocn post
     deps = []
-    data = '&ROTDIR;/%s.@Y@m@d/@H/%s.t@Hz.log#dep#.nemsio' % (cdump, cdump)
+    #data = '&ROTDIR;/%s.@Y@m@d/@H/%s.t@Hz.log#dep#.nemsio' % (cdump, cdump)
+    data = '&RUNDIR;/@Y@m@d@H/gfs/fcst/MOM6_RESTART/MOM.res_4.nc'
     #gfs.t00z.logf000.nemsio
     #ocn_2016_10_03_01.nc
     #iceh_06h.2016-10-03-21600.nc

@@ -81,10 +81,14 @@ if [ $CASE = "C96" ] ; then
   ICE_petlist_bounds=${ICE_petlist_bounds:-'390 509'}
 elif [ $CASE = "C384" ] ; then
   # This is 4x8 layout * 6 - worked
-  MED_petlist_bounds=${MED_petlist_bounds:-'0 263'}
-  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 263'}    #192+wrtgrps(72)
-  OCN_petlist_bounds=${OCN_petlist_bounds:-'264 503'}  #240
-  ICE_petlist_bounds=${ICE_petlist_bounds:-'504 623'}  #120
+  #MED_petlist_bounds=${MED_petlist_bounds:-'0 263'}
+  #ATM_petlist_bounds=${ATM_petlist_bounds:-'0 263'}    #192+wrtgrps(72)
+  #OCN_petlist_bounds=${OCN_petlist_bounds:-'264 503'}  #240
+  #ICE_petlist_bounds=${ICE_petlist_bounds:-'504 623'}  #120
+  MED_petlist_bounds=${MED_petlist_bounds:-'0 215'}
+  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 215'}    #192+wrtgrps(24)
+  OCN_petlist_bounds=${OCN_petlist_bounds:-'216 455'}  #240
+  ICE_petlist_bounds=${ICE_petlist_bounds:-'456 479'}  #24
 
   # This is 6x12 layout * 6 = 432 + 72 # didn't work
   #MED_petlist_bounds=${MED_petlist_bounds:-'0 503'}
@@ -104,14 +108,14 @@ cat > nems.configure <<eof
 # EARTH #
 EARTH_component_list: MED ATM OCN ICE
 EARTH_attributes::
-  Verbosity = max
+  Verbosity = 0
 ::
 
 # MED #
 MED_model:                      nems
 MED_petlist_bounds:             $MED_petlist_bounds
 MED_attributes::
-  Verbosity = max
+  Verbosity = 0
   DumpFields = $DumpFields
   DumpRHs = $DumpFields
   coldstart = $coldstart
@@ -122,7 +126,7 @@ MED_attributes::
 ATM_model:                      fv3
 ATM_petlist_bounds:             $ATM_petlist_bounds
 ATM_attributes::
-  Verbosity = max
+  Verbosity = 0
   DumpFields = $DumpFields
 ::
 
@@ -130,7 +134,7 @@ ATM_attributes::
 OCN_model:                      mom6
 OCN_petlist_bounds:             $OCN_petlist_bounds
 OCN_attributes::
-  Verbosity = max
+  Verbosity = 0
   DumpFields = $DumpFields
   restart_interval = $restart_interval
 ::
@@ -139,7 +143,7 @@ OCN_attributes::
 ICE_model:                      cice
 ICE_petlist_bounds:             $ICE_petlist_bounds
 ICE_attributes::
-  Verbosity = max
+  Verbosity = 0
   DumpFields = $DumpFields
 ::
 eof
@@ -282,7 +286,7 @@ cat > ice_in <<eof
 /
 
 &domain_nml
-    nprocs = 120 
+    nprocs = 24 
   , processor_shape   = 'slenderX2'
   , distribution_type = 'cartesian'
   , distribution_wght = 'latitude'
