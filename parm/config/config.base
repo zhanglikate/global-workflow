@@ -16,7 +16,6 @@ if [ $machine = "THEIA" ]; then
 
     export ACCOUNT="marine-cpu"
     export QUEUE="batch"
-    #export QUEUE="debug"
     export QUEUE_ARCH="service"
 
 elif [ $machine = "WCOSS_C" -o $machine = "WCOSS_DELL_P3" ]; then
@@ -188,7 +187,7 @@ export ROTDIR="@ROTDIR@/$PSLOT"
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
-export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/$PSLOT"
+export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/benchmark/$PSLOT"
 
 # For coupled
 #export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"
@@ -245,7 +244,8 @@ export FHMAX_GFS=$(eval echo \${FHMAX_GFS_$cyc})
 export FHOUT_GFS=6
 #BL2018
 export FHMAX_HF_GFS=0
-export FHOUT_HF_GFS=1
+#export FHOUT_HF_GFS=1
+export FHOUT_HF_GFS=-1
 
 # Output for coldstart only 1 hour
 export FHMAX_COLD=1
