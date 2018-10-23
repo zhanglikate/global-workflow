@@ -37,7 +37,7 @@ elif [ $machine = "theia" ]; then
    
     # For now it is here. Move to emc-nemspara after testing.
 #    CPLFIX_DIR="/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FIXFV3CPL"
-    CPLFIX_DIR="/scratch4/NCEPDEV/nems/save/Bin.Li/FIXFV3CPL"
+    CPLFIX_DIR="/scratch4/NCEPDEV/nems/save/Bin.Li/fix_prep_benchmark"
 fi
 cd ${pwd}/../fix                ||exit 8
 for dir in fix_am fix_fv3 fix_orog fix_fv3_gmted2010 ; do
