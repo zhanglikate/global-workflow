@@ -189,5 +189,5 @@ for fhr in $fhrlst; do
   fi
 done
     $NCP -p SST*nc $COMOUT/
-rm -Rf $DATA
+#rm -Rf $DATA
 exit 0

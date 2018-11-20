@@ -31,12 +31,10 @@ cp -p $FIXcice/grid_cice_NEMS_mx025.nc .
 cd INPUT
 
 # Copy MOM6 ICs (from CFSv2 file)
-#cp -p $ICSDIR/$CDATE/mom6_cfsv2/MOM6_IC_TS_2* MOM6_IC_TS.nc
 cp -p $ICSDIR/$CDATE/MOM6_IC_TS_2* MOM6_IC_TS.nc
 
 # Copy MOM6 ICs (from HYCOM file)
 #cp -p $ICSDIR/$CDATE/mom6_hycom/* MOM6_IC_TS.nc
-#cp -p $ICSDIR/$CDATE/hycom2mom6_ic_201*nc MOM6_IC_TS.nc
 
 # Copy MOM6 fixed files
 cp -p $FIXmom/INPUT/* .
@@ -68,7 +66,7 @@ if [[ $inistep = "cold" ]]; then
   restart_interval=0
   coldstart=true     # this is the correct setting
 else
-  restart_interval=${restart_interval:-12960000}    # Interval in seconds to write restarts
+  restart_interval=${restart_interval:-1296000}    # Interval in seconds to write restarts
   coldstart=false
 fi
 
@@ -91,10 +89,10 @@ elif [ $CASE = "C384" ] ; then
   #ATM_petlist_bounds=${ATM_petlist_bounds:-'0 263'}    #192+wrtgrps(72)
   #OCN_petlist_bounds=${OCN_petlist_bounds:-'264 503'}  #240
   #ICE_petlist_bounds=${ICE_petlist_bounds:-'504 623'}  #120
-  MED_petlist_bounds=${MED_petlist_bounds:-'0 215'}
-  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 215'}    #192+wrtgrps(24)
-  OCN_petlist_bounds=${OCN_petlist_bounds:-'216 455'}  #240
-  ICE_petlist_bounds=${ICE_petlist_bounds:-'456 479'}  #24
+  MED_petlist_bounds=${MED_petlist_bounds:-'0 311'}
+  ATM_petlist_bounds=${ATM_petlist_bounds:-'0 311'}    #6*8*6+wrtgrps(24)
+  OCN_petlist_bounds=${OCN_petlist_bounds:-'312 431'}  #120
+  ICE_petlist_bounds=${ICE_petlist_bounds:-'432 455'}  #24
 
   # This is 6x12 layout * 6 = 432 + 72 # didn't work
   #MED_petlist_bounds=${MED_petlist_bounds:-'0 503'}
@@ -225,23 +223,24 @@ fi
 iceic=cice5_model.res_$CDATE.nc
 year=$(echo $CDATE|cut -c 1-4)
 #BL2018
-#stepsperhr=$((3600/900))
 #stepsperhr=$((3600/$DELTIM))
+#stepsperhr=${stepsperhr:-2}
 stepsperhr=${stepsperhr:-4}
 #BL2018
 nhours=$($NHOUR $CDATE ${year}010100)
 steps=$((nhours*stepsperhr))
 npt=$((FHMAX*$stepsperhr))      # Need this in order for dump_last to work
-#npt=999
-dumpfreq="'y'"
-#histfreq_n=0
-histfreq_n=6
-#BL2018
 
 histfreq_n=${histfreq_n:-6}
 restart_interval=${restart_interval:-1296000}    # restart write interval in seconds, default 15 days
 #dumpfreq="'s'"
 dumpfreq_n=$restart_interval                     # restart write interval in seconds
+
+#BL2018
+#npt=999
+dumpfreq="'y'"
+histfreq_n=6
+#histfreq_n=0
 
 cat > ice_in <<eof  
 &setup_nml
