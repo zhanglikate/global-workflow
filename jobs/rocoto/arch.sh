@@ -288,8 +288,21 @@ if [ $CDUMP = "gfs" ]; then
     COMIN="$VFYARC/$CDUMP.$gPDY"
     [[ -d $COMIN ]] && rm -rf $COMIN
 fi
-ls $RUNDIR/$CDATE
+# Added by B Li 2018
+cd $ROTDIR/logs/$CDATE 
+tail -n 6 gfsocnpost001.log|grep "code 0"
+status=$?
+[[ $status -ne 0 ]] && exit $status
+
+flist="001 002 003 004 005"
+
+for nnn in $flist; do
+    tail -n 6 gfspost${nnn}.log|grep "code 0"
+    status=$?
+[[ $status -ne 0 ]] && exit $status
+done
+
 rm -rf  $RUNDIR/$CDATE
 rm -rf  $ROTDIR
-###############################################################
+############################################################### exit 0
 exit 0
