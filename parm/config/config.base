@@ -235,7 +235,7 @@ export FHMAX=840
 export FHMAX_GFS_00=840
 export FHMAX_GFS=840
 export FHMAX_GFS_06=840
-export FHMAX_GFS_840=840
+export FHMAX_GFS_12=840
 export FHMAX_GFS_18=840
 export FHMAX_GFS=$(eval echo \${FHMAX_GFS_$cyc})
 
