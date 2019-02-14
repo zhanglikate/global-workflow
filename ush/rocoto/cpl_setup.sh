@@ -31,7 +31,8 @@ mkdir -p $COMROT
 
 # $CONFIGDIR is the path to the /config folder under the copy of the system you're using (i.e. ../parm/config/)
 #CONFIGDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/new.fv3gfs/parm/config
-CONFIGDIR=/scratch4/NCEPDEV/stmp4/Bin.Li/fv3gfs3_benchmark/parm/config
+#CONFIGDIR=/scratch4/NCEPDEV/stmp4/Bin.Li/fv3gfs3_benchmark/parm/config
+CONFIGDIR=/scratch3/NCEPDEV/stmp2/Bin.Li/fv3gfs_benchmark2/parm/config
 
 # do not export ICSDIR, causes error in py script
 #BL2018

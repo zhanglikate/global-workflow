@@ -458,7 +458,7 @@ rsecs=$((restart_interval*3600))
 restart_secs=${rsecs:-0}
 
 # copy over the tables
-DIAG_TABLE=${DIAG_TABLE:-$PARM_FV3DIAG/diag_table}
+DIAG_TABLE=${DIAG_TABLE:-$PARM_FV3DIAG/diag_table_cpl}
 DATA_TABLE=${DATA_TABLE:-$PARM_FV3DIAG/data_table}
 FIELD_TABLE=${FIELD_TABLE:-$PARM_FV3DIAG/field_table}
 
@@ -486,7 +486,6 @@ runSeq::
 ::
 EOF
 fi
-
 rm -f model_configure
 cat > model_configure <<EOF
 total_member:            $ENS_NUM
@@ -510,6 +509,7 @@ atmos_nthreads:          $NTHREADS_FV3
 use_hyper_thread:        ${hyperthread:-".false."}
 ncores_per_node:         $cores_per_node
 restart_interval:        $restart_interval
+atm_coupling_interval_sec:      $CPL_FAST
 
 quilting:                $QUILTING
 write_groups:            ${WRITE_GROUP:-1}

@@ -56,8 +56,12 @@ cd ..
 
 # PT DEBUG - temporarily setting this to the same as DELTIM until CICE is connected
 # FAILED at C96 with DELTIM=450 and OCNTIM=1800, OCNTIM=DELTIM works, see config.fv3
-export OCNTIM=${OCNTIM:-1800}
-export DELTIM=${DELTIM:-1800}
+export OCNTIM=${OCNTIM:-3600}
+export DELTIM=${DELTIM:-450}
+export ICETIM=${DELTIM}
+
+export CPL_SLOW=${OCNTIM}
+export CPL_FAST=${ICETIM}
 
 # Setup nems.configure
 DumpFields=${NEMSDumpFields:-false}
@@ -159,8 +163,8 @@ if [ $inistep = "cold" ] ; then
 cat >> nems.configure <<eof
 # Coldstart Run Sequence #
 runSeq::
-  @1800.0
-    @1800.0
+  @${CPL_SLOW}
+    @${CPL_FAST}
       MED MedPhase_prep_atm
       MED -> ATM :remapMethod=redist
       ATM
@@ -185,11 +189,11 @@ else   # NOT a coldstart
 cat >> nems.configure <<eof
 # Forecast Run Sequence #
 runSeq::
-  @1800.0
+  @${CPL_SLOW}
     MED MedPhase_prep_ocn
     MED -> OCN :remapMethod=redist
     OCN
-    @1800.0
+    @${CPL_FAST}
       MED MedPhase_prep_ice
       MED MedPhase_prep_atm
       MED -> ATM :remapMethod=redist
@@ -225,7 +229,8 @@ year=$(echo $CDATE|cut -c 1-4)
 #BL2018
 #stepsperhr=$((3600/$DELTIM))
 #stepsperhr=${stepsperhr:-2}
-stepsperhr=${stepsperhr:-4}
+stepsperhr=$((3600/$ICETIM))
+#stepsperhr=${stepsperhr:-4}
 #BL2018
 nhours=$($NHOUR $CDATE ${year}010100)
 steps=$((nhours*stepsperhr))
@@ -248,7 +253,7 @@ cat > ice_in <<eof
   , use_leap_years = .true.
   , year_init      = $year
   , istep0         = $steps
-  , dt             = 900.0
+  , dt             = $ICETIM
   , npt            = $npt
   , ndtd           = 1
   , runtype        = 'initial' 

@@ -85,7 +85,7 @@ if [ $machine = "THEIA" ]; then
 
     # USER specific paths
     export HOMEDIR="/scratch4/NCEPDEV/nems/save/$USER"
-    export STMP="/scratch3/NCEPDEV/stmp1/$USER"
+    export STMP="/scratch4/NCEPDEV/stmp3/$USER"
     export PTMP="/scratch4/NCEPDEV/stmp4/$USER"
     export NOSCRUB="/scratch4/NCEPDEV/nems/noscrub/$USER"
 
@@ -187,7 +187,8 @@ export ROTDIR="@ROTDIR@/$PSLOT"
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
-export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/benchmark1/$PSLOT"
+#export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/benchmark1/$PSLOT"
+export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/slow_fast/$PSLOT"
 
 # For coupled
 #export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"
