@@ -248,8 +248,8 @@ export FHMAX_HF_GFS=0
 #export FHOUT_HF_GFS=1
 export FHOUT_HF_GFS=-1
 
-# Output for coldstart only 1 hour
-export FHMAX_COLD=1
+# Output for coldstart after 2 hours
+export FHMAX_COLD=2
 
 # I/O QUILTING, true--use Write Component; false--use GFDL FMS
 # if quilting=true, choose OUTPUT_GRID as cubed_sphere_grid in netcdf or gaussian_grid
