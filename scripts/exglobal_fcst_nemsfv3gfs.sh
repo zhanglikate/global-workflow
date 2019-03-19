@@ -679,6 +679,8 @@ cat > input.nml <<EOF
   pre_rad      = ${pre_rad:-".false."}
   ncld         = ${ncld:-1}
   imp_physics  = ${imp_physics:-"99"}
+  lgfdlmprad   = .true.
+  effr_in      = .true.  
   pdfcld       = ${pdfcld:-".false."}
   fhswr        = ${FHSWR:-"3600."}
   fhlwr        = ${FHLWR:-"3600."}
@@ -890,7 +892,7 @@ if [ $cpl = ".true." ] ; then
 
 &MOM_input_nml
   output_directory = 'MOM6_OUTPUT/',
-  input_filename = 'n'
+  input_filename = 'r'
   restart_input_dir = 'INPUT/',
   restart_output_dir = 'MOM6_RESTART/',
   parameter_filename = 'INPUT/MOM_input',

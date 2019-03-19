@@ -22,7 +22,7 @@ cd $DATA || exit 8
 
 # Copy CICE5 IC - pre-generated from CFSv2
 #cp -p $ICSDIR/$CDATE/cice5_cfsv2/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc
-cp -p $ICSDIR/$CDATE/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc
+cp -p $ICSDIR/$CDATE/mom6_da/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc
 
 # Copy CICE5 fixed files, and namelists
 cp -p $FIXcice/kmtu_cice_NEMS_mx025.nc .
@@ -31,7 +31,7 @@ cp -p $FIXcice/grid_cice_NEMS_mx025.nc .
 cd INPUT
 
 # Copy MOM6 ICs (from CFSv2 file)
-cp -p $ICSDIR/$CDATE/MOM6_IC_TS_2* MOM6_IC_TS.nc
+cp -p $ICSDIR/$CDATE/mom6_da/MOM*nc .
 
 # Copy MOM6 ICs (from HYCOM file)
 #cp -p $ICSDIR/$CDATE/mom6_hycom/* MOM6_IC_TS.nc
