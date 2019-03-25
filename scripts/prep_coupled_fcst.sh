@@ -96,7 +96,8 @@ elif [ $CASE = "C384" ] ; then
   MED_petlist_bounds=${MED_petlist_bounds:-'0 311'}
   ATM_petlist_bounds=${ATM_petlist_bounds:-'0 311'}    #6*8*6+wrtgrps(24)
   OCN_petlist_bounds=${OCN_petlist_bounds:-'312 431'}  #120
-  ICE_petlist_bounds=${ICE_petlist_bounds:-'432 455'}  #24
+  ICE_petlist_bounds=${ICE_petlist_bounds:-'432 479'}  #48
+  #ICE_petlist_bounds=${ICE_petlist_bounds:-'432 455'}  #24
 
   # This is 6x12 layout * 6 = 432 + 72 # didn't work
   #MED_petlist_bounds=${MED_petlist_bounds:-'0 503'}
@@ -267,7 +268,7 @@ cat > ice_in <<eof
   , restart_file   = 'iced'
   , pointer_file   = './restart/ice.restart_file'
   , dumpfreq       = 'd'
-  , dumpfreq_n     =  40
+  , dumpfreq_n     =  35
   , dump_last      = .false.  
   , diagfreq       = 6
   , diag_type      = 'file'
@@ -298,7 +299,7 @@ cat > ice_in <<eof
 /
 
 &domain_nml
-    nprocs = 24 
+    nprocs = 48 
   , processor_shape   = 'slenderX2'
   , distribution_type = 'cartesian'
   , distribution_wght = 'latitude'
