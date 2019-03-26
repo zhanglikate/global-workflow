@@ -37,7 +37,7 @@ elif [ $machine = "theia" ]; then
    
     # For now it is here. Move to emc-nemspara after testing.
 #    CPLFIX_DIR="/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FIXFV3CPL"
-    CPLFIX_DIR="/scratch4/NCEPDEV/nems/save/Bin.Li/fix_prep_benchmark"
+    CPLFIX_DIR="/scratch4/NCEPDEV/nems/save/Bin.Li/fix_prep_benchmark2"
 fi
 cd ${pwd}/../fix                ||exit 8
 for dir in fix_am fix_fv3 fix_orog fix_fv3_gmted2010 ; do
@@ -65,7 +65,13 @@ cd ${pwd}/../parm               ||exit 8
     $LINK ../sorc/gfs_post.fd/parm                           post
 cd ${pwd}/../scripts            ||exit 8
     $LINK ../sorc/gfs_post.fd/scripts/exgdas_nceppost.sh.ecf .
+#BL2019 
+if [ $machine = "theia" ]; then
+    $LINK exgfs_nceppost_cpl.sh.ecf exgfs_nceppost.sh.ecf 
+else 
     $LINK ../sorc/gfs_post.fd/scripts/exgfs_nceppost.sh.ecf  .
+fi 
+#BL2019 
     $LINK ../sorc/gfs_post.fd/scripts/exglobal_pmgr.sh.ecf   .
 cd ${pwd}/../ush                ||exit 8
 #    for file in fv3gfs_downstream_nems.sh  fv3gfs_dwn_nems.sh  gfs_nceppost.sh  gfs_transfer.sh  link_crtm_fix.sh  trim_rh.sh fix_precip.sh; do
