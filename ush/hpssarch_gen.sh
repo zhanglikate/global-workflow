@@ -27,6 +27,7 @@ if [ $type = "gfs" ]; then
   rm -f gfsb.txt
   rm -f gfs_pgrb2b.txt
   rm -f gfs_flux.txt
+  rm -f gfs_flux_1p00.txt
   rm -f gfs_nemsioa.txt
   rm -f gfs_nemsiob.txt
   rm -f gfs_restarta.txt
@@ -104,6 +105,10 @@ if [ $type = "gfs" ]; then
 #    echo  "${dirname}${head}pgrb2.0p50.f${fhr}.idx          " >>gfsb.txt
     echo  "${dirname}${head}pgrb2.1p00.f${fhr}              " >>gfsb.txt
     echo  "${dirname}${head}pgrb2.1p00.f${fhr}.idx          " >>gfsb.txt
+#BL2019
+    echo  "${dirname}${head}flux.1p00.f${fhr}           " >>gfs_flux_1p00.txt
+    echo  "${dirname}${head}flux.1p00.f${fhr}.idx       " >>gfs_flux_1p00.txt
+#BL2019
 
     inc=$FHOUT_GFS
     if [ $FHMAX_HF_GFS -gt 0 -a $FHOUT_HF_GFS -gt 0 -a $fh -lt $FHMAX_HF_GFS ]; then

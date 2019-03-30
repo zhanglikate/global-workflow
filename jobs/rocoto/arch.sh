@@ -175,6 +175,11 @@ if [ $CDUMP = "gfs" ]; then
             exit $status
         fi
     done
+#BL2019
+    for targrp in gfs_flux_1p00; do
+        htar -P -cvf $ATARDIR/$CDATE/${targrp}.tar `cat $ARCH_LIST/${targrp}.txt`
+    done
+#BL2019
     
     if [ $SAVEFCSTIC = "YES" ]; then
         htar -P -cvf $ATARDIR/$CDATE/gfs_restarta.tar `cat $ARCH_LIST/gfs_restarta.txt`

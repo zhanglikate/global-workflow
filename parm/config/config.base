@@ -85,8 +85,8 @@ if [ $machine = "THEIA" ]; then
 
     # USER specific paths
     export HOMEDIR="/scratch4/NCEPDEV/nems/save/$USER"
-    export STMP="/scratch3/NCEPDEV/stmp1/$USER"
-    export PTMP="/scratch3/NCEPDEV/stmp1/$USER"
+    export STMP="/scratch3/NCEPDEV/stmp2/$USER"
+    export PTMP="/scratch3/NCEPDEV/stmp2/$USER"
     export NOSCRUB="/scratch4/NCEPDEV/nems/noscrub/$USER"
 
     # Base directories for various builds
@@ -187,14 +187,14 @@ export ROTDIR="@ROTDIR@/$PSLOT"
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
-#export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/benchmark1/$PSLOT"
 export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/benchmark2/$PSLOT"
 
 # For coupled
 #export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"
-export UGCSICSDIR="/scratch4/NCEPDEV/stmp4/Bin.Li/EMC_ugcs_hycom/ugcsics_cfsv2op"
-export UGCSsrc="/scratch4/NCEPDEV/stmp3/Bin.Li/EMC_ugcs"
 #export UGCSsrc="$NOSCRUB/EMC_ugcs"
+#
+#export UGCSICSDIR="/scratch4/NCEPDEV/stmp4/Bin.Li/EMC_ugcs_hycom/ugcsics_cfsv2op"
+#export UGCSsrc="/scratch4/NCEPDEV/stmp3/Bin.Li/EMC_ugcs"
 
 # Commonly defined parameters in JJOBS
 export envir=${envir:-"prod"}
