@@ -509,6 +509,7 @@ atmos_nthreads:          $NTHREADS_FV3
 use_hyper_thread:        ${hyperthread:-".false."}
 ncores_per_node:         $cores_per_node
 restart_interval:        $restart_interval
+output_1st_tstep_rst:    .false.
 atm_coupling_interval_sec:      $CPL_FAST
 
 quilting:                $QUILTING
