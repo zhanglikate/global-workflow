@@ -38,21 +38,25 @@ elif [ $step = "anal" ]; then
 
 elif [ $step = "fcst" ]; then
 
-    export wtime_fcst="08:00:00"
-    export wtime_fcst_gfs="08:00:00"
+    export wtime_fcst="07:58:00"
+    export wtime_fcst_gfs="07:58:00"
     export npe_fcst=$(echo "$layout_x * $layout_y * 6" | bc)
-    export npe_ocn=120
-    export npe_ice=48
+    export npe_ocn=240
+    export npe_ice=24
     export npe_node_fcst=${npe_node_fcst:-12}
-    export nth_fcst=3
+    export nth_fcst=2
     if [[ "$machine" == "WCOSS_C" ]]; then
         export memory_fcst="1024M"
+    fi
+    if [[ "$machine" == "WCOSS" ]]; then
+        export wtime_fcst="05:58:00"
+        export wtime_fcst_gfs="05:58:00" 
     fi
 
 elif [ $step = "post" ]; then
 
-    export wtime_post="07:00:00"
-    export wtime_post_gfs="07:00:00"
+    export wtime_post="06:00:00"
+    export wtime_post_gfs="06:00:00"
     export npe_post=72
     export nth_post=1
     export npe_node_post=12
@@ -89,7 +93,7 @@ elif [ $step = "vrfy" ]; then
 
 elif [ $step = "arch" -o $step = "earc" -o $step = "getic" ]; then
 
-    eval "export wtime_$step='02:00:00'"
+    eval "export wtime_$step='03:00:00'"
     eval "export npe_$step=1"
     eval "export npe_node_$step=1"
     eval "export nth_$step=1"

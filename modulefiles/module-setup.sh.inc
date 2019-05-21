@@ -28,6 +28,13 @@ elif [[ -d /scratch3 ]] ; then
         source /apps/lmod/lmod/init/$__ms_shell
     fi
     module purge
+elif [[ -d /dcom && -d /hwrf ]] ; then
+    # We are on NOAA Tide or Gyre
+ #JW   if ( ! eval module help > /dev/null 2>&1 ) ; then
+ #JW       source /usrx/local/Modules/default/init/$__ms_shell
+    . /usrx/local/Modules/default/init/ksh  > /dev/null 2>&1
+ #JW   fi
+    module purge
 elif [[ -d /gpfs/hps && -e /etc/SuSE-release ]] ; then
     # We are on NOAA Luna or Surge
     if ( ! eval module help > /dev/null 2>&1 ) ; then
@@ -45,12 +52,6 @@ elif [[ -d /gpfs/hps && -e /etc/SuSE-release ]] ; then
     module use /gpfs/hps/nco/ops/nwprod/modulefiles
     module use /gpfs/hps/nco/ops/nwprod/lib/modulefiles
     module use /usrx/local/prod/modulefiles
-elif [[ -d /dcom && -d /hwrf ]] ; then
-    # We are on NOAA Tide or Gyre
-    if ( ! eval module help > /dev/null 2>&1 ) ; then
-        source /usrx/local/Modules/default/init/$__ms_shell
-    fi
-    module purge
 elif [[ -L /usrx && "$( readlink /usrx 2> /dev/null )" =~ dell ]] ; then
     # We are on NOAA Mars or Venus
     if ( ! eval module help > /dev/null 2>&1 ) ; then

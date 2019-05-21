@@ -295,6 +295,12 @@ def get_resources(machine, cfg, task, cdump='gdas'):
 
     elif machine in ['WCOSS']:
         resstr = '<cores>%d</cores>' % tasks
+        if task in ['arch', 'earc', 'getic']:
+             natstr = "-R 'affinity[core(1)]'"
+        if task in ['fcst']:
+             natstr = "-R 'span[ptile=6]'"
+        if task in ['post']:
+             natstr = "-R 'span[ptile=4]'"
 
     queuestr = '&QUEUE_ARCH;' if task in ['arch', 'earc', 'getic'] else '&QUEUE;'
 

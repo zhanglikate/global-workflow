@@ -8,16 +8,17 @@ machine=${2}
 
 if [ $# -lt 2 ]; then
     echo '***ERROR*** must specify two arguements: (1) RUN_ENVIR, (2) machine'
-    echo ' Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia )'
+    echo ' Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | wcoss | theia )'
     exit 1
 fi
 
 if [ $RUN_ENVIR != emc -a $RUN_ENVIR != nco ]; then
-    echo 'Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia )'
+    echo 'Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia | wcoss )'
     exit 1
 fi
-if [ $machine != cray -a $machine != theia -a $machine != dell ]; then
-    echo 'Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia )'
+#if [ $machine != cray -a $machine != theia -a $machine != dell ]; then
+if [ $machine != cray -a $machine != theia -a $machine != dell -a $machine != wcoss ]; then
+    echo 'Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia |wcoss )'
     exit 1
 fi
 
@@ -32,12 +33,16 @@ if [ $machine == "cray" ]; then
     CPLFIX_DIR=""
 elif [ $machine = "dell" ]; then
     FIX_DIR="/gpfs/dell2/emc/modeling/noscrub/emc.glopara/git/fv3gfs/fix"
+elif [ $machine = "wcoss" ]; then   #JW
+    FIX_DIR="/gpfs/dell2/emc/modeling/noscrub/emc.glopara/git/fv3gfs/fix"
+#    CPLFIX_DIR="/global/noscrub/Jiande.Wang/WF/fix_prep_benchmark"  #JW
+    CPLFIX_DIR="/gpfs/gd1/emc/global/noscrub/Jiande.Wang/WF2/fix_prep_benchmark2"
 elif [ $machine = "theia" ]; then
     FIX_DIR="/scratch4/NCEPDEV/global/save/glopara/git/fv3gfs/fix"
    
     # For now it is here. Move to emc-nemspara after testing.
 #    CPLFIX_DIR="/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/FIXFV3CPL"
-    CPLFIX_DIR="/scratch4/NCEPDEV/nems/save/Bin.Li/fix_prep_benchmark2"
+    CPLFIX_DIR="/scratch4/NCEPDEV/nems/save/Bin.Li/fix_prep_benchmark"
 fi
 cd ${pwd}/../fix                ||exit 8
 for dir in fix_am fix_fv3 fix_orog fix_fv3_gmted2010 ; do
@@ -65,26 +70,12 @@ cd ${pwd}/../parm               ||exit 8
     $LINK ../sorc/gfs_post.fd/parm                           post
 cd ${pwd}/../scripts            ||exit 8
     $LINK ../sorc/gfs_post.fd/scripts/exgdas_nceppost.sh.ecf .
-#BL2019 
-if [ $machine = "theia" ]; then
-    $LINK exgfs_nceppost_cpl.sh.ecf exgfs_nceppost.sh.ecf 
-else 
     $LINK ../sorc/gfs_post.fd/scripts/exgfs_nceppost.sh.ecf  .
-fi 
-#BL2019 
     $LINK ../sorc/gfs_post.fd/scripts/exglobal_pmgr.sh.ecf   .
 cd ${pwd}/../ush                ||exit 8
-#    for file in fv3gfs_downstream_nems.sh  fv3gfs_dwn_nems.sh  gfs_nceppost.sh  gfs_transfer.sh  link_crtm_fix.sh  trim_rh.sh fix_precip.sh; do
-    for file in fv3gfs_dwn_nems.sh  gfs_nceppost.sh  gfs_transfer.sh  link_crtm_fix.sh  trim_rh.sh fix_precip.sh; do
+    for file in fv3gfs_downstream_nems.sh  fv3gfs_dwn_nems.sh  gfs_nceppost.sh  gfs_transfer.sh  link_crtm_fix.sh  trim_rh.sh fix_precip.sh; do
         $LINK ../sorc/gfs_post.fd/ush/$file                  .
     done
-
-#JDM add version modified by Bin for theia and link properly 
-if [ $machine = "theia" ]; then
-     $LINK fv3gfs_downstream_nems.cpl.theia.sh fv3gfs_downstream_nems.sh
-else 
-     $LINK ../sorc/gfs_post.fd/ush/fv3gfs_downstream_nems.sh
-fi 
 
 
 #--add GSI/EnKF file

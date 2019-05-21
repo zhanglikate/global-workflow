@@ -2,20 +2,20 @@
 set -x
 
 echo "Load modules first"
-source /usr/Modules/3.2.10/init/sh
+# JW source /usr/Modules/3.2.10/init/sh
 module load rocoto
 module load hpss
 
 CWD=`pwd`
 # $IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)
 #IDATE=$1
-IDATE=2011060100
+IDATE=2017101500
 # $EDATE is the ending date of your run (YYYYMMDDCC) and is the last cycle that will complete
 #EDATE=2016010100
 EDATE=$IDATE
 YMD=`echo $IDATE | cut -c1-8`
 HH=`echo $IDATE | cut -c9-10`
-FROM_HPSS=/scratch4/NCEPDEV/nems/noscrub/Bin.Li/FROM_HPSS
+FROM_HPSS=/global/noscrub/Jiande.Wang/WF2/FROM_HPSS
 FV3DATA=$FROM_HPSS/$IDATE/gfs/C384/INPUT
 
 # ./setup_expt_fcstonly.py --pslot $PSLOT --configdir $CONFIGDIR --idate $IDATE --edate $EDATE --res $RES --gfs_cyc $GFS_CYC --comrot $COMROT --expdir $EXPDIR
@@ -24,12 +24,13 @@ FV3DATA=$FROM_HPSS/$IDATE/gfs/C384/INPUT
 PSLOT=c384
 
 # $COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you.
-COMROT=/scratch4/NCEPDEV/nems/noscrub/${USER}/benchmark2/${YMD}/COMFV3
+#COMROT=/scratch4/NCEPDEV/nems/noscrub/${USER}/benchmark2/${YMD}/COMFV3
+COMROT=/ptmpp2/Jiande.Wang/BM2/COMFV3/${IDATE}
 mkdir -p $COMROT
 
 # $CONFIGDIR is the path to the /config folder under the copy of the system you're using (i.e. ../parm/config/)
 #CONFIGDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/new.fv3gfs/parm/config
-CONFIGDIR=/scratch3/NCEPDEV/stmp2/Bin.Li/benchmark2/parm/config
+CONFIGDIR=/gpfs/gd1/emc/global/noscrub/Jiande.Wang/WF2/TRY1/parm/config
 
 # do not export ICSDIR, causes error in py script
 #BL2018
@@ -42,7 +43,7 @@ CONFIGDIR=/scratch3/NCEPDEV/stmp2/Bin.Li/benchmark2/parm/config
 #OCN_DIR=$FROM_HPSS/2016040100/mom6_cfsv2
 
 # Link the existing FV3ICS folder to here, I prefer this directory to be in main directory, but changing in script can cause issues
-mkdir -p $COMROT
+#mkdir -p $COMROT
 cd $COMROT
 mkdir -p ../FV3ICS
 ln -s ../FV3ICS .
@@ -58,8 +59,8 @@ GFS_CYC=1
 
 # $EXPDIR is the path to your experiment directory where your configs will be placed and where you will find your workflow monitoring files (i.e. rocoto database and xml file). DO NOT include PSLOT folder at end of path, it will be built for you.
 
-#EXPDIR=/scratch4/NCEPDEV/nems/noscrub/Patrick.Tripp/EXPFV3
-EXPDIR=/scratch4/NCEPDEV/nems/noscrub/${USER}/benchmark2/${YMD}/EXPFV3
+#EXPDIR=/scratch4/NCEPDEV/nems/noscrub/${USER}/benchmark2/${YMD}/EXPFV3
+EXPDIR=/ptmpp2/Jiande.Wang/BM2/EXPFV3/${IDATE}
 mkdir -p $EXPDIR
 
 ./setup_expt_fcstonly.py --pslot $PSLOT --configdir $CONFIGDIR --idate $IDATE --edate $EDATE --res $RES --gfs_cyc $GFS_CYC --comrot $COMROT --expdir $EXPDIR
