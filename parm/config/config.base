@@ -33,7 +33,7 @@ elif [ $machine = "WCOSS" ]; then
 fi
 
 # Project to use in mass store:
-HPSS_PROJECT=emc-marine
+HPSS_PROJECT=emc-climate
 
 # Directories relative to installation areas:
 export HOMEgfs=@HOMEgfs@
@@ -130,7 +130,7 @@ elif [ $machine = "WCOSS" ]; then
 
     # USER specific paths
     export HOMEDIR="/gpfs/hps3/emc/global/noscrub/$USER"
-    export STMP="/ptmpp2/$USER"
+    export STMP="/stmpd2/$USER"
     export PTMP="/ptmpp2/$USER"
     export NOSCRUB="/gpfs/hps3/emc/global/noscrub/$USER"
 
@@ -166,6 +166,18 @@ if [ $machine = "THEIA" ]; then
     export GRBINDEX2="$NWPROD/util/exec/grb2index"
     export CNVGRIB="/apps/cnvgrib/1.4.0/bin/cnvgrib"
     export POSTGRB2TBL="/scratch3/NCEPDEV/nwprod/lib/g2tmpl/v1.5.0/sorc/params_grib2_tbl_new"
+
+fi
+
+if [ $machine = "WCOSS" ]; then
+
+    export WGRIB="/nwprod/util/exec/wgrib"
+#    export WGRIB2="/nwprod/util/exec/wgrib2"
+    export WGRIB2="/nwprod2/grib_util.v1.1.0/exec/wgrib2"
+    export COPYGB="/nwprod/util/exec/copygb"
+    export COPYGB2="/nwprod/util/exec/copygb2"
+    export GRBINDEX="/nwprod/util/exec/grbindex"
+    export GRB2INDEX="/nwprod/util/exec/grb2index"
 
 fi
 
@@ -220,7 +232,7 @@ export ROTDIR="@ROTDIR@/$PSLOT"
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
-export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/benchmark/$PSLOT"
+export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/benchmark2/$PSLOT"
 
 # For coupled
 #export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"
@@ -264,7 +276,7 @@ export gfs_cyc=@gfs_cyc@ # 0: no GFS cycle, 1: 00Z only, 2: 00Z and 12Z only, 4:
 # GFS output and frequency
 export FHMIN_GFS=0
 
-export FHMAX=6
+export FHMAX=840
 export FHMAX_GFS_00=840
 export FHMAX_GFS=840
 export FHMAX_GFS_06=840
