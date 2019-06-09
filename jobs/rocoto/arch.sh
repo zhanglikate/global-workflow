@@ -295,19 +295,25 @@ if [ $CDUMP = "gfs" ]; then
 fi
 # Added by B Li 2018
 cd $ROTDIR/logs/$CDATE 
-tail -n 6 gfsocnpost001.log|grep "code 0"
+tail -n 300 gfsocnpost001.log|grep "Successfully completed"
 status=$?
 [[ $status -ne 0 ]] && exit $status
 
 flist="001 002 003 004 005"
 
 for nnn in $flist; do
-    tail -n 6 gfspost${nnn}.log|grep "code 0"
-    status=$?
+#    tail -n 6 gfspost${nnn}.log|grep "code 0"
+   tail -n 300 gfspost${nnn}.log|grep "Successfully completed" 
+   status=$?
 [[ $status -ne 0 ]] && exit $status
 done
 
+echo 'RUNDIR=' $RUNDIR
+echo 'ROTDIR=' $ROTDIR
+echo 'deleting RUNDIR: ' $RUNDIR
 rm -rf  $RUNDIR/$CDATE
-rm -rf  $ROTDIR
+echo 'deleting ROTDIR: ' $ROTDIR
+rm -rf $ROTDIR/gfs.$CDATE
+#rm -rf  $ROTDIR
 ############################################################### exit 0
 exit 0
