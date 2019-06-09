@@ -96,8 +96,10 @@ elif [ $CASE = "C384" ] ; then
   #ICE_petlist_bounds=${ICE_petlist_bounds:-'504 623'}  #120
   MED_petlist_bounds=${MED_petlist_bounds:-'0 311'}
   ATM_petlist_bounds=${ATM_petlist_bounds:-'0 311'}    #6*8*6+wrtgrps(24)
-  OCN_petlist_bounds=${OCN_petlist_bounds:-'312 431'}  #120
-  ICE_petlist_bounds=${ICE_petlist_bounds:-'432 479'}  #48
+#  OCN_petlist_bounds=${OCN_petlist_bounds:-'312 431'}  #120
+  OCN_petlist_bounds=${OCN_petlist_bounds:-'312 551'}   #240
+#  ICE_petlist_bounds=${ICE_petlist_bounds:-'432 479'}  #48
+  ICE_petlist_bounds=${ICE_petlist_bounds:-'552 599'}  #48
   #ICE_petlist_bounds=${ICE_petlist_bounds:-'432 455'}  #24
 
   # This is 6x12 layout * 6 = 432 + 72 # didn't work
