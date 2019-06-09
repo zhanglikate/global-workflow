@@ -70,13 +70,23 @@ cd ${pwd}/../parm               ||exit 8
     $LINK ../sorc/gfs_post.fd/parm                           post
 cd ${pwd}/../scripts            ||exit 8
     $LINK ../sorc/gfs_post.fd/scripts/exgdas_nceppost.sh.ecf .
+if [ $machine = "theia" -o $machine = "wcoss" ]; then
+    $LINK exgfs_nceppost_cpl.sh.ecf exgfs_nceppost.sh.ecf
+else
     $LINK ../sorc/gfs_post.fd/scripts/exgfs_nceppost.sh.ecf  .
+fi
+#    $LINK ../sorc/gfs_post.fd/scripts/exgfs_nceppost.sh.ecf  .
     $LINK ../sorc/gfs_post.fd/scripts/exglobal_pmgr.sh.ecf   .
 cd ${pwd}/../ush                ||exit 8
-    for file in fv3gfs_downstream_nems.sh  fv3gfs_dwn_nems.sh  gfs_nceppost.sh  gfs_transfer.sh  link_crtm_fix.sh  trim_rh.sh fix_precip.sh; do
+#    for file in fv3gfs_downstream_nems.sh  fv3gfs_dwn_nems.sh  gfs_nceppost.sh  gfs_transfer.sh  link_crtm_fix.sh  trim_rh.sh fix_precip.sh; do
+    for file in fv3gfs_dwn_nems.sh  gfs_nceppost.sh  gfs_transfer.sh link_crtm_fix.sh trim_rh.sh fix_precip.sh; do
         $LINK ../sorc/gfs_post.fd/ush/$file                  .
     done
-
+if [ $machine = "theia" -o $machine = "wcoss" ]; then
+     $LINK fv3gfs_downstream_nems.cpl.theia.sh fv3gfs_downstream_nems.sh
+else
+     $LINK ../sorc/gfs_post.fd/ush/fv3gfs_downstream_nems.sh
+fi
 
 #--add GSI/EnKF file
 cd ${pwd}/../jobs               ||exit 8
