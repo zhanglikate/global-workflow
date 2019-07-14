@@ -45,6 +45,86 @@ export h2o_phys=".true."
 # Options of stratosphere O3 physics reaction coefficients
 export new_o3forc="YES"
 
+#BL2019
+#test2.4.0a:
+#use unified gravity-wave drag and  turbulent orographic form drag (TOFD)
+export do_ugwp=".false."
+export do_tofd=".false."
+export launch_level=$(echo "$LEVS/2.35" |bc)
+# PBL/turbulance schemes
+export hybedmf=".true."
+export satmedmf=".fasle."
+export isatmedmf=0
+tbf=""
+# Land surface model. (2--NoahMP, landice=F); (1--Noah, landice=T)
+export lsm=1
+
+#test2.4.0b: with gravity wave drag
+#use unified gravity-wave drag and  turbulent orographic form drag (TOFD)
+#export do_ugwp=".true."
+#export do_tofd=".true."
+#export launch_level=$(echo "$LEVS/2.35" |bc)
+# PBL/turbulance schemes
+#export hybedmf=".true."
+#export satmedmf=".fasle."
+#export isatmedmf=0
+#tbf=""
+# Land surface model. (2--NoahMP, landice=F); (1--Noah, landice=T)
+#export lsm=1
+
+#test2.4.0c: with PBL
+#use unified gravity-wave drag and  turbulent orographic form drag (TOFD)
+#export do_ugwp=".false."
+#export do_tofd=".false."
+#export launch_level=$(echo "$LEVS/2.35" |bc)
+# PBL/turbulance schemes
+#export hybedmf=".false."
+#export satmedmf=".true."
+#export isatmedmf=1
+#tbf=""
+# Land surface model. (2--NoahMP, landice=F); (1--Noah, landice=T)
+#export lsm=1
+
+#test2.4.0d: with Noah-MP
+#use unified gravity-wave drag and  turbulent orographic form drag (TOFD)
+#export do_ugwp=".false."
+#export do_tofd=".false."
+#export launch_level=$(echo "$LEVS/2.35" |bc)
+# PBL/turbulance schemes
+#export hybedmf=".true."
+#export satmedmf=".false."
+#export isatmedmf=0
+#tbf=""
+# Land surface model. (2--NoahMP, landice=F); (1--Noah, landice=T)
+#export lsm=2
+
+#test2.4.0:
+#use unified gravity-wave drag and  turbulent orographic form drag (TOFD)
+#export do_ugwp=".true."
+#export do_tofd=".true."
+#export launch_level=$(echo "$LEVS/2.35" |bc)
+# PBL/turbulance schemes
+#export hybedmf=".false."
+#export satmedmf=".true."
+#export isatmedmf=1
+#tbf=""
+# Land surface model. (2--NoahMP, landice=F); (1--Noah, landice=T)
+export lsm=2
+
+if [ $satmedmf = ".true." ]; then tbf="_satmedmf" ; fi
+if [ $lsm -eq 2 ]; then
+    export lheatstrg=".false."
+    export landice=".false."
+else
+    export lheatstrg=".true."
+    export landice=".true."
+fi
+# Radiation options
+export IAER=5111    ;#spectral band mapping method for aerosol optical properties
+export iovr_lw=3    ;#de-correlation length cloud overlap method (Barker, 2008)
+export iovr_sw=3    ;#de-correlation length cloud overlap method (Barker, 2008)
+export icliq_sw=2   ;#cloud optical coeffs from AER's newer version v3.9-v4.0 for hu and stamnes
+
 # Microphysics configuration
 export dnats=0
 export cal_pre=".true."
@@ -84,6 +164,8 @@ elif [ $imp_physics -eq 11 ]; then # GFDL
     export cal_pre=".false."
     export do_sat_adj=".true."
     export random_clds=".false."
+    export lgfdlmprad=".true."
+    export effr_in=".true."
 
     #export hord_mt_nh_nonmono=6
     #export hord_xx_nh_nonmono=6
