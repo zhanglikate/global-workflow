@@ -907,7 +907,7 @@ cat > input.nml <<EOF
   effr_in      = ${effr_in:-".false."}
   ldiag_ugwp   = ${ldiag_ugwp:-.false.}
   do_ugwp      = ${do_ugwp:-.true.}
-  do_tofd      = ${do_tofd:-.true.}"
+  do_tofd      = ${do_tofd:-.true.}
   cplflx       = ${cplflx:-".F."}
 EOF
 
