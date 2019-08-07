@@ -39,6 +39,8 @@ cp -p $ICSDIR/$CDATE/mom6_da/MOM*nc .
 
 # Copy MOM6 fixed files
 cp -p $FIXmom/INPUT/* .
+#JW use updated MOM_input (WIND_STAGGER=A, no more MIN_Z_DIAG_INTERVAL and Z_OUTPUT_GRID_FILE)
+cp -p $FIXmom/INPUT/MOM_input_update MOM_input
 
 # Copy grid_spec and mosaic files
 cp -pf $FIXgrid/$CASE/* .
@@ -412,7 +414,7 @@ cat > ice_in <<eof
   , calc_Tsfc       = .true.
   , precip_units    = 'mm_per_month'
   , ustar_min       = 0.0005
-  , update_ocn_f    = .false.
+  , update_ocn_f    = .true.
   , oceanmixed_ice  = .false.
   , ocn_data_format = 'bin'
   , sss_data_type   = 'default'
