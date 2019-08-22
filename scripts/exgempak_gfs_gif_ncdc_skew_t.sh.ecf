@@ -51,7 +51,7 @@ then
      
 #       if [ $cyc -eq 00 -o $cyc -eq 12 ]
        #then
-          $USHgfs/gempak_${RUN}_f${fhr}_gif.sh
+          $USHgempak/gempak_${RUN}_f${fhr}_gif.sh
        #fi
 
     done
