@@ -33,12 +33,8 @@ module load ips/18.0.1.163
 module load CFP/2.0.1
 module load impi/18.0.1
 module load lsf/10.1
-module load prod_util/1.1.0
-module load prod_envir/1.0.2
-#
-#   This is a test version of GRIB_UTIL.v1.1.0 on DELL
-#
-module use -a /gpfs/dell1/nco/ops/nwpara/modulefiles/compiler_prod/ips/18.0.1
+module load prod_util/1.1.3
+module load prod_envir/1.0.3
 module load grib_util/1.1.0
 module list
 
@@ -69,7 +65,7 @@ export jlogfile=${COMROOT2}/logs/jlogfiles/jlogfile.${jobid}
 #############################################################
 # Specify versions
 #############################################################
-export gfs_ver=v15.0.0
+export gfs_ver=v15.2.0
 
 ##########################################################
 # obtain unique process id (pid) and make temp directory
@@ -99,13 +95,11 @@ export model=${model:-gfs}
 ##############################################
 # Define COM directories
 ##############################################
-if [ $envir = "prod" ] ; then
 #  This setting is for testing with GFS (production)
-  export COMIN=/gpfs/hps/nco/ops/com/gfs/prod/gfs.${PDY}         ### NCO PROD
+  export COMIN=${COMIN:-$(compath.py ${NET}/${envir}/${RUN}.${PDY})/${cyc}}        ### NCO PROD
 else
-  export COMIN=/gpfs/dell3/ptmp/emc.glopara/ROTDIRS/prfv3rt1/gfs.${PDY}/${cyc} ### EMC PARA Realtime
-# export COMIN=/gpfs/hps3/ptmp/emc.glopara/ROTDIRS/prfv3rt1/gfs.${PDY}/${cyc} ### EMC PARA Realtime
-#  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}.${PDY}/${cyc}   ### Boi PARA
+  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${RUN}.${PDY}/${cyc}    ### Boi PARA
+#  export COMIN=/gpfs/dell3/ptmp/emc.glopara/ROTDIRS/prfv3rt3b/gfs.${PDY}/${cyc} ### EMC PARA Realtime
 fi
 
 export COMOUT=${COMROOT2}/${NET}/${envir}/${RUN}.${PDY}/${cyc}
