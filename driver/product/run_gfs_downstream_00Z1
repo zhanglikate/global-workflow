@@ -1,4 +1,0 @@
-set -x
-bsub < run_GFS_GEMPAK_dell.sh_06  
-bsub < run_GFS_GEMPAK_dell.sh_12  
-bsub < run_GFS_GEMPAK_dell.sh_18  

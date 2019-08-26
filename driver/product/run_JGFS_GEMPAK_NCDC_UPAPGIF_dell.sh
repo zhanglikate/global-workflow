@@ -2,7 +2,6 @@
 
 #BSUB -J jgfs_gempak_upapgif_00
 #BSUB -o /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_gempak_upapgif_00.o%J
-#BSUB -e /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_gempak_upapgif_00.o%J
 #BSUB -q debug
 #BSUB -n 1                      # number of tasks
 #BSUB -R span[ptile=1]          # 1 task per node
@@ -14,7 +13,6 @@
 export KMP_AFFINITY=disabled
 
 export PDY=`date -u +%Y%m%d`
-
 export PDY1=`expr $PDY - 1`
 
 export cyc=00
@@ -47,7 +45,7 @@ module list
 
 # set envir=prod or para to test with data in prod or para
  export envir=para
-# export envir=prod
+ export envir=prod
 
 export SENDCOM=YES
 export KEEPDATA=YES
@@ -84,8 +82,7 @@ cd $DATA
 export HOMEgfs=${HOMEgfs:-${NWROOT}/gfs.${gfs_ver}}
 export EXECgfs=${EXECgfs:-$HOMEgfs/exec}
 export PARMgfs=${PARMgfs:-$HOMEgfs/parm}
-export FIXgfs=${FIXgfs:-$HOMEgfs/gempak/fix}
-export USHgfs=${USHgfs:-$HOMEgfs/gempak/ush}
+export EXPDIR=${EXPDIR:-$HOMEgfs/parm/config}
 export FIXgempak=${FIXgempak:-$HOMEgfs/gempak/fix}
 export USHgempak=${USHgempak:-$HOMEgfs/gempak/ush}
 export SRCgfs=${SRCgfs:-$HOMEgfs/scripts}

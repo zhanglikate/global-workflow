@@ -2,8 +2,6 @@
 
 #BSUB -J jgfs_pgrb2_spec_npoess_00
 #BSUB -o /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_pgrb2_spec_npoess_00.o%J
-#BSUB -e /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_pgrb2_spec_npoess_00.o%J
-#BSUB -W 00:30
 #BSUB -q debug
 #BSUB -n 1                      # number of tasks
 #BSUB -R span[ptile=1]          # 1 task per node
@@ -15,6 +13,7 @@
 export KMP_AFFINITY=disabled
 
 export PDY=`date -u +%Y%m%d`
+export PDY=20190825
 
 export PDY1=`expr $PDY - 1`
 
@@ -43,7 +42,7 @@ module list
 ############################################
 # set envir=prod or para to test with data in prod or para
  export envir=para
-# export envir=prod
+ export envir=prod
 
 export SENDCOM=YES
 export KEEPDATA=YES
@@ -81,6 +80,7 @@ export HOMEgfs=${HOMEgfs:-${NWROOT}/gfs.${gfs_ver}}
 export USHgfs=${USHgfs:-$HOMEgfs/ush}
 export EXECgfs=${EXECgfs:-$HOMEgfs/exec}
 export PARMgfs=${PARMgfs:-$HOMEgfs/parm}
+export EXPDIR=${EXPDIR:-$HOMEgfs/parm/config}
 export PARMwmo=${PARMwmo:-$HOMEgfs/parm/wmo}
 export PARMproduct=${PARMproduct:-$HOMEgfs/parm/product}
 export FIXgfs=${FIXgfs:-$HOMEgfs/fix}
@@ -95,6 +95,7 @@ export model=${model:-gfs}
 ##############################################
 # Define COM directories
 ##############################################
+if [ $envir = "prod" ] ; then
 #  This setting is for testing with GFS (production)
   export COMIN=${COMIN:-$(compath.py ${NET}/${envir}/${RUN}.${PDY})/${cyc}}        ### NCO PROD
 else

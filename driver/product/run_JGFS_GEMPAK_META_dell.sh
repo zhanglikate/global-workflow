@@ -2,7 +2,6 @@
 
 #BSUB -J gfs_gempak_meta_00
 #BSUB -o /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_gempak_meta_00.o%J
-#BSUB -e /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_gempak_meta_00.o%J
 #BSUB -q debug
 #BSUB -cwd /gpfs/dell2/ptmp/Boi.Vuong/output
 #BSUB -W 00:30
@@ -15,10 +14,10 @@
 export KMP_AFFINITY=disabled
 
 export PDY=`date -u +%Y%m%d`
+export PDY=20190825
 
 export PDY1=`expr $PDY - 1`
 
-# export cyc=06
 export cyc=00
 export cycle=t${cyc}z
 
@@ -48,7 +47,7 @@ module list
 ##############################################
 # set envir=prod or para to test with data in prod or para
  export envir=para
-# export envir=prod
+ export envir=prod
 
 export SENDCOM=YES
 export KEEPDATA=YES
@@ -92,8 +91,7 @@ cd $DATA
 export HOMEgfs=${HOMEgfs:-${NWROOT}/gfs.${gfs_ver}}
 export EXECgfs=${EXECgfs:-$HOMEgfs/exec}
 export PARMgfs=${PARMgfs:-$HOMEgfs/parm}
-export FIXgfs=${FIXgfs:-$HOMEgfs/gempak/fix}
-export USHgfs=${USHgfs:-$HOMEgfs/gempak/ush}
+export EXPDIR=${EXPDIR:-$HOMEgfs/parm/config}
 export FIXgempak=${FIXgempak:-$HOMEgfs/gempak/fix}
 export USHgempak=${USHgempak:-$HOMEgfs/gempak/ush}
 export SRCgfs=${SRCgfs:-$HOMEgfs/scripts}
@@ -122,10 +120,9 @@ fi
 
 export COMINukmet=${COMINukmet:-$(compath.py nawips/prod/ukmet)}
 export COMINecmwf=${COMINecmwf:-$(compath.py nawips/prod/ecmwf)}
-export COMINnam=${COMINnam:-$(compath.py nawips/prod/nam)}
+export COMINnam=${COMINnam:-$(compath.py nam/prod/nam)}
 
 export COMOUT=${COMROOT2}/${NET}/${envir}/${RUN}.${PDY}/${cyc}/gempak/meta
-
 
 if [ ! -f $COMOUT ] ; then
   mkdir -p -m 775 $COMOUT

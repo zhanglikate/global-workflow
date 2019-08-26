@@ -2,7 +2,6 @@
 
 #BSUB -J jgfs_awips_f012_20km_1p00_00
 #BSUB -o /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_awips_f012_20km_1p00_00.o%J
-#BSUB -e /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_awips_f012_20km_1p00_00.o%J
 #BSUB -q debug
 #BSUB -n 1                      # number of tasks
 #BSUB -R span[ptile=1]          # 1 task per node
@@ -14,10 +13,10 @@
 export KMP_AFFINITY=disabled
 
 export PDY=`date -u +%Y%m%d`
+export PDY=20190825
 
 export PDY1=`expr $PDY - 1`
 
-# export cyc=06
 export cyc=00
 export cycle=t${cyc}z
 
@@ -49,7 +48,7 @@ export fcsthrs=012
 ############################################
 # set envir=prod or para to test with data in prod or para
  export envir=para
-# export envir=prod
+ export envir=prod
 
 export SENDCOM=YES
 export KEEPDATA=YES

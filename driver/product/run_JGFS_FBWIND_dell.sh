@@ -2,8 +2,6 @@
 
 #BSUB -J gfs_fbwind_00
 #BSUB -o /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_fbwind_00.o%J
-#BSUB -e /gpfs/dell2/ptmp/Boi.Vuong/output/gfs_fbwind_00.o%J
-#BSUB -W 00:30
 #BSUB -q debug
 #BSUB -n 1                      # number of tasks
 #BSUB -R span[ptile=1]          # 1 task per node
@@ -15,6 +13,7 @@
 export KMP_AFFINITY=disabled
 
 export PDY=`date -u +%Y%m%d`
+export PDY=20190825
 
 export PDY1=`expr $PDY - 1`
 
@@ -43,7 +42,7 @@ module list
 ##############################################
 # set envir=prod or para to test with data in prod or para
  export envir=para
-# export envir=prod
+ export envir=prod
 
 export SENDCOM=YES
 export KEEPDATA=YES
