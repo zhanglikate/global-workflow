@@ -74,8 +74,10 @@ echo "                        directories.  These must now be passed in. "
 
 set -xua
 
-ARCHSYND=${ARCHSYND:-$COMROOTp1/arch/prod/syndat}
-HOMENHC=${HOMENHC:-/gpfs/?p1/nhc/save/guidance/storm-data/ncep}
+##ARCHSYND=${ARCHSYND:-$COMROOTp1/arch/prod/syndat}
+ARCHSYND=${ARCHSYND:-$COMROOTp3/gfs/prod/syndat}
+HOMENHCp1=${HOMENHCp1:-/gpfs/?p1/nhc/save/guidance/storm-data/ncep}
+HOMENHC=${HOMENHC:-/gpfs/dell2/nhc/save/guidance/storm-data/ncep}
 TANK_TROPCY=${TANK_TROPCY:-${DCOMROOT}/us007003}
 
 FIXSYND=${FIXSYND:-$HOMEgfs/fix/fix_am}
@@ -228,6 +230,9 @@ rm -f nhc fnoc gtsbtab gtsbufr human.btab lthistry
 if [ -s $HOMENHC/tcvitals ]; then
    echo "tcvitals found" >> $pgmout
    cp $HOMENHC/tcvitals nhc
+elif [-s $HOMENHCp1/tcvitals ]; then
+   echo "tcvitals found" >> $pgmout
+   cp $HOMENHCp1/tcvitals nhc
 else
    echo "WARNING: tcvitals not found, create empty tcvitals" >> $pgmout
    > nhc
@@ -378,7 +383,12 @@ if test "$errdiff" -ne '0'
 then
 
    if [ "$copy_back" = 'YES' -a ${envir} = 'prod' ]; then
-      cp nhc $HOMENHC/tcvitals
+      if [ -s $HOMENHC/tcvitals ]; then
+         cp nhc $HOMENHC/tcvitals
+      elif [-s $HOMENHCp1/tcvitals ]; then
+         cp nhc $HOMENHCp1/tcvitals
+      fi
+
       err=$?
 
       if [ "$err" -ne '0' ]; then
