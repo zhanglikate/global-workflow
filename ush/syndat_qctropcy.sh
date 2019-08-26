@@ -74,7 +74,6 @@ echo "                        directories.  These must now be passed in. "
 
 set -xua
 
-##ARCHSYND=${ARCHSYND:-$COMROOTp1/arch/prod/syndat}
 ARCHSYND=${ARCHSYND:-$COMROOTp3/gfs/prod/syndat}
 HOMENHCp1=${HOMENHCp1:-/gpfs/?p1/nhc/save/guidance/storm-data/ncep}
 HOMENHC=${HOMENHC:-/gpfs/dell2/nhc/save/guidance/storm-data/ncep}
