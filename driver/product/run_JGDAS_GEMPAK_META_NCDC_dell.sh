@@ -103,11 +103,11 @@ export COMIN=${COMIN:-$(compath.py ${NET}/${envir}/${RUN}.${PDY})/${cyc}/gempak}
 export COMINgdas=${COMINgdas:-$(compath.py ${NET}/${envir}/${RUN})}
 
 else
+# export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}.${PDY}/${cyc}/gempak   ### Boi PARA
 
- export COMIN=/gpfs/dell1/nco/ops/com/gfs/para/${RUN}.${PDY}/${cyc}/gempak ### NCO PARA Realtime
-# export COMIN=/gpfs/dell3/ptmp/emc.glopara/ROTDIRS/prfv3rt1/${RUN}.${PDY}/${cyc}/nawips ### EMC PARA Realtime
-# export COMINgdas=/gpfs/dell3/ptmp/emc.glopara/ROTDIRS/prfv3rt1/${RUN} ### EMC PARA Realtime
-#  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}.${PDY}/${cyc}/nawips   ### Boi PARA
+# export COMIN=/gpfs/dell3/ptmp/emc.glopara/ROTDIRS/prfv3rt3b/gfs.${PDY}/${cyc}/gempak ### EMC PARA Realtime
+# export COMINgdas=/gpfs/dell3/ptmp/emc.glopara/ROTDIRS/prfv3rt3b/${RUN} ### EMC PARA Realtime
+
 #  export COMINgdas=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}  ### Boi PARA
 fi
 

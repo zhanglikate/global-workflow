@@ -110,9 +110,11 @@ if [ $envir = "prod" ] ; then
 #  export COMOUT=${COMOUT:-${COMROOT}/${NET}/${envir}/${RUN}.${PDY}}
 #  export COMOUTwmo=${COMOUTwmo:-${COMOUT}/${cyc}/wmo}
 else
-  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/gfs/para/${RUN}.${PDY}/${cyc} ### Boi PARA
+  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${RUN}.${PDY}/${cyc}    ### Boi PARA
   export COMINgdas=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}  ### Boi PARA
   export COMINm1=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/gfs/para/${RUN}.${PDY}/${cyc} ### Boi PARA
+
+#  export COMIN=/gpfs/dell3/ptmp/emc.glopara/ROTDIRS/prfv3rt3b/${RUN}.${PDY}/${cyc} ### EMC PARA Realtime
 fi
 
 export COMOUT=${COMROOT2}/${NET}/${envir}/${RUN}.${PDY}/${cyc}

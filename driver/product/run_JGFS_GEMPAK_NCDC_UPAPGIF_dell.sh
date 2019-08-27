@@ -103,7 +103,7 @@ if [ $envir = "prod" ] ; then
   export COMIN=${COMIN:-$(compath.py ${NET}/${envir}/${RUN}.${PDY})/${cyc}/gempak}
   export COMINgfs=${COMINgfs:-$(compath.py ${NET}/${envir}/${RUN}.${PDY})/${cyc}}
 else
-  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}.${PDY}/${cyc}/nawips   ### Boi PARA
+  export COMIN=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}.${PDY}/${cyc}/gempak   ### Boi PARA
   export COMINgfs=/gpfs/dell2/emc/modeling/noscrub/Boi.Vuong/git/${NET}/${envir}/${RUN}.${PDY}/${cyc}
 fi
 

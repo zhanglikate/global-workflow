@@ -1,5 +1,5 @@
 set -x
-vi run_GFS_GEMPAK_dell.sh
+vi run_JGFS_GEMPAK_dell.sh
 vi run_JGDAS_BULLS_NAVY_dell.sh
 vi run_JGDAS_GEMPAK_dell.sh
 vi run_JGDAS_GEMPAK_META_NCDC_dell.sh
