@@ -5,8 +5,7 @@ set -x
 export fhr=012
 export dir=` pwd `
 export PDY=`date -u +%Y%m%d`
-export PDY=20190826
-export PDY1=20190825
+export PDY1=`expr $PDY - 1`
 
 export gdas=/gpfs/dell1/nco/ops/com/gfs/prod/gdas.${PDY}/${cyc}
 export gdasgp=/gpfs/dell1/nco/ops/com/gfs/prod/gdas.${PDY}/${cyc}/gempak
