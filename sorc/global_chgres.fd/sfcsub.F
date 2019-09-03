@@ -6060,7 +6060,7 @@
       if(kpds5.eq.kpdtsf.and.imax.eq.138.and.jmax.eq.116
      &   .and.kpds4.eq.128) then
 
-         print*,'turn off setrmsk for tg3'
+!        print*,'turn off setrmsk for tg3'
          lmask=.false.
       elseif(kpds5.eq.kpdtsf) then
 ! TG3 MODS END
