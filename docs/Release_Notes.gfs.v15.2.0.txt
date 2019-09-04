@@ -1,8 +1,86 @@
 GFS v15.2.0 RELEASE NOTES
 
 
-PRELUDE
-        No change from GFS v15.1.0
+PRELUDE (taken from GFS v15.2.0 SCN)
+
+     GFS version 15.1 was implemented into operation at the 12Z cycle on June 12, 2019.  It was the first 
+     GFS implementation with the finite­ volume cubed-sphere (FV3) dynamical core as the Weather Service’s 
+     Next Generation Global Prediction System (NGGPS).
+
+     GFS version 15.2 is a minor upgrade. The major change to the system is to ingest new and replacement 
+     satellite observations for data assimilation.  It also contains a few other minor upgrades and bug fixes.  
+
+     1) Assimilate new satellite observations
+       * GOES-17 AMVs
+          * GOES-17 has already replaced GOES-15 as the operational GOES-West satellite.   Distribution of 
+            GOES-15 products is expected to cease around December 2019 and active assimilation of GOES-17 
+            AMVs is required to prevent a gap in data coverage.
+       * Metop-C AMSU and MHS
+          * Metop-C is now the primary satellite in the 9:30 AM orbit.  Assimilation of these data provide 
+            additional impact as well as adding robustness to the system.
+       * KOMPSAT-5 (GPS-RO)
+          * Provides additional robustness to the system.
+       * Addition changes are made to VIIRS AMV ingest code to allow continued use after an expected change 
+         to the BUFR format.
+
+     2) Assimilate buoyb sea-surface temperature (SST) data
+        TAC2BUFR changes in the buoy network resulted in a reduction of available SST measurements from buoys
+        to 10% or less of expected levels. Obsproc and GSI changes were required to restore data counts to 
+        previous levels.
+
+     3) New product: Graphical Turbulence Guidance (GTG) 
+        Global Turbulence product generated using NCAR GTG algorithm will start being disseminated on NOMADS. 
+        The product will be available 3 hourly from F06 to F36 and horizontal resolution will be a quarter 
+        degree. gfs.t{CC}Z.gtg.0p25.grb2f{HHH}
+
+     4) Update the Unified Post Processor(UPP) to address a mask issue of several land surface fields over 
+        water bodies in grib2 products.     
+
+        This update will make GFS.v15.2 p-grid products to be more consistent with GFS.v14 products, and 
+        remove spurious soil moisture along coastlines.  These land surface fields include Soil Moisture, 
+        Soil Temperature, Liquid Volumetric Soil Moisture, WEASD, Snow Depth, Water Runoff,  GFLUX Ground 
+        Heat Flux, WILT Wilting Point, and FLDCP Field Capacity.
+
+        Affected product files are:
+          gfs.t{CC}Z.pgrb2.0p25.F{HHH}
+          gfs.t{CC}Z.pgrb2b.0p25.g{HHH}
+          gfs.t{CC}Z.pgrb2.0p50.F{HHH}
+          gfs.t{CC}Z.pgrb2b.0p50.g{HHH}
+          gfs.t{CC}Z.pgrb2.1p00.F{HHH}
+          gfs.t{CC}Z.pgrb2b.1p00.g{HHH}
+          gfs.t{CC}Z.sfluxgrbf{HHH}.grib2
+        Where CC is cycle for 00, 06, 12, 18 UTC, and HHH is forecast hour.
+
+     5) Added three stations to station time series bufr soundings:
+
+        006011 62.02N   6.76W TOR  00 Thorshvan, Denmark    54 Usr Rqst 4-19
+        999913 15.51S 128.15E WYN  00 Wyndham aerodrome Australia 4 Usr Rqst 1-19
+        999914 57.48N   7.36W EGPL 00 Benbecula, Scotland, UK  6 Usr Rqst 1-19
+  
+        The affected output files are:
+          gfs_yyyymmddhh.sfc
+          gfs_yyyymmddhh.snd
+          gfs.tCCz.bufrsnd.tar.gz
+  
+        Three additional files for the stations:
+          bufr.006011.yyyymmddhh
+          bufr.999913.yyyymmddhh
+          bufr.999914.yyyymmddhh 
+
+     6) Reduction of water temperature biases in small lakes.
+        For small lakes adequate observations do not always exit to support the analysis of lake surface 
+        temperature, often leading to significant departures from both the climatology and real-time observation.
+        Two changes were introduced to ensure that lake temperatures do not deviate from the climatology when 
+        observations are not available. The first change is to replace a surface mask file at 0.5-degree 
+        resolution with the one on the T1534 Gaussian grid (~13km) to prevent unrealistic SST climatology 
+        from being used for updating the background of the near sea-surface temperature analysis over small 
+        water bodies, such as those in the Great Salt Lake. The second change is to reduce the relaxation 
+        time scale of the SST to climatology in GDAS forecast step from 90 days to 10 days.    
+    
+     7) Changes to NOAAPORT/SBN 
+        Product Removals
+          * GADS FAX product which contains tropical surface analysis in TIF format with G4 compression.
+
 
 
 IMPLEMENTATION INSTRUCTIONS
