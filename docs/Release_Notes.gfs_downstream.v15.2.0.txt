@@ -92,7 +92,7 @@ USH CHANGES
     mkbull_ntc.sh                             -removed dependencies for sstoi_grb on phase 1
 
 GEMPAK CHANGES
-   -Adding the diretory dictionaries          -removed dependencies for sstoi_grb on phase 1
+   -Adding the diretory dictionaries          -removed dependencies for gempak on phase 1
    (Note: This directory comes from phase 1)
    - All gempak's USH and FIX have been modified to remove all dependencies on Phase I
 
