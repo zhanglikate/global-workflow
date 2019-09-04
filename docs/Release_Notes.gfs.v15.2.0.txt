@@ -64,7 +64,9 @@ SCRIPT CHANGES
 PARM/CONFIG CHANGES
 
    * parm/
-
+   * Two files were modified for adding three bufr stations:
+     parm/product/bufr_stalist.meteo.gfs
+     parm/product/bufr_stalist.meteo.gfs3
 
 FIX CHANGES
 
