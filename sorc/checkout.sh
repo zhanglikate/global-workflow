@@ -11,7 +11,8 @@ if [[ ! -d fv3gfs.fd ]] ; then
 #   remove recursive based on kate hotfix https://vlab.ncep.noaa.gov/redmine/issues/67072
     git clone gerrit:EMC_FV3-MOM6-CICE5 fv3gfs.fd >> ${topdir}/checkout-fv3gfs.log 2>&1
     cd fv3gfs.fd
-    git checkout v3.0.2
+#    git checkout v3.0.2
+    git checkout update_fv3_0606_b3
     git submodule update --init --recursive
     cd ${topdir}
 else

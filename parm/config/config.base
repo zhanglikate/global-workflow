@@ -229,10 +229,12 @@ export assim_freq=6
 export PSLOT="@PSLOT@"
 export EXPDIR="@EXPDIR@/$PSLOT"
 export ROTDIR="@ROTDIR@/$PSLOT"
-export RUNDIR="$STMP/RUNDIRS/$PSLOT"
+#export RUNDIR="$STMP/RUNDIRS/$PSLOT"
+export RUNDIR="/stmpd2/Jiande.Wang/RUNDIRS/$PSLOT"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
-export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/benchmark2/$PSLOT"
+#export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/benchmark2/$PSLOT"
+export ATARDIR="/NCEPDEV/$HPSS_PROJECT/5year/$USER/$machine/scratch/pre-BM3/$PSLOT"
 
 # For coupled
 #export UGCSICSDIR="$NOSCRUB/UGCS/ugcsics_cfsv2op"

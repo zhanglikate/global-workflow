@@ -23,7 +23,8 @@ cd $DATA || exit 8
 # Copy CICE5 IC - pre-generated from CFSv2
 #cp -p $ICSDIR/$CDATE/cice5_cfsv2/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc
 # JW cp -p $ICSDIR/$CDATE/mom6_da/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc
-cp -p $ICSDIR/$CDATE/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc  #CFSv2 ice IC
+# cp -p $ICSDIR/$CDATE/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc  #CFSv2 ice IC
+cp -p $ICSDIR/$CDATE/cpc/cice5_model_0.25.res_$CDATE.nc ./cice5_model.res_$CDATE.nc  #CPC ice IC
 
 # Copy CICE5 fixed files, and namelists
 cp -p $FIXcice/kmtu_cice_NEMS_mx025.nc .
@@ -263,6 +264,7 @@ cat > ice_in <<eof
   , npt            = $npt
   , ndtd           = 1
   , runtype        = 'initial' 
+  , runid          = 'cpcice'
   , ice_ic         = '$iceic'
   , restart        = .true.
   , restart_ext    = .false.
