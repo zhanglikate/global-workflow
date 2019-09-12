@@ -51,7 +51,19 @@ PRELUDE (taken from GFS v15.2.0 SCN)
           gfs.t{CC}Z.sfluxgrbf{HHH}.grib2
         Where CC is cycle for 00, 06, 12, 18 UTC, and HHH is forecast hour.
 
-     5) Added three stations to station time series bufr soundings:
+     5) The vessel icing program uses OISST as input. OISST will not be ported from WCOSS Phase 1 to Phase 3
+        after Phase 1 is decommissioned in 2020.  A decision was made to move the vessel icing program 
+        within the Unified Post Processor(UPP) and use GFS forecast skin temperature as input.  Current vessel 
+        icing product in operation (sice.tCCz.siceg) has a 1-deg resolution and is disseminated to the public at 
+
+        ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/omb/prod/sice.yyyymmdd/
+
+        New vessel icing product will be included as a variable (ICEG) in GFS p-grid products gfs.tCCz.pgrb2.xpxx.fxxx
+        and gfs.tCCz.pgrb2b.xpxx.fxxx at 0.25, 0.5, and 1.0-deg resolutions, and be disseminated to the public at 
+
+        ftp://ftp.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.yyyymmdd/
+
+     6) Added three stations to station time series bufr soundings:
 
         006011 62.02N   6.76W TOR  00 Thorshvan, Denmark    54 Usr Rqst 4-19
         999913 15.51S 128.15E WYN  00 Wyndham aerodrome Australia 4 Usr Rqst 1-19
@@ -67,7 +79,7 @@ PRELUDE (taken from GFS v15.2.0 SCN)
           bufr.999913.yyyymmddhh
           bufr.999914.yyyymmddhh 
 
-     6) Reduction of water temperature biases in small lakes.
+     7) Reduction of water temperature biases in small lakes.
         For small lakes adequate observations do not always exit to support the analysis of lake surface 
         temperature, often leading to significant departures from both the climatology and real-time observation.
         Two changes were introduced to ensure that lake temperatures do not deviate from the climatology when 
@@ -77,7 +89,7 @@ PRELUDE (taken from GFS v15.2.0 SCN)
         water bodies, such as those in the Great Salt Lake. The second change is to reduce the relaxation 
         time scale of the SST to climatology in GDAS forecast step from 90 days to 10 days.    
     
-     7) Changes to NOAAPORT/SBN 
+     8) Changes to NOAAPORT/SBN 
         Product Removals
           * GADS FAX product which contains tropical surface analysis in TIF format with G4 compression.
 
@@ -99,9 +111,9 @@ IMPLEMENTATION INSTRUCTIONS
   	6) cd sorc
   	7) ./checkout.sh
       	This script extracts the following GFS components from gerrit
-      		MODEL -- tag nemsfv3_gfsv15.2.0 		Jun.Wang@noaa.gov
-        	GSI -- tag DA_GFS_v15.2       			Russ.Treadon@noaa.gov
-        	UPP -- tag ncep_post_gtg.v1.1.1   		Wen.Meng@noaa.gov
+      		MODEL -- tag nemsfv3_gfsv15.2.1 		Jun.Wang@noaa.gov
+        	GSI -- tag fv3da_gfs.v15.2.0   			Russ.Treadon@noaa.gov
+        	UPP -- tag ncep_post_gtg.v1.1.4   		Wen.Meng@noaa.gov
        		WAFS -- tag gfs_wafs.v5.0.9         		Yali.Mao@noaa.gov
 
 
