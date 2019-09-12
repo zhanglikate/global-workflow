@@ -217,7 +217,7 @@ cp $FIXSYND/syndat_fildef.vit fildef.vit
 cp $FIXSYND/syndat_stmnames stmnames
 
 
-rm -f nhc fnoc gtsbtab gtsbufr human.btab lthistry
+rm -f nhc fnoc lthistry
 
 
 #########################################################################
@@ -253,19 +253,6 @@ touch fnoc
 
 mv -f fnoc fnoc1
 $USHSYND/parse-storm-type.pl fnoc1 > fnoc
-
-
-##cp $???????????????? gtsbtab
-
-
-##cp $???????????????? gtsbufr
-
-
-# Manual ... copy into working directory as human.btab; copy to archive
-cp $TANK_TROPCY/maksynrc human.btab
-touch human.btab
-[ "$copy_back" = 'YES' ]  &&  cat human.btab >> $ARCHSYND/syndat_tcvitals.$year
-cp -p human.btab human.btab.ORIG
 
 if [ $SENDDBN = YES ]; then
   $DBNROOT/bin/dbn_alert MODEL SYNDAT_TCVITALS $job $ARCHSYND/syndat_tcvitals.$year
@@ -412,56 +399,6 @@ $HOMENHC/tcvitals successfully updated by syndat_qctropcy"
 else
 
    msg="Previous NHC Synthetic Data Record File $HOMENHC/tcvitals \
-not changed by syndat_qctropcy"
-   set +x
-   echo
-   echo $msg
-   echo
-   set -x
-   echo $msg >> $pgmout
-   set +u
-   [ -n "$jlogfile" ]  &&  postmsg "$jlogfile" "$msg"
-   set -u
-
-fi
-
-
-diff human.btab human.btab.ORIG > /dev/null
-errdiff=$?
-
-###############################################################################
-#  Update Manual file in $TANK_TROPCY if it has been changed by syndat_qctropcy
-###############################################################################
-
-if test "$errdiff" -ne '0'
-then
-
-   if [ "$copy_back" = 'YES' -a ${envir} = 'prod' ]; then
-      cp human.btab $TANK_TROPCY/maksynrc
-      err=$?
-
-      if test "$err" -ne '0'
-      then
-         msg="###ERROR: Previous Manual Synthetic Data Record File \
-$TANK_TROPCY/maksynrc not updated by syndat_qctropcy"
-      else
-         msg="Previous Manual Synthetic Data Record File $TANK_TROPCY/maksynrc \
-successfully updated by syndat_ qctropcy"
-      fi
-      set +x
-      echo
-      echo $msg
-      echo
-      set -x
-      echo $msg >> $pgmout
-      set +u
-      [ -n "$jlogfile" ]  &&  postmsg "$jlogfile" "$msg"
-      set -u
-   fi
-
-else
-
-   msg="Previous Manual Synthetic Data Record File $TANK_TROPCY/maksynrc \
 not changed by syndat_qctropcy"
    set +x
    echo
