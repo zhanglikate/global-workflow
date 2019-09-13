@@ -126,6 +126,10 @@ case:
         - Search: '**/enkf/innovate/j*'
           partition: !calc doc.platform.partitions.xjet
           max_tries: 2
+          resources: !JobRequest
+            - mpi_ranks: 72
+              max_ppn: 2
+              walltime: !timedelta '00:45:00'
 
         - Search: '**/enkf/forecast/j*_enkf*'
           partition: !calc doc.platform.partitions.xjet
