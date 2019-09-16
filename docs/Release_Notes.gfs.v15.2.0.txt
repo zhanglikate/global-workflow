@@ -124,7 +124,7 @@ IMPLEMENTATION INSTRUCTIONS
 	9) ./link_fv3gfs.sh nco dell
 
 	* Note: 1) ecflow suite definition and scripts are saved in gfs.v15.2.0/ecflow/ecf
-        	2) ncep_post_gtg.v1.1.1 contains restricted GTG (Graphic Turbulence Guidance) code provided by
+        	2) ncep_post_gtg.v1.1.4 contains restricted GTG (Graphic Turbulence Guidance) code provided by
            	NCAR.  Please do not post the GTG code in any public domain.
 
 
@@ -132,7 +132,7 @@ IMPLEMENTATION INSTRUCTIONS
 
 JOB CHANGES
 
-   * 
+   * See docs/Release_Notes.gfs_downstream.v15.2.0.txt
 
 
 SORC CHANGES
@@ -140,8 +140,13 @@ SORC CHANGES
   * sorc/
     * checkout.sh - update to check out the following tags
       * NEMSfv3gfs nemsfv3_gfsv15.2.1
-      * ProdGSI DA_GFS_v15.2
-      * EMC_post_gtg ncep_post_gtg.v1.1.1
+      * ProdGSI fv3da_gfsv15.2.0
+      * EMC_post_gtg ncep_post_gtg.v1.1.4
+      * EMC_gfs_wafs gfs_wafs.v5.0.9
+    * sorc/global_chgres.fd/
+      * sfcsub.F - bug fix.  set logical variable (lmask) to be false for a land surface variable
+    * sorc/global_cycle.fd/
+      * sfcsub.F - bug fix.  set logical variable (lmask) to be false for a land surface variable
 
 
 SCRIPT CHANGES
@@ -149,14 +154,20 @@ SCRIPT CHANGES
    * scripts/
      * run_gfsmos_master.sh.cray - remove reference to COMROOTp1 
      * run_gfsmos_master.sh.dell - remove reference to COMROOTp1
+   * additional script changes documented in docs/Release_Notes.gfs_downstream.v15.2.0.txt
 
 
 PARM/CONFIG CHANGES
 
    * parm/
-   * Two files were modified for adding three bufr stations:
-     parm/product/bufr_stalist.meteo.gfs
-     parm/product/bufr_stalist.meteo.gfs3
+     * Two files are modified to set a 
+       * parm/config/config.base.emc.dyn - set 10 day relaxaion time scale to SST climatology in GDAS forecast
+       * parm/config/config.base.nco.static - set 10 day relaxaion time scale to SST climatology in GDAS forecast
+
+     * Two files were modified for adding three bufr stations:
+       * parm/product/bufr_stalist.meteo.gfs
+       * parm/product/bufr_stalist.meteo.gfs3
+
 
 FIX CHANGES
 
@@ -166,7 +177,7 @@ FIX CHANGES
 
 PRODUCT CHANGES
 
-   * 
+   * see SCN
 
 
 RESOURCE INFORMATION
@@ -174,31 +185,42 @@ RESOURCE INFORMATION
    * Frequency of run
      * No change from GFS v15.1
 
-   * Commonly used libraries, compiler, and modules are defined in gfs.v15.1.0/modulefiles. For nemsfv3gfs, gsi, upp, wafs
- 	they maintain their own module files under gfs.v15.1.0/sorc/(fv3gfs gsi gfs_post global_wafs).fd/modulefiles
+   * Commonly used libraries, compiler, and modules are defined in gfs.v15.2.0/modulefiles. For nemsfv3gfs, gsi, upp, wafs
+ 	they maintain their own module files under gfs.v15.2.0/sorc/(fv3gfs gsi gfs_post global_wafs).fd/modulefiles
      * GSI updated to use bufr/11.3.0
 
-   * Data retention time under $COMROOThps for GFS.v15.2 should be the same as GFS.v15.1.
+   * Data retention time under $COMROOTp3 for GFS.v15.2 should be the same as GFS.v15.1.
 
    * Disk space:  
-     * No change from GFS v15.1
+     * About 4 Gb more per gdas cycle due to additional observation data in gdas and enkf diagnostic files
 
    * Computational resources and run times:
-     * No change from GFS v15.1
+     * Due to processing additional observation data the runtime for the following jobs increases with
+       respect to GFS v15.1 as noted below
+      * gfs_analysis               : about 30 seconds longer (27.4 minutes for GFS v15.1 -vs- 27.9 minutes for GFS v15.2)
+      * gdas_enkf_select_obs       : about 1 minute longer   (3.7  for GFS v15.1 -vs-   4.7 for GFS v15.2)
+      * gdas_enkf_innovate_obs_grp*: about 30 seconds longer (14.8 for GFS v15.1 -vs - 15.3 for GFS v15.2)
+      * gdas_enkf_update           : about 20 seconds longer (6.4  for GFS v15.1 -vs-   6.7 for GFS v15.2)
+
 
 
 PRE-IMPLEMENTATION TESTING REQUIREMENTS
 
    * Which production jobs should be tested as part of this implementation?
-	* The entire GFS v15.2 package needs to be installed and tested.  EMC can run the same date and compare NCO and EMC output 
-          to confirm the EMC and NCO tests reproduce each other
+	* The entire GFS v15.2 package needs to be installed and tested.  EMC can run the same date
+          and compare NCO and EMC output to confirm the EMC and NCO tests reproduce each other
 
    * Does this change require a 30-day evaluation?
   	* No.
 
 
    * Suggested evaluators
-  	* Please contact fanglin.yang@noaa.gov and russ.treadon@noaa.gov for evaluation.
+  	* Please contact the following EMC staff for the indicated components
+            Fanglin.Yang@noaa.gov - MODEL
+            Russ.Treadon@noaa.gov - DA
+            Wen.Meng@noaa.gov     - UPP
+            Yali.Mao@noaa.gov     - WAFS
+            Boi.Vuong@noaa.gov    - downstream products
 
 
 DISSEMINATION INFORMATION
@@ -206,10 +228,8 @@ DISSEMINATION INFORMATION
    * Where should this output be sent?
   	* No change from GFS v15.1
 
-
    * Who are the users?
   	* No change from GFS v15.1
-
 
    * Which output files should be transferred from PROD WCOSS to DEV WCOSS?
   	* No change from GFS v15.1
@@ -218,7 +238,7 @@ DISSEMINATION INFORMATION
   	* No change from GFS v15.1
 
    * File changes.
-  	* No change from GFS v15.1
+  	* See SCN
 
 
 HPSS ARCHIVE
@@ -228,7 +248,7 @@ HPSS ARCHIVE
 
 
 JOB DEPENDENCIES & FLOW DIAGRAM
-   * No change from GFS v15.2
+   * No change from GFS v15.1
 
 
 ===========
