@@ -189,5 +189,9 @@ for fhr in $fhrlst; do
   fi
 done
     $NCP -p SST*nc $COMOUT/
+    $NCP -p input.nml $COMOUT/
+    $NCP -p ice_in $COMOUT/
+    $NCP -p INPUT/MOM_input $COMOUT/
+    
 #rm -Rf $DATA
 exit 0

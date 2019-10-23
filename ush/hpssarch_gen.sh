@@ -53,6 +53,9 @@ if [ $type = "gfs" ]; then
   echo  "${dirname}ice*             " >>ice.txt
   echo  "${dirname}ocn*             " >>ocn.txt
   echo  "${dirname}SST*             " >>SST.txt
+  echo  "${dirname}input.nml        " >>SST.txt
+  echo  "${dirname}ice_in           " >>SST.txt
+  echo  "${dirname}MOM_input        " >>SST.txt
 # BL2018, ocn and ice
   #..................
 #  echo  "${dirname}${head}pgrb2b.0p25.anl                  " >>gfs_pgrb2b.txt
