@@ -5,19 +5,23 @@ set -ex
 . ./machine-setup.sh
 echo "target system (machine) set to $target"
 
-if [ -z $target ]; then
-    echo 'target value not set (unknown system not supported)'
+RUN_ENVIR=${1}
+machine=${2}
+
+if [ $# -lt 2 ]; then
+    echo '***ERROR*** must specify two arguements: (1) RUN_ENVIR, (2) machine'
+    echo ' Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia | hera )'
     exit 1
 fi
 
 RUN_ENVIR=${1:-emc}
 
 if [ $RUN_ENVIR != emc -a $RUN_ENVIR != nco ]; then
-    echo 'Syntax: link_fv3gfs.sh ( nco | emc )'
+    echo 'Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia | hera | jet )'
     exit 1
 fi
-if [ $target != wcoss_cray -a $target != theia -a $target != gaea -a $target != jet -a $target != dell]; then
-    echo '$target value set to unknown or unsupported system'
+if [ $machine != cray -a $machine != theia -a $machine != dell -a $machine != hera -a $target != jet ]; then
+    echo 'Syntax: link_fv3gfs.sh ( nco | emc ) ( cray | dell | theia | hera | jet )'
     exit 1
 fi
 
@@ -39,12 +43,10 @@ elif [ $target == "theia" ]; then
     FIX_DIR="/scratch4/NCEPDEV/global/save/glopara/git/fv3gfs/fix"
 elif [ $target == "gaea" ]; then
     FIX_DIR="/lustre/f1/pdata/ncep_shared/FV3GFS_V1_RELEASE/fix"
-    echo "gaea says what, FIX_DIR = $FIX_DIR"
 elif [ $target == "jet" ]; then
     FIX_DIR="/lfs3/projects/hfv3gfs/glopara/git/fv3gfs/fix"
-else
-    echo 'CRITICAL: links to fix files not set'
-    exit 1
+elif [ $machine = "hera" ]; then
+    FIX_DIR="/scratch1/NCEPDEV/global/glopara/fix"
 fi
 
 if [ ! -r $FIX_DIR ]; then
@@ -96,24 +98,30 @@ cd ${pwd}/../ush                ||exit 8
     done
     for file in emcsfc_ice_blend.sh  fv3gfs_driver_grid.sh  fv3gfs_make_orog.sh  global_cycle_driver.sh \
         emcsfc_snow.sh  fv3gfs_filter_topo.sh  global_chgres_driver.sh  global_cycle.sh \
-        fv3gfs_chgres.sh  fv3gfs_make_grid.sh  global_chgres.sh  global_tracker.sh ; do
+        fv3gfs_chgres.sh  fv3gfs_make_grid.sh  global_chgres.sh ; do
         $LINK ../sorc/ufs_utils.fd/ush/$file                  .
+    done
+cd ${pwd}/../util               ||exit 8
+    for file in sub_slurm sub_wcoss_c sub_wcoss_d ; do
+        $LINK ../sorc/ufs_utils.fd/util/$file
     done
 
 #------------------------------
-#--add gfs_wafs file
+#--add gfs_wafs link if on Dell
+if [ $machine = dell -o $machine = hera ]; then 
 #------------------------------
-cd ${pwd}/../jobs               ||exit 8
-    $LINK ../sorc/gfs_wafs.fd/jobs/*                         .
-cd ${pwd}/../parm               ||exit 8
-    [[ -d wafs ]] && rm -rf wafs
+ cd ${pwd}/../jobs               ||exit 8
+     $LINK ../sorc/gfs_wafs.fd/jobs/*                         .
+ cd ${pwd}/../parm               ||exit 8
+     [[ -d wafs ]] && rm -rf wafs
     $LINK ../sorc/gfs_wafs.fd/parm/wafs                      wafs
-cd ${pwd}/../scripts            ||exit 8
+ cd ${pwd}/../scripts            ||exit 8
     $LINK ../sorc/gfs_wafs.fd/scripts/*                      .
-cd ${pwd}/../ush                ||exit 8
+ cd ${pwd}/../ush                ||exit 8
     $LINK ../sorc/gfs_wafs.fd/ush/*                          .
-cd ${pwd}/../fix                ||exit 8
+ cd ${pwd}/../fix                ||exit 8
     $LINK ../sorc/gfs_wafs.fd/fix/*                          .
+fi
 
 #------------------------------
 #--add GSI/EnKF file
@@ -206,29 +214,25 @@ if [[ $target == "jet" ]]; then
   done 
 fi
 
-#if [ $machine = dell ]; then 
-#    for wafsexe in wafs_awc_wafavn  wafs_blending  wafs_cnvgrib2  wafs_gcip  wafs_makewafs  wafs_setmissing; do
-#        [[ -s $wafsexe ]] && rm -f $wafsexe
-#        $LINK ../sorc/gfs_wafs.fd/exec/$wafsexe .
-#    done
-#fi
+if [ $machine = dell -o $machine = hera ]; then 
+    for wafsexe in wafs_awc_wafavn  wafs_blending  wafs_cnvgrib2  wafs_gcip  wafs_makewafs  wafs_setmissing; do
+        [[ -s $wafsexe ]] && rm -f $wafsexe
+        $LINK ../sorc/gfs_wafs.fd/exec/$wafsexe .
+    done
+fi
 
 for ufs_utilsexe in \
-     chgres_cube.exe   fregrid           global_cycle         nemsio_cvt    orog.x \
-     emcsfc_ice_blend  fregrid_parallel  make_hgrid           nemsio_get    shave.x \
-     emcsfc_snow2mdl   gettrk            make_hgrid_parallel  nemsio_read \
-     filter_topo       global_chgres     make_solo_mosaic     nst_tf_chg.x ; do
+     chgres_cube.exe   fregrid           make_hgrid           nemsio_get    shave.x \
+     emcsfc_ice_blend  fregrid_parallel  make_hgrid_parallel  nemsio_read \
+     emcsfc_snow2mdl   global_chgres     make_solo_mosaic     nst_tf_chg.x \
+     filter_topo       global_cycle      mkgfsnemsioctl       orog.x ; do
     [[ -s $ufs_utilsexe ]] && rm -f $ufs_utilsexe
     $LINK ../sorc/ufs_utils.fd/exec/$ufs_utilsexe .
 done
 
-for wafsexe in wafs_awc_wafavn  wafs_blending  wafs_cnvgrib2  wafs_gcip  wafs_makewafs  wafs_setmissing; do
-    [[ -s $wafsexe ]] && rm -f $wafsexe
-    $LINK ../sorc/gfs_wafs.fd/exec/$wafsexe .
-done
-
 for gsiexe in  global_gsi.x global_enkf.x calc_increment_ens.x  getsfcensmeanp.x  getsigensmeanp_smooth.x  \
-    getsigensstatp.x  recentersigp.x oznmon_horiz.x oznmon_time.x radmon_angle radmon_bcoef radmon_bcor radmon_time ;do
+    getsigensstatp.x  nc_diag_cat_serial.x nc_diag_cat.x recentersigp.x oznmon_horiz.x oznmon_time.x \
+    radmon_angle.x radmon_bcoef.x radmon_bcor.x radmon_time.x ;do
     [[ -s $gsiexe ]] && rm -f $gsiexe
     $LINK ../sorc/gsi.fd/exec/$gsiexe .
 done
@@ -299,17 +303,21 @@ cd ${pwd}/../sorc   ||   exit 8
         $SLINK ufs_utils.fd/sorc/fre-nctools.fd/tools/$prog                                ${prog}.fd                                
     done
     for prog in  chgres_cube.fd       global_cycle.fd   nemsio_read.fd \
-        emcsfc_ice_blend.fd  gettrk.fd         nemsio_cvt.fd    nst_tf_chg.fd \
-        emcsfc_snow2mdl.fd   global_chgres.fd  nemsio_get.fd    orog.fd ;do
+                 emcsfc_ice_blend.fd  mkgfsnemsioctl.fd  nst_tf_chg.fd \
+                 emcsfc_snow2mdl.fd   global_chgres.fd  nemsio_get.fd      orog.fd ;do
         $SLINK ufs_utils.fd/sorc/$prog                                                     $prog
     done
 
-    $SLINK gfs_wafs.fd/sorc/wafs_awc_wafavn.fd                                         wafs_awc_wafavn.fd
-    $SLINK gfs_wafs.fd/sorc/wafs_blending.fd                                           wafs_blending.fd
-    $SLINK gfs_wafs.fd/sorc/wafs_cnvgrib2.fd                                           wafs_cnvgrib2.fd
-    $SLINK gfs_wafs.fd/sorc/wafs_gcip.fd                                               wafs_gcip.fd
-    $SLINK gfs_wafs.fd/sorc/wafs_makewafs.fd                                           wafs_makewafs.fd
-    $SLINK gfs_wafs.fd/sorc/wafs_setmissing.fd                                         wafs_setmissing.fd
+
+    if [ $machine = dell -o $machine = hera ]; then
+        $SLINK gfs_wafs.fd/sorc/wafs_awc_wafavn.fd                                              wafs_awc_wafavn.fd
+        $SLINK gfs_wafs.fd/sorc/wafs_blending.fd                                                wafs_blending.fd
+        $SLINK gfs_wafs.fd/sorc/wafs_cnvgrib2.fd                                                wafs_cnvgrib2.fd
+        $SLINK gfs_wafs.fd/sorc/wafs_gcip.fd                                                    wafs_gcip.fd
+        $SLINK gfs_wafs.fd/sorc/wafs_makewafs.fd                                                wafs_makewafs.fd
+        $SLINK gfs_wafs.fd/sorc/wafs_setmissing.fd                                              wafs_setmissing.fd
+    fi
+
 
 #------------------------------
 #--choose dynamic config.base for EMC installation 
