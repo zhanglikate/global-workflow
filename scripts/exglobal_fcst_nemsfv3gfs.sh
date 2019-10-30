@@ -628,6 +628,8 @@ restart_interval:        $restart_interval
 quilting:                $QUILTING
 write_groups:            ${WRITE_GROUP:-1}
 write_tasks_per_group:   ${WRTTASK_PER_GROUP:-24}
+output_history:          ${OUTPUT_HISTORY:-".true."}
+write_dopost:            ${WRITE_DOPOST:-".false."}
 num_files:               ${NUM_FILES:-2}
 filename_base:           'atm' 'sfc'
 output_grid:             $OUTPUT_GRID

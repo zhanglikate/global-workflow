@@ -29,6 +29,8 @@ case $case_in in
         export nth_fv3=1
         export cdmbgwd="0.062,3.5"  # mountain blocking and gravity wave drag
         export WRITE_GROUP=1
+        OUTPUT_HISTORY=".true."
+        WRITE_DOPOST=".false."
         export WRTTASK_PER_GROUP=24
         export WRTIOBUF="4M"
         ;;
@@ -44,6 +46,8 @@ case $case_in in
         # export cdmbgwd="0.125,3.0"  # mountain blocking and gravity wave drag
         export cdmbgwd="3.5,0.25"   # mountain blocking and gravity wave drag
         export WRITE_GROUP=1
+        OUTPUT_HISTORY=".true."
+        WRITE_DOPOST=".false."
         #export WRTTASK_PER_GROUP=24
         export WRTTASK_PER_GROUP=6
         export WRTIOBUF="4M"
@@ -56,6 +60,8 @@ case $case_in in
         export nth_fv3=2
         export cdmbgwd="0.2,2.5"  # mountain blocking and gravity wave drag
         export WRITE_GROUP=2
+        OUTPUT_HISTORY=".true."
+        WRITE_DOPOST=".false."
         export WRTTASK_PER_GROUP=24
         export WRTIOBUF="8M"
         ;;
@@ -71,6 +77,8 @@ case $case_in in
         export nth_fv3=4
         export cdmbgwd="1.0,1.2"  # mountain blocking and gravity wave drag
         export WRITE_GROUP=1
+        OUTPUT_HISTORY=".true."
+        WRITE_DOPOST=".false."
         export WRTTASK_PER_GROUP=24
         export WRTIOBUF="16M"
         ;;
@@ -82,6 +90,8 @@ case $case_in in
         export nth_fv3=2
         export cdmbgwd="3.5,0.25" # mountain blocking and gravity wave drag
         export WRITE_GROUP=4
+        OUTPUT_HISTORY=".true."
+        WRITE_DOPOST=".false."
         export WRTTASK_PER_GROUP=60
         export WRTIOBUF="32M"
         ;;
@@ -92,6 +102,8 @@ case $case_in in
         export npe_node_fcst=6
         export nth_fv3=4
         export WRITE_GROUP=4
+        OUTPUT_HISTORY=".true."
+        WRITE_DOPOST=".false."
         export WRTTASK_PER_GROUP=84
         export WRTIOBUF="48M"
         ;;
@@ -102,6 +114,8 @@ case $case_in in
         export npe_node_fcst=6
         export nth_fv3=4
         export WRITE_GROUP=4
+        OUTPUT_HISTORY=".true."
+        WRITE_DOPOST=".false."
         export WRTTASK_PER_GROUP=120
         export WRTIOBUF="64M"
         ;;
