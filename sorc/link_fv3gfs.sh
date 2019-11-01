@@ -36,8 +36,8 @@ elif [ $machine = "dell" ]; then
 elif [ $machine = "wcoss" ]; then   #JW
     FIX_DIR="/gpfs/dell2/emc/modeling/noscrub/emc.glopara/git/fv3gfs/fix"
 #    CPLFIX_DIR="/global/noscrub/Jiande.Wang/WF/fix_prep_benchmark"  #JW
-    CPLFIX_DIR="/gpfs/gd1/emc/global/noscrub/Jiande.Wang/WF3/fix_prep_benchmark3"
-#     CPLFIX_DIR="/gpfs/td1/emc/global/noscrub/Jiande.Wang/WF3/fix_prep_benchmark3"
+#    CPLFIX_DIR="/gpfs/gd1/emc/global/noscrub/Jiande.Wang/WF3/fix_prep_benchmark3"
+     CPLFIX_DIR="/gpfs/td1/emc/global/noscrub/Jiande.Wang/WF3/fix_prep_benchmark3"
 elif [ $machine = "theia" ]; then
     FIX_DIR="/scratch4/NCEPDEV/global/save/glopara/git/fv3gfs/fix"
    

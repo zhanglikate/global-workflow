@@ -11,12 +11,13 @@ if [[ ! -d fv3gfs.fd ]] ; then
 #   remove recursive based on kate hotfix https://vlab.ncep.noaa.gov/redmine/issues/67072
     git clone gerrit:EMC_FV3-MOM6-CICE5 fv3gfs.fd >> ${topdir}/checkout-fv3gfs.log 2>&1
     cd fv3gfs.fd
+    git checkout --track origin/bugfix/fv3atmcplflx
     git submodule update --init --recursive
     cd ${topdir}
 else
     echo 'Skip.  Directory fv3gfs.fd already exists.'
 fi
-
+exit
 echo gsi checkout ...
 if [[ ! -d gsi.fd ]] ; then
     rm -f ${topdir}/checkout-gsi.log
