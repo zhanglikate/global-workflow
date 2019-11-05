@@ -229,7 +229,7 @@ rm -f nhc fnoc lthistry
 if [ -s $HOMENHC/tcvitals ]; then
    echo "tcvitals found" >> $pgmout
    cp $HOMENHC/tcvitals nhc
-elif [-s $HOMENHCp1/tcvitals ]; then
+elif [ -s $HOMENHCp1/tcvitals ]; then
    echo "tcvitals found" >> $pgmout
    cp $HOMENHCp1/tcvitals nhc
 else
