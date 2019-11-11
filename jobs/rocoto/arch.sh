@@ -295,7 +295,7 @@ if [ $CDUMP = "gfs" ]; then
 fi
 # Added by B Li 2018
 cd $ROTDIR/logs/$CDATE 
-tail -n 300 gfsocnpost001.log|grep "Successfully completed"
+tail -n 500 gfsocnpost001.log|grep "Successfully completed"
 status=$?
 [[ $status -ne 0 ]] && exit $status
 
