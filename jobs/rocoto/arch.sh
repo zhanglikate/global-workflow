@@ -303,7 +303,7 @@ flist="001 002 003 004 005"
 
 for nnn in $flist; do
 #    tail -n 6 gfspost${nnn}.log|grep "code 0"
-   tail -n 300 gfspost${nnn}.log|grep "Successfully completed" 
+   tail -n 500 gfspost${nnn}.log|grep "Successfully completed" 
    status=$?
 [[ $status -ne 0 ]] && exit $status
 done
