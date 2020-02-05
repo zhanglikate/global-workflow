@@ -1,0 +1,11 @@
+gitco gerrit_master_15Dec18_cc32f99    jobs/rocoto/getic_gsd.sh
+gitco gerrit_master_15Dec18_cc32f99    jobs/rocoto/getic.sh
+gitco gerrit_master_15Dec18_cc32f99    jobs/rocoto/getic_emc.sh
+
+gitmt gerrit_master_15Dec18_cc32f99    parm/config/config.base.emc.dyn
+gitmt gerrit_master_15Dec18_cc32f99    parm/config/config.resources
+
+gitco gerrit_master_15Dec18_cc32f99    ush/fv3ics_gsd.py
+gitco gerrit_master_15Dec18_cc32f99    ush/rocoto/exp_cyc.sh
+gitco gerrit_master_15Dec18_cc32f99    ush/rocoto/exp_ff.sh
+gitco gerrit_master_15Dec18_cc32f99    ush/rocoto/setup_workflow_fcstonly_gsd.py
