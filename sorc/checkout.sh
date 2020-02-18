@@ -4,16 +4,30 @@ set -xu
 topdir=$(pwd)
 echo $topdir
 
-echo fv3gfs checkout ...
-if [[ ! -d fv3gfs.fd ]] ; then
-    rm -f ${topdir}/checkout-fv3gfs.log
-    git clone gerrit:NEMSfv3gfs fv3gfs.fd >> ${topdir}/checkout-fv3gfs.log 2>&1
-    cd fv3gfs.fd
+echo fv3gfs_emc checkout ...
+if [[ ! -d fv3gfs_emc.fd ]] ; then
+    rm -f ${topdir}/checkout-fv3gfs_emc.log
+    git clone --recursive gerrit:NEMSfv3gfs fv3gfs_emc.fd >> ${topdir}/checkout-fv3gfs_emc.log 2>&1
+    cd fv3gfs_emc.fd
     git checkout gfs.v16_PhysicsUpdate
     git submodule update --init --recursive
     cd ${topdir}
 else
-    echo 'Skip.  Directory fv3gfs.fd already exists.'
+    echo 'Skip.  Directory fv3gfs_emc.fd already exists.'
+fi
+
+echo fv3gfs_ccpp checkout ...
+if [[ ! -d fv3gfs_ccpp.fd ]] ; then
+    rm -f ${topdir}/checkout-fv3gfs_ccpp.log
+    git clone --recursive -b gsd/develop https://github.com/NOAA-GSD/ufs-weather-model  fv3gfs_ccpp.fd >> ${topdir}/checkout-fv3gfs_ccpp.log 2>&1
+    cd fv3gfs_ccpp.fd
+    git checkout 2b5768b19409ba04a37b89833268b7a1d9233139
+    git submodule sync
+    git submodule update --init --recursive
+    cd ${topdir}
+    ln -fs fv3gfs_ccpp.fd fv3gfs.fd
+else
+    echo 'Skip.  Directory fv3gfs_ccpp.fd already exists.'
 fi
 
 echo gsi checkout ...
@@ -70,6 +84,14 @@ if [[ ! -d verif-global.fd ]] ; then
     cd ${topdir}
 else
     echo 'Skip. Directory verif-global.fd already exist.'
+fi
+
+echo aeroconv checkout ...
+if [[ ! -d aeroconv ]] ; then
+    rm -f ${topdir}/checkout-aero.log
+    git clone https://github.com/NCAR/aeroconv aeroconv >> ${topdir}/checkout-aero.log 2>&1
+else
+    echo 'Skip.  Directory aeroconv already exists.'
 fi
 
 exit 0
