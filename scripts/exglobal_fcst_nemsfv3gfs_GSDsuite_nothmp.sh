@@ -1,0 +1,1 @@
+exglobal_fcst_nemsfv3gfs_GSDsuite.sh

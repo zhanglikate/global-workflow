@@ -15,9 +15,10 @@ if [ $DONST = "YES" ]; then
     . $EXPDIR/config.nsst
 fi
 
-export FORECASTSH="$HOMEgfs/scripts/exglobal_fcst_nemsfv3gfs_v15.sh"
+export FORECASTSH="$HOMEgfs/scripts/exglobal_fcst_nemsfv3gfs.sh"
 export FCSTEXECDIR="$HOMEgfs/exec"
-export FCSTEXEC="global_fv3gfs_ccpp.x"
+#export FCSTEXECDIR="$HOMEfv3gfs/NEMS/exe"
+export FCSTEXEC="global_fv3gfs.x"
 export npe_fv3=$npe_fcst # This is model resolution dependent, see note above
 
 if [[ "$CDUMP" == "gfs" ]] ; then
@@ -81,13 +82,6 @@ export iovr_lw=3    ;#de-correlation length cloud overlap method (Barker, 2008)
 export iovr_sw=3    ;#de-correlation length cloud overlap method (Barker, 2008)
 export icliq_sw=2   ;#cloud optical coeffs from AER's newer version v3.9-v4.0 for hu and stamnes
 
-# CCPP configuration
-export output_1st_tstep_rst=".false."                                        #JKH
-export CCPP_SUITE=FV3_GFS_v15
-
-# Convection Options: 2-SASAS, 3-GF
-export imfdeepcnv=2
-export imfshalcnv=2
 
 # Microphysics configuration
 export dnats=0
