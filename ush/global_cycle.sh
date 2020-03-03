@@ -1,0 +1,1 @@
+../sorc/ufs_utils.fd/ush/global_cycle.sh

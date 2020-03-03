@@ -1,0 +1,1 @@
+../sorc/gfs_post.fd/ush/fv3gfs_downstream_nems.sh

@@ -1,0 +1,1 @@
+../sorc/gfs_post.fd/ush/fix_precip.sh

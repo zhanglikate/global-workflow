@@ -1,0 +1,1 @@
+../sorc/gfs_post.fd/ush/gfs_transfer.sh

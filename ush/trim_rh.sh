@@ -1,0 +1,1 @@
+../sorc/gfs_post.fd/ush/trim_rh.sh
