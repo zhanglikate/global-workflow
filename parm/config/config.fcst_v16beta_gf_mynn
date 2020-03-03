@@ -15,7 +15,7 @@ if [ $DONST = "YES" ]; then
     . $EXPDIR/config.nsst
 fi
 
-export FORECASTSH="$HOMEgfs/scripts/exglobal_fcst_nemsfv3gfs_GSDsuite_noah.sh"
+export FORECASTSH="$HOMEgfs/scripts/exglobal_fcst_nemsfv3gfs_v16beta_gf_mynn.sh"
 export FCSTEXECDIR="$HOMEgfs/exec"
 export FCSTEXEC="global_fv3gfs_ccpp.x"
 export npe_fv3=$npe_fcst # This is model resolution dependent, see note above
@@ -83,7 +83,7 @@ export icliq_sw=2   ;#cloud optical coeffs from AER's newer version v3.9-v4.0 fo
 
 # CCPP configuration
 export output_1st_tstep_rst=".false."                                        #JKH
-export CCPP_SUITE=FV3_GSD_noah
+export CCPP_SUITE=FV3_GFS_v16beta_gf_mynn
 
 # Convection Options: 2-SASAS, 3-GF
 export imfdeepcnv=3
@@ -147,6 +147,20 @@ elif [ $imp_physics -eq 11 ]; then # GFDL
 
     export hord_mt_nh_nonmono=5
     export hord_xx_nh_nonmono=5
+
+
+    ## MYNN options
+    export shal_cnv=".true."
+    export hybedmf=".false."
+    export satmedmf=".false."
+    export do_mynnedmf=".true."
+    export do_mynnsfclay=".false."
+    export icloud_bl=1
+    export bl_mynn_tkeadvect=.true.
+    export bl_mynn_edmf=1
+    export bl_mynn_edmf_mom=1
+    export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/field_table_suite2"
+
     export vtdm4_nh_nonmono=0.02
     export nord=2
     export dddmp=0.1

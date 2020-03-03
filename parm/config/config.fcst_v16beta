@@ -15,7 +15,7 @@ if [ $DONST = "YES" ]; then
     . $EXPDIR/config.nsst
 fi
 
-export FORECASTSH="$HOMEgfs/scripts/exglobal_fcst_nemsfv3gfs_GSDsuite_noah.sh"
+export FORECASTSH="$HOMEgfs/scripts/exglobal_fcst_nemsfv3gfs_v15.sh"
 export FCSTEXECDIR="$HOMEgfs/exec"
 export FCSTEXEC="global_fv3gfs_ccpp.x"
 export npe_fv3=$npe_fcst # This is model resolution dependent, see note above
@@ -60,14 +60,14 @@ fi
 
 # PBL/turbulence schemes
 export hybedmf=".false."
-export satmedmf=".false."   #JKH
-export isatmedmf=0          #JKH
+export satmedmf=".true."
+export isatmedmf=1
 tbf=""
 if [ $satmedmf = ".true." ]; then tbf="_satmedmf" ; fi
 
-# Land surface model. (3--RUCLSM, landice=F;) (2--NoahMP, landice=F); (1--Noah, landice=T)
+# Land surface model. (2--NoahMP, landice=F); (1--Noah, landice=T)
 export lsm=1
-if [ $lsm -eq 2 -o $lsm -eq 3 ]; then
+if [ $lsm -eq 2 ]; then
     export lheatstrg=".false."
     export landice=".false."
 else
@@ -83,11 +83,11 @@ export icliq_sw=2   ;#cloud optical coeffs from AER's newer version v3.9-v4.0 fo
 
 # CCPP configuration
 export output_1st_tstep_rst=".false."                                        #JKH
-export CCPP_SUITE=FV3_GSD_noah
+export CCPP_SUITE=FV3_GFS_v16beta
 
 # Convection Options: 2-SASAS, 3-GF
-export imfdeepcnv=3
-export imfshalcnv=3
+export imfdeepcnv=2
+export imfshalcnv=2
 
 # Microphysics configuration
 export dnats=0
@@ -106,32 +106,9 @@ elif [ $imp_physics -eq 6 ]; then # WSM6
     export nwat=6
 
 elif [ $imp_physics -eq 8 ]; then # Thompson
-    export ncld=5
-    export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/field_table_gsd"
+    export ncld=2
+    export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/field_table_thompson${tbf}"
     export nwat=6
-    export ltaerosol=.true.                  
-    export lradar=.true.         ## JKH:  for physics test, this is set to false since that variable not used in test
-
-    ## MYNN options
-    export shal_cnv=".true."       
-    export hybedmf=".false."     
-    #export satmedmf=".false."    
-    export do_mynnedmf=".true."     
-    export do_mynnsfclay=".false."
-    export icloud_bl=1        
-    export bl_mynn_tkeadvect=.true. 
-    export bl_mynn_edmf=1        
-    export bl_mynn_edmf_mom=1
-
-    ## GSD namelist changes
-    export cal_pre=".false."
-    export random_clds=".false."
-
-    export ttendlim=0.005
-    export vtdm4_nh_nonmono=0.02
-    export nord=2
-    export dddmp=0.1
-    export d4_bg=0.12
 
 elif [ $imp_physics -eq 11 ]; then # GFDL
     export ncld=5
@@ -189,12 +166,7 @@ elif [[ "$CDUMP" == "gfs" ]] ; then # GFS cycle specific parameters
 
     # Write more variables to output
     if [ $QUILTING = ".true." -a $OUTPUT_GRID = "gaussian_grid" ]; then
-        if [ $imp_physics -eq 8 ]; then # Thompson
-            export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table"
-            #export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_gsd"
-        else
-            export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table"
-        fi
+        export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table"
     else
         export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_orig"
     fi
