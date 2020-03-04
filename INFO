@@ -1,0 +1,24 @@
+Jan 08, 2020
+============
+checkout of GitHub fork: jkhender/global-workflow   (jan06 ufs_weather_model.fd)
+   * compile
+   * EMC suite runs successfully
+   * GSDsuite runs successfully
+   * GSDsuite no thompson crashes
+
+Jan 16, 2020
+============
+checkout of GitHub fork: jkhender/global-workflow   (jan11 ufs_weather_model.fd)
+   * test GSDsuite no thompson crashes
+
+
+Feb 21, 2020
+============
+checkout of feb18 ufs_weather_model.fd
+   708b8d5e5e044860bfc409c22524eb9fb8b25ff3 FMS (2019.01)
+   33006607ecb7b2c4c12228ad038ad6cd1a2a0c7c FV3 (heads/gsd/develop)
+   8248a782d7193d41b773f6d90611c936e11e3c7f NEMS (8248a78)
+   f6ebf95ff3bfa0bcbde1e5dbddf5a3e7760c6965 WW3 (6.07.1-27-gf6ebf95f)
+   1745422af76d830757cd6035b6ea101e92b4cac1 stochastic_physics (GFS_v16.0.0)
+  
+ added FV3_GFS_v16beta suite

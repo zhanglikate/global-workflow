@@ -596,6 +596,14 @@ fi
 $NCP $DATA_TABLE  data_table
 $NCP $FIELD_TABLE field_table
 
+# copy CCN_ACTIVATE.BIN for Thompson microphysics
+if [ $imp_physics -eq 8 ]; then 
+  $NCP $FV3INP/CCN_ACTIVATE.BIN  CCN_ACTIVATE.BIN
+#  $NCP $FV3INP/freezeH2O.dat  freezeH2O.dat
+#  $NCP $FV3INP/qr_acr_qg.dat  qr_acr_qg.dat
+#  $NCP $FV3INP/qr_acr_qs.dat  qr_acr_qs.dat
+fi
+
 #------------------------------------------------------------------
 rm -f nems.configure
 cat > nems.configure <<EOF
@@ -730,6 +738,7 @@ cat > input.nml <<EOF
   blocksize = $blocksize
   chksum_debug = $chksum_debug
   dycore_only = $dycore_only
+  ccpp_suite = $CCPP_SUITE
   fdiag = $FDIAG
   fhmax = $FHMAX
   fhout = $FHOUT
@@ -868,6 +877,8 @@ deflate_level=${deflate_level:-1}
   pre_rad      = ${pre_rad:-".false."}
   ncld         = ${ncld:-1}
   imp_physics  = ${imp_physics:-"99"}
+  ltaerosol    = ${ltaerosol:-".F."}
+  lradar       = ${lradar:-".F."}
   pdfcld       = ${pdfcld:-".false."}
   fhswr        = ${FHSWR:-"3600."}
   fhlwr        = ${FHLWR:-"3600."}
@@ -892,9 +903,12 @@ deflate_level=${deflate_level:-1}
   satmedmf     = ${satmedmf-".true."}
   isatmedmf    = ${isatmedmf-"1"}
   lheatstrg    = ${lheatstrg-".true."}
+  do_mynnedmf  = ${do_mynnedmf:-".false."}
+  do_mynnsfclay= ${do_mynnsfclay:-".false."}
   random_clds  = ${random_clds:-".true."}
   trans_trac   = ${trans_trac:-".true."}
   cnvcld       = ${cnvcld:-".true."}
+  ttendlim     = ${ttendlim:-"0.005"}
   imfshalcnv   = ${imfshalcnv:-"2"}
   imfdeepcnv   = ${imfdeepcnv:-"2"}
   cdmbgwd      = ${cdmbgwd:-"3.5,0.25"}
@@ -903,6 +917,7 @@ deflate_level=${deflate_level:-1}
   isot         = ${isot:-"1"}
   lsoil        = ${lsoil:-"4"}
   lsm          = ${lsm:-"2"}
+  lsoil_lsm    = ${lsoil_lsm:-"4"}
   iopt_dveg    = ${iopt_dveg:-"1"}
   iopt_crs     = ${iopt_crs:-"1"}
   iopt_btr     = ${iopt_btr:-"1"}
@@ -916,6 +931,12 @@ deflate_level=${deflate_level:-1}
   iopt_tbot    = ${iopt_tbot:-"2"}
   iopt_stc     = ${iopt_stc:-"1"}
   debug        = ${gfs_phys_debug:-".false."}
+  oz_phys      = ${oz_phys:-".false."}
+  oz_phys_2015 = ${oz_phys_2015:-".true."}
+  icloud_bl    = ${icloud_bl:-"1"}
+  bl_mynn_edmf = ${bl_mynn_edmf:-"1"}
+  bl_mynn_tkeadvect=${bl_mynn_tkeadvect:-".true."}
+  bl_mynn_edmf_mom=${bl_mynn_edmf_mom:-"1"}
   nstf_name    = $nstf_name
   nst_anl      = $nst_anl
   psautco      = ${psautco:-"0.0008,0.0005"}
