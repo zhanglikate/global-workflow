@@ -6,7 +6,7 @@
 echo "BEGIN: config.base"
 
 # Machine environment
-export machine="@MACHINE@"
+export machine="HERA"
 
 # EMC parallel or NCO production
 export RUN_ENVIR="emc"
@@ -30,7 +30,7 @@ fi
 HPSS_PROJECT=gmtb
 
 # Directories relative to installation areas:
-export HOMEgfs=@HOMEgfs@
+export HOMEgfs=/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta
 export PARMgfs=$HOMEgfs/parm
 export FIXgfs=$HOMEgfs/fix
 export USHgfs=$HOMEgfs/ush
@@ -134,7 +134,7 @@ export NCP="/bin/cp -p"
 export NMV="/bin/mv"
 export NLN="/bin/ln -sf"
 export VERBOSE="YES"
-export KEEPDATA="NO"
+export KEEPDATA="YES"
 export CHGRP_CMD="chgrp rstprod"
 export NEMSIOGET="$HOMEgfs/exec/nemsio_get"
 
@@ -143,18 +143,18 @@ export BASE_ENV="$HOMEgfs/env"
 export BASE_JOB="$HOMEgfs/jobs/rocoto"
 
 # EXPERIMENT specific environment parameters
-export SDATE=@SDATE@
-export EDATE=@EDATE@
+export SDATE=2019101700
+export EDATE=2020030600
 export assim_freq=6
-export PSLOT="@PSLOT@"
-export EXPDIR="@EXPDIR@/$PSLOT"
-export ROTDIR="@ROTDIR@/$PSLOT"
+export PSLOT="v16beta_l64"
+export EXPDIR="/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/$PSLOT"
+export ROTDIR="/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta/FV3GFSrun/$PSLOT"
 export ROTDIR_DUMP="YES"                #Note: A value of "NO" does not currently work
 export DUMP_SUFFIX=""
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export DATAROOT="$RUNDIR/$CDATE/$CDUMP"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
-export ICSDIR="@ICSDIR@"
+export ICSDIR="/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta/FV3GFSrun/FV3ICS"
 export ATARDIR="/BMC/$HPSS_PROJECT/2year/$PSLOT"
 
 # Commonly defined parameters in JJOBS
@@ -176,7 +176,7 @@ export SENDSDM="NO"
 
 # Resolution specific parameters
 export LEVS=65          ## JKH
-export CASE="@CASECTL@"
+export CASE="C768"
 export CASE_ENKF="@CASEENS@"
 
 # Surface cycle update frequency
@@ -193,7 +193,7 @@ export FHMAX=9
 export FHOUT=3
 
 # GFS cycle info
-export gfs_cyc=@gfs_cyc@ # 0: no GFS cycle, 1: 00Z only, 2: 00Z and 12Z only, 4: all 4 cycles.
+export gfs_cyc=1 # 0: no GFS cycle, 1: 00Z only, 2: 00Z and 12Z only, 4: all 4 cycles.
 
 # GFS output and frequency
 export FHMIN_GFS=0
@@ -214,8 +214,8 @@ export FHOUT_HF_GFS=1
 # WRITE_DOPOST=true, use inline POST
 export QUILTING=".true."
 export OUTPUT_GRID="gaussian_grid"
-export OUTPUT_FILE="nemsio"              ## JKH 
-export WRITE_DOPOST=".false."            ## JKH 
+export OUTPUT_FILE="nemsio"                  ## JKH
+export WRITE_DOPOST=".false."                ## JKH
 
 # suffix options depending on file format
 if [ $OUTPUT_FILE = "netcdf" ]; then

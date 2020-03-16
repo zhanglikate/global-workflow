@@ -19,6 +19,9 @@ echo "=============== START TO SOURCE FV3GFS WORKFLOW MODULES ==============="
 status=$?
 [[ $status -ne 0 ]] && exit $status
 
+## JKH
+module load netcdf
+
 
 ###############################################################
 echo
