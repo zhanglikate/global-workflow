@@ -1,0 +1,2 @@
+rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16test/v16test.xml -d ~/dbfiles/v16test.db
+rocotostat  -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16test/v16test.xml -d ~/dbfiles/v16test.db |m
