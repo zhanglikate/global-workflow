@@ -1,0 +1,11 @@
+Cloning into 'gsi.fd'...
+Total 94423 (delta 457), reused 94123 (delta 457)
+Checking out files:  64% (1669/2594)   Checking out files:  65% (1687/2594)   Checking out files:  66% (1713/2594)   Checking out files:  67% (1738/2594)   Checking out files:  68% (1764/2594)   Checking out files:  69% (1790/2594)   Checking out files:  70% (1816/2594)   Checking out files:  71% (1842/2594)   Checking out files:  72% (1868/2594)   Checking out files:  73% (1894/2594)   Checking out files:  74% (1920/2594)   Checking out files:  75% (1946/2594)   Checking out files:  76% (1972/2594)   Checking out files:  77% (1998/2594)   Checking out files:  78% (2024/2594)   Checking out files:  79% (2050/2594)   Checking out files:  80% (2076/2594)   Checking out files:  81% (2102/2594)   Checking out files:  82% (2128/2594)   Checking out files:  83% (2154/2594)   Checking out files:  84% (2179/2594)   Checking out files:  85% (2205/2594)   Checking out files:  86% (2231/2594)   Checking out files:  87% (2257/2594)   Checking out files:  88% (2283/2594)   Checking out files:  89% (2309/2594)   Checking out files:  90% (2335/2594)   Checking out files:  91% (2361/2594)   Checking out files:  92% (2387/2594)   Checking out files:  93% (2413/2594)   Checking out files:  94% (2439/2594)   Checking out files:  95% (2465/2594)   Checking out files:  96% (2491/2594)   Checking out files:  97% (2517/2594)   Checking out files:  98% (2543/2594)   Checking out files:  99% (2569/2594)   Checking out files: 100% (2594/2594)   Checking out files: 100% (2594/2594), done.
+Submodule 'fix' (gerrit:GSI-fix) registered for path 'fix'
+Submodule 'libsrc' (gerrit:GSI-libsrc) registered for path 'libsrc'
+Cloning into '/scratch2/BMC/gsd-fv3-dev/Judy.K.Henderson/git/github_repo/GSD/jkhender/global-workflow/sorc/gsi.fd/fix'...
+Total 1051 (delta 24), reused 1034 (delta 24)
+Cloning into '/scratch2/BMC/gsd-fv3-dev/Judy.K.Henderson/git/github_repo/GSD/jkhender/global-workflow/sorc/gsi.fd/libsrc'...
+Total 1694 (delta 0), reused 1691 (delta 0)
+Submodule path 'fix': checked out 'f13e0cdbe24a979ead95e11a1e31cbe72e89ab36'
+Submodule path 'libsrc': checked out '21f2383e075a0d0bfd24df60998c061fc4de202a'

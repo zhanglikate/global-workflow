@@ -1,0 +1,22 @@
+/**
+\mainpage Introduction 
+
+Welcome to the scientific documentation for the parameterizations and suites available in the Common 
+Community Physics Package (CCPP) v4.  
+
+The CCPP-Physics is envisioned to contain parameterizations used in NOAA's Unified Forecast System (UFS) 
+applications for weather through seasonal prediction timescales, encompassing operational schemes as well as 
+developmental schemes under consideration for upcoming 
+operational implementations. This version contains all parameterizations of the current operational GFS,
+plus additional developmental schemes. There are four suites supported for use with the Single Column Model (SCM) 
+developed by the Development Testbed Center (GFS_v15p2, GFS_v16beta, GSD_v1, and csawmg), and two suites
+supported for use with the atmospheric component of the UFS (i.e., GFS_v15p2 and GFS_v16beta).
+
+In this website you will find documentation on various aspects of each 
+parameterization, including a high-level overview of its function, the input/output argument list, 
+and a description of the algorithm. 
+The latest CCPP public release is Version 4.0 (January 2019), and more details on it may be found on the
+<a href="https://dtcenter.org/community-code/common-community-physics-package-ccpp"> CCPP website </a> hosted by
+the Developmental Testbed Center (DTC).
+
+*/

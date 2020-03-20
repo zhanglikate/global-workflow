@@ -1,13 +1,12 @@
-03 March 2020
-- created gmtb_v16beta branch from feature/gfsv16b, af73a39f
-- checked out ufs-weather-model:release/public-v1, 0e064dc80, to sorc/ufs-weather-model_pr-v1
-       a722a241c9297b2a1bbf40167a0c2e82eb525243       FMS (2019.01.01)
-       b9554ae0c677412063113461a0e69a0b9c2bb214       FV3 (ufs-v1.0.0.beta01-2-gb9554ae)
-          db5b3b035cc022619b2b049fd87bd63dcd3dd9d7       atmos_cubed_sphere (ufs-v1.0.0)
-          eb9e33ba3991864ffa70b67e14ac1c9771c37a73       ccpp/framework (ccpp_transition_to_vlab_master_20190705-111-geb9e33b)
-          90c95167be7676cddb3c8b36cef7f560ee9e9eee       ccpp/physics (ccpp_transition_to_vlab_master_20190705-217-g90c9516)
-       6b989eaee9af445bc66d2139893c28a74823c22a       NEMS (ufs-v1.0.0.beta01-3-g6b989ea)
-       e41f5ec3d317610d289b05506ed2b80d2cde57f3       stochastic_physics (ufs-v1.0.0.beta01-5-ge41f5ec)
+19 March 2020
+- updated sorc/ufs-weather-model_pr-v1.fd to ufs-weather-model:release/public-v1, c5d4791 [10Mar2020]
+    a722a241c9297b2a1bbf40167a0c2e82eb525243 FMS (2019.01.01)
+    fa5320efcae7c1c3e299ba094b69381a6f029414 FV3 (ufs-v1.0.0)
+        db5b3b035cc022619b2b049fd87bd63dcd3dd9d7 atmos_cubed_sphere (ufs-v1.0.0)
+        eb9e33ba3991864ffa70b67e14ac1c9771c37a73 ccpp/framework (ccpp_transition_to_vlab_master_20190705-111-geb9e33b)
+        90c95167be7676cddb3c8b36cef7f560ee9e9eee ccpp/physics (ccpp_transition_to_vlab_master_20190705-217-g90c9516)
+    930b34b26ce2a8290683240dbedb27a3ed7d64f8 NEMS (ufs-v1.0.0)
+    8accd3f0ac9d821fd6a9aefcd3e1e7b199458f26 stochastic_physics (ufs-v1.0.0)
 
 16 March 2020
 - modified sorc/ufs-weather-model_pr-v1/modulefiles/hera.intel/fv3 to match modules used for global-workflow
@@ -15,3 +14,15 @@
   d2_bg_k1=0.20        
   d2_bg_k2=0.0
   lheatstrg=".true."
+
+03 March 2020
+- created gmtb_v16beta branch from feature/gfsv16b, af73a39f [05Mar2020]
+- checked out ufs-weather-model:release/public-v1, 0e064dc80 [02Mar2020], to sorc/ufs-weather-model_pr-v1.fd  
+    a722a241c9297b2a1bbf40167a0c2e82eb525243       FMS (2019.01.01)
+    b9554ae0c677412063113461a0e69a0b9c2bb214       FV3 (ufs-v1.0.0.beta01-2-gb9554ae)
+       db5b3b035cc022619b2b049fd87bd63dcd3dd9d7       atmos_cubed_sphere (ufs-v1.0.0)
+       eb9e33ba3991864ffa70b67e14ac1c9771c37a73       ccpp/framework (ccpp_transition_to_vlab_master_20190705-111-geb9e33b)
+       90c95167be7676cddb3c8b36cef7f560ee9e9eee       ccpp/physics (ccpp_transition_to_vlab_master_20190705-217-g90c9516)
+    6b989eaee9af445bc66d2139893c28a74823c22a       NEMS (ufs-v1.0.0.beta01-3-g6b989ea)
+    e41f5ec3d317610d289b05506ed2b80d2cde57f3       stochastic_physics (ufs-v1.0.0.beta01-5-ge41f5ec)
+
