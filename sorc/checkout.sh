@@ -9,7 +9,7 @@ if [[ ! -d fv3gfs.fd ]] ; then
     rm -f ${topdir}/checkout-fv3gfs.log
     git clone https://github.com/ufs-community/ufs-weather-model fv3gfs.fd >> ${topdir}/checkout-fv3gfs.log 2>&1
     cd fv3gfs.fd
-    git checkout GFS.v16.0.0    
+    git checkout GFS.v16.0.1
     git submodule update --init --recursive
     cd ${topdir}
 else
@@ -21,7 +21,8 @@ if [[ ! -d gsi.fd ]] ; then
     rm -f ${topdir}/checkout-gsi.log
     git clone --recursive gerrit:ProdGSI gsi.fd >> ${topdir}/checkout-gsi.log 2>&1
     cd gsi.fd
-    git checkout gfsda.v16.0.0
+#   git checkout gfsda.v16.0.0
+    git checkout feature/parallel_ncio
     git submodule update
     cd ${topdir}
 else
@@ -77,7 +78,7 @@ if [[ ! -d verif-global.fd ]] ; then
     rm -f ${topdir}/checkout-verif-global.log
     git clone --recursive gerrit:EMC_verif-global verif-global.fd >> ${topdir}/checkout-verif-global.log 2>&1
     cd verif-global.fd
-    git checkout verif_global_v1.5.0
+    git checkout verif_global_v1.6.0
     cd ${topdir}
 else
     echo 'Skip. Directory verif-global.fd already exist.'
