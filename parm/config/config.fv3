@@ -102,6 +102,7 @@ case $case_in in
 #JKH        export layout_x_gfs=16
 #JKH        export layout_y_gfs=12
         export npe_wav=270
+        export layout_x_gfs=12         #JKH
         export layout_y_gfs=8          #JKH
         export nth_fv3=4
         export cdmbgwd="4.0,0.15,1.0,1.0"  # mountain blocking, ogwd, cgwd, cgwd src scaling

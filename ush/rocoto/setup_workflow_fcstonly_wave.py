@@ -28,8 +28,7 @@ import rocoto
 import workflow_utils as wfu
 
 #taskplan = ['getic', 'fv3ic', 'waveinit', 'waveprep', 'fcst', 'post', 'wavepostsbs', 'wavegempaksbs', 'waveawipssbs', 'wavepost', 'waveawips', 'wavestat', 'vrfy', 'metp', 'arch']
-#taskplan = ['getic', 'fv3ic', 'waveinit', 'waveprep', 'fcst', 'post', 'wavepostsbs', 'vrfy', 'metp', 'arch']
-taskplan = ['getic', 'fv3ic', 'fcst', 'post', 'vrfy', 'arch']
+taskplan = ['getic', 'fv3ic', 'waveinit', 'waveprep', 'fcst', 'post', 'wavepostsbs', 'vrfy', 'metp', 'arch']
 
 def main():
     parser = ArgumentParser(description='Setup XML workflow and CRONTAB for a forecast only experiment.', formatter_class=ArgumentDefaultsHelpFormatter)

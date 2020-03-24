@@ -65,8 +65,6 @@ if [ $LEVS = "128" ]; then
    export  d2_bg_k1=0.20
    export  d2_bg_k2=0.0
 fi
-export  d2_bg_k1=0.20        ## JKH
-export  d2_bg_k2=0.0         ## JKH
 
 # PBL/turbulance schemes
 export hybedmf=".false."
