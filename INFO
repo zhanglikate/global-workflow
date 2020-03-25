@@ -1,3 +1,9 @@
+25 March 2020
+- turn on generation of sflux wgrib2 files 
+
+20 March 2020
+- updated gmtb_v16beta branch with feature/gfsv16b branch, 586d099 [19Mar2020]
+
 19 March 2020
 - updated sorc/ufs-weather-model_pr-v1.fd to ufs-weather-model:release/public-v1, c5d4791 [10Mar2020]
     a722a241c9297b2a1bbf40167a0c2e82eb525243 FMS (2019.01.01)
