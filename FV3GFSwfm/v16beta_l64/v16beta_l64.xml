@@ -49,7 +49,7 @@
 	<!ENTITY ARCHIVE_TO_HPSS "YES">
 
 	<!-- ROCOTO parameters that control workflow -->
-	<!ENTITY CYCLETHROTTLE "2">
+	<!ENTITY CYCLETHROTTLE "3">
 	<!ENTITY TASKTHROTTLE  "25">
 	<!ENTITY MAXTRIES      "2">
 

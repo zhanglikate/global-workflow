@@ -19,13 +19,6 @@ echo "=============== START TO SOURCE FV3GFS WORKFLOW MODULES ==============="
 status=$?
 [[ $status -ne 0 ]] && exit $status
 
-## JKH  (executables are expecting different libraries)
-module unload netcdf_parallel/4.7.4
-module load netcdf/4.7.0
-module unload hdf5_parallel/1.10.6
-module load hdf5/1.10.5
-
-
 ###############################################################
 echo
 echo "=============== START TO SOURCE RELEVANT CONFIGS ==============="
