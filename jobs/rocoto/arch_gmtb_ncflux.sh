@@ -61,18 +61,18 @@ if [ $HPSSARCH = "YES" ]; then
   mkdir -p $ARCH_LIST
   cd $ARCH_LIST
   
-  $HOMEgfs/ush/hpssarch_gen_gmtb.sh $CDUMP
+  $HOMEgfs/ush/hpssarch_gen_gmtb_ncflux.sh $CDUMP
   status=$?
   if [ $status -ne 0  ]; then
-      echo "$HOMEgfs/ush/hpssarch_gen_gmtb.sh $CDUMP failed, ABORT!"
+      echo "$HOMEgfs/ush/hpssarch_gen_gmtb_ncflux.sh $CDUMP failed, ABORT!"
       exit $status
   fi
   
   cd $ROTDIR
-  for targrp in gfs_flux gfs_pgrb2b gfs_ncf; do
+  for targrp in gfs_flux gfs_ncf; do
     htar -P -cvf $ATARDIR/$CDATE/${targrp}.tar `cat $ARCH_LIST/${targrp}.txt`
     status=$?
-    if [ $status -ne 0  -a $CDATE -ge $firstday ]; then
+    if [ $status -ne 0 ]; then
       echo "HTAR $CDATE gfs_${targrp}.tar failed"
       exit $status
     fi

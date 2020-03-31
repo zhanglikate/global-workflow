@@ -25,31 +25,24 @@ FHOUT_GFS=${FHOUT_GFS:-3}
 FHMAX_HF_GFS=${FHMAX_HF_GFS:-120}
 FHOUT_HF_GFS=${FHOUT_HF_GFS:-1}
 
-rm -f gfs_pgrb2b.txt
 rm -f gfs_flux.txt
 rm -f gfs_ncf.txt
-touch gfs_pgrb2b.txt
 touch gfs_flux.txt
 touch gfs_ncf.txt
 
 dirpath="gfs.${PDY}/${cyc}/"
 dirname="./${dirpath}"
-echo  "${dirname}avno.t${cyc}z.cyclone.trackatcfunix     " >>gfs_pgrb2b.txt
-echo  "${dirname}avnop.t${cyc}z.cyclone.trackatcfunix    " >>gfs_pgrb2b.txt
 fh=0
 head="gfs.t${cyc}z."
 while [ $fh -le $FHMAX_GFS ]; do
   fhr=$(printf %03i $fh)
-  echo  "${dirname}${head}pgrb2.0p25.f${fhr}             " >>gfs_pgrb2b.txt
-  echo  "${dirname}${head}pgrb2.0p25.f${fhr}.idx         " >>gfs_pgrb2b.txt
 
   echo  "${dirname}${head}sfluxgrbf${fhr}.grib2           " >>gfs_flux.txt
   echo  "${dirname}${head}sfluxgrbf${fhr}.grib2.idx       " >>gfs_flux.txt
 
   rem=`expr $fhr % 12`
   if [ $rem -eq 0 ]; then
-    echo  "${dirname}${head}atmf${fhr}.nemsio_select_nc4       " >>gfs_ncf.txt
-    echo  "${dirname}${head}atmf${fhr}.nemsio_select_nc4.idx   " >>gfs_ncf.txt
+    echo  "${dirname}${head}atmf${fhr}.nemsio_select.nc4       " >>gfs_ncf.txt
   fi
 
   inc=$FHOUT_GFS
