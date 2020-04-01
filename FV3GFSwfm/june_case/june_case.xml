@@ -60,14 +60,14 @@
 	<!ENTITY MEMORY_GETIC_GFS    "2048M">
 	<!ENTITY NATIVE_GETIC_GFS    "--export=NONE">
 
-	<!ENTITY QUEUE_FV3IC_GFS     "&QUEUE;">
 	<!ENTITY QUEUE_FV3IC_GFS     "&QUEUE_DEBUG;">
+	<!ENTITY QUEUE_FV3IC_GFS     "&QUEUE;">
 	<!ENTITY WALLTIME_FV3IC_GFS  "00:30:00">
 	<!ENTITY RESOURCES_FV3IC_GFS "<nodes>1:ppn=4:tpp=1</nodes>">
 	<!ENTITY NATIVE_FV3IC_GFS    "--export=NONE">
 
 	<!ENTITY QUEUE_FCST_GFS     "&QUEUE;">
-	<!ENTITY WALLTIME_FCST_GFS  "01:30:00">
+	<!ENTITY WALLTIME_FCST_GFS  "06:30:00">
 	<!ENTITY RESOURCES_FCST_GFS "<nodes>90:ppn=10:tpp=4</nodes>">
 	<!ENTITY NATIVE_FCST_GFS    "--export=NONE">
 
@@ -77,14 +77,6 @@
 	<!ENTITY WALLTIME_POST_GFS  "01:00:00">
 	<!ENTITY RESOURCES_POST_GFS "<nodes>4:ppn=12:tpp=1</nodes>">
 	<!ENTITY NATIVE_POST_GFS    "--export=NONE">
-
-	<!ENTITY QUEUE_VRFY_GFS     "&QUEUE;">
-	<!ENTITY QUEUE_VRFY_GFS     "&QUEUE_DEBUG;">
-	<!ENTITY WALLTIME_VRFY_GFS  "00:30:00">
-	<!ENTITY WALLTIME_VRFY_GFS  "06:00:00">
-	<!ENTITY RESOURCES_VRFY_GFS "<nodes>1:ppn=1:tpp=1</nodes>">
-	<!ENTITY MEMORY_VRFY_GFS    "16384M">
-	<!ENTITY NATIVE_VRFY_GFS    "--export=NONE">
 
 	<!ENTITY QUEUE_ARCH_GFS     "&QUEUE;">
 	<!ENTITY PARTITION_ARCH_GFS "&PARTITION_ARCH;">
@@ -250,34 +242,6 @@
 	</task>
 
 </metatask>
-
-<task name="gfsvrfy" cycledefs="gfs" maxtries="&MAXTRIES;">
-
-	<command>&JOBS_DIR;/vrfy.sh</command>
-
-	<jobname><cyclestr>&PSLOT;_gfsvrfy_@H</cyclestr></jobname>
-	<account>&ACCOUNT;</account>
-	<queue>&QUEUE_VRFY_GFS;</queue>
-	&RESOURCES_VRFY_GFS;
-	<walltime>&WALLTIME_VRFY_GFS;</walltime>
-	<memory>&MEMORY_VRFY_GFS;</memory>
-	<native>&NATIVE_VRFY_GFS;</native>
-
-	<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfsvrfy.log</cyclestr></join>
-
-	<envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
-	<envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
-	<envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
-	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
-	<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
-	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
-	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
-
-	<dependency>
-		<metataskdep metatask="gfspost"/>
-	</dependency>
-
-</task>
 
 <task name="gfsarch" cycledefs="gfs" maxtries="&MAXTRIES;" final="true">
 

@@ -49,9 +49,9 @@
 	<!ENTITY ARCHIVE_TO_HPSS "YES">
 
 	<!-- ROCOTO parameters that control workflow -->
-	<!ENTITY CYCLETHROTTLE "3">
+	<!ENTITY CYCLETHROTTLE "4">
 	<!ENTITY TASKTHROTTLE  "35">
-	<!ENTITY MAXTRIES      "2">
+	<!ENTITY MAXTRIES      "3">
 
 	<!-- BEGIN: Resource requirements for the workflow -->
 

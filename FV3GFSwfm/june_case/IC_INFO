@@ -1,0 +1,4 @@
+
+- getic.sh did not work successfully even after changing the tarpre to com2
+since default file names are gfs.t12z.sanl and gfs.t12z.sfcanl
+- manually downloaded files using ~/bin/get_spectral_ncep_op.sh

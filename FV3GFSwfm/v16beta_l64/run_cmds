@@ -5,12 +5,18 @@ rocotostat  -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v1
 rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/cnvrt_nemsio.xml -d ~/dbfiles/cnvrt_nemsio.db
 rocotostat -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/cnvrt_nemsio.xml -d ~/dbfiles/cnvrt_nemsio.db
 
-rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.db
-rocotostat  -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.db
-
 ## redo 12Z 10/2719 post, vrfy, arch tasks  ==>  rewound them in v16beta_l64.db but gfsarch is "final" task so can't reactivate
 rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.db
 rocotostat -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.db
 
+## run tracker for dates 11/07/2019 through 2/28/2020
 rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.db
 rocotostat -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.db
+
+# archive CONUS netcdf and sflux files
+rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.db
+rocotostat  -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_ncflux.db
+
+# archive tracker files
+rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_trk.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_trk.db
+rocototstat -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_trk.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/archive_trk.db

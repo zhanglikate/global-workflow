@@ -1,0 +1,4 @@
+
+rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/june_case/june_case.xml -d ~/dbfiles/june_case.db
+rocotostat  -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/june_case/june_case.xml -d ~/dbfiles/june_case.db
+
