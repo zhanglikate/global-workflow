@@ -68,7 +68,11 @@ if [ $ics_from = "opsgfs" ]; then
         fanal[3]="./${CDUMP}.t${cyc}z.nstanl.nemsio"
         fanal[4]="./${CDUMP}.t${cyc}z.pgrbanl"
         flanal="${fanal[1]} ${fanal[2]} ${fanal[3]} ${fanal[4]}"
-        tarpref="gpfs_hps_nco_ops_com"
+        if [ $CDATE -le "2017071918" ]; then       ## JKH
+          tarpref="com2"                           ## JKH
+        else                                       ## JKH
+          tarpref="gpfs_hps_nco_ops_com"
+        fi
         if [ $CDUMP = "gdas" ]; then
             tarball="$hpssdir/${tarpref}_gfs_prod_${CDUMP}.${CDATE}.tar"
         elif [ $CDUMP = "gfs" ]; then
@@ -79,7 +83,7 @@ if [ $ics_from = "opsgfs" ]; then
         fanal[1]="./${CDUMP}.$yyyy$mm$dd/$cyc/${CDUMP}.t${cyc}z.atmanl.nemsio"
         fanal[2]="./${CDUMP}.$yyyy$mm$dd/$cyc/${CDUMP}.t${cyc}z.sfcanl.nemsio"
         flanal="${fanal[1]} ${fanal[2]}"
-        if [ $CDATE -le "2020022600" ]; then       ## JKH
+        if [ $CDATE -le "2020022518" ]; then       ## JKH
           tarpref="gpfs_dell1_nco_ops_com"         ## JKH
         else                                       ## JKH
           tarpref="com"                            ## JKH
