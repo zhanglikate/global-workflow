@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!DOCTYPE workflow
+[
+	<!--
+	PROGRAM
+		Main workflow manager for Forecast only Global Forecast System
+
+	AUTHOR:
+		Rahul Mahajan
+		rahul.mahajan@noaa.gov
+
+	NOTES:
+		This workflow was automatically generated at 2020-03-22 00:26:45.397861
+	-->
+
+	<!-- Experiment parameters such as name, cycle, resolution -->
+	<!ENTITY PSLOT    "v16beta_l64">
+	<!ENTITY CDUMP    "gfs">
+	<!ENTITY CASE     "C768">
+
+	<!-- Experiment parameters such as starting, ending dates -->
+	<!ENTITY SDATE_12    "201911161200">
+	<!ENTITY EDATE_12    "202002241200">
+	<!ENTITY SDATE_00    "201911120000">
+	<!ENTITY EDATE_00    "202002200000">
+	<!ENTITY INTERVAL "240:00:00">
+
+	<!-- Run Envrionment -->
+	<!ENTITY RUN_ENVIR "emc">
+
+	<!-- Experiment related directories -->
+	<!ENTITY EXPDIR "/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64">
+	<!ENTITY ROTDIR "/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta/FV3GFSrun/v16beta_l64">
+	<!ENTITY ICSDIR "/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta/FV3GFSrun/FV3ICS">
+
+	<!-- Directories for driving the workflow -->
+	<!ENTITY HOMEgfs  "/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta">
+	<!ENTITY JOBS_DIR "/scratch1/BMC/gmtb/Judy.K.Henderson/dtc_aop_2019/gmtb_v16beta/jobs/rocoto">
+
+	<!-- Machine related entities -->
+	<!ENTITY ACCOUNT    "gmtb">
+	<!ENTITY QUEUE      "batch">
+	<!ENTITY QUEUE_DEBUG "debug">
+	<!ENTITY QUEUE_ARCH "service">
+	<!ENTITY PARTITION_ARCH "service">
+	<!ENTITY SCHEDULER  "slurm">
+
+	<!-- Toggle HPSS archiving -->
+	<!ENTITY ARCHIVE_TO_HPSS "YES">
+
+	<!-- ROCOTO parameters that control workflow -->
+	<!ENTITY CYCLETHROTTLE "3">
+	<!ENTITY TASKTHROTTLE  "35">
+	<!ENTITY MAXTRIES      "2">
+
+	<!-- BEGIN: Resource requirements for the workflow -->
+
+	<!ENTITY QUEUE_VRFY_GFS     "&QUEUE_DEBUG;">
+	<!ENTITY QUEUE_VRFY_GFS     "&QUEUE;">
+	<!ENTITY WALLTIME_VRFY_GFS  "00:30:00">
+	<!ENTITY WALLTIME_VRFY_GFS  "06:00:00">
+	<!ENTITY RESOURCES_VRFY_GFS "<nodes>1:ppn=1:tpp=1</nodes>">
+	<!ENTITY MEMORY_VRFY_GFS    "16384M">
+	<!ENTITY NATIVE_VRFY_GFS    "--export=NONE">
+
+	<!-- END: Resource requirements for the workflow -->
+
+]>
+
+<workflow realtime="F" scheduler="&SCHEDULER;" cyclethrottle="&CYCLETHROTTLE;" taskthrottle="&TASKTHROTTLE;">
+
+	<log verbosity="10"><cyclestr>&EXPDIR;/logs/@Y@m@d@H.log</cyclestr></log>
+
+	<!-- Define the cycles -->
+	<cycledef group="gfs_12z">&SDATE_12; &EDATE_12; &INTERVAL;</cycledef>
+	<cycledef group="gfs_00z">&SDATE_00; &EDATE_00; &INTERVAL;</cycledef>
+
+<task name="gfsvrfy" cycledefs="gfs_12z, gfs_00z" maxtries="&MAXTRIES;">
+
+	<command>&JOBS_DIR;/vrfy.sh</command>
+
+	<jobname><cyclestr>&PSLOT;_gfsvrfy_@H</cyclestr></jobname>
+	<account>&ACCOUNT;</account>
+	<queue>&QUEUE_VRFY_GFS;</queue>
+	&RESOURCES_VRFY_GFS;
+	<walltime>&WALLTIME_VRFY_GFS;</walltime>
+	<memory>&MEMORY_VRFY_GFS;</memory>
+	<native>&NATIVE_VRFY_GFS;</native>
+
+	<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfsvrfy.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+	<envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+	<envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+
+<!--
+	<dependency>
+		<metataskdep metatask="gfspost"/>
+	</dependency>
+-->
+
+</task>
+
+<!--
+<task name="gfsarch" cycledefs="gfs_12z, gfs_00z" maxtries="&MAXTRIES;" final="true">
+
+	<command>&JOBS_DIR;/arch.sh</command>
+
+	<jobname><cyclestr>&PSLOT;_gfsarch_@H</cyclestr></jobname>
+	<account>&ACCOUNT;</account>
+	<queue>&QUEUE_ARCH_GFS;</queue>
+	<partition>&PARTITION_ARCH_GFS;</partition>
+	&RESOURCES_ARCH_GFS;
+	<walltime>&WALLTIME_ARCH_GFS;</walltime>
+	<memory>&MEMORY_ARCH_GFS;</memory>
+	<native>&NATIVE_ARCH_GFS;</native>
+
+	<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfsarch.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+	<envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+	<envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+
+	<dependency>
+		<and>
+			<metataskdep metatask="gfspost"/>
+			<taskdep task="gfsvrfy"/>
+			<streq><left>&ARCHIVE_TO_HPSS;</left><right>YES</right></streq>
+		</and>
+	</dependency>
+
+</task>
+
+-->
+
+</workflow>

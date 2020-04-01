@@ -156,7 +156,6 @@ if [ "$VRFYTRAK" = "YES" ]; then
     if [ $machine = "HERA" ]; then
        export COMROOTp1="/scratch1/NCEPDEV/rstprod/com"
        export COMINsyn=${COMINsyn:-${COMROOTp1}/arch/prod/syndat}
-       export COMINsyn=${HOMEgfs}/syndat
     else
        export COMINsyn=${COMINsyn:-${COMROOT}/gfs/prod/syndat}
     fi

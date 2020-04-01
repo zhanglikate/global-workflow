@@ -11,3 +11,6 @@ rocotostat  -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v1
 ## redo 12Z 10/2719 post, vrfy, arch tasks  ==>  rewound them in v16beta_l64.db but gfsarch is "final" task so can't reactivate
 rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.db
 rocotostat -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/postonly.db
+
+rocotorun -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.db
+rocotostat -w /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.xml -d /scratch1/BMC/gmtb/jhender/dtc_aop_2019/gmtb_v16beta/FV3GFSwfm/v16beta_l64/vrfyonly.db
