@@ -48,8 +48,8 @@ if [ $HPSSARCH = "YES" ]; then
 ###############################################################
 
   ARCH_LIST="$COMIN/archlist"
-  [[ -d $ARCH_LIST ]] && rm -rf $ARCH_LIST
-  mkdir -p $ARCH_LIST
+  #JKH[[ -d $ARCH_LIST ]] && rm -rf $ARCH_LIST
+  #JKHmkdir -p $ARCH_LIST
   cd $ARCH_LIST
   
   $HOMEgfs/ush/hpssarch_gen_gmtb_trk.sh $CDUMP
