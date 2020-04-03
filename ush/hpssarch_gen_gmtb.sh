@@ -48,7 +48,7 @@ while [ $fh -le $FHMAX_GFS ]; do
 
   rem=`expr $fhr % 12`
   if [ $rem -eq 0 ]; then
-    echo  "${dirname}${head}atmf${fhr}.nemsio_select_nc4       " >>gfs_ncf.txt
+    echo  "${dirname}${head}atmf${fhr}.nemsio_select.nc4       " >>gfs_ncf.txt
   fi
 
   inc=$FHOUT_GFS

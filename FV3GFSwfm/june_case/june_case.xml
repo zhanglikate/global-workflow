@@ -269,7 +269,6 @@
 	<dependency>
 		<and>
 			<metataskdep metatask="gfspost"/>
-			<taskdep task="gfsvrfy"/>
 			<streq><left>&ARCHIVE_TO_HPSS;</left><right>YES</right></streq>
 		</and>
 	</dependency>

@@ -20,9 +20,9 @@
 
 	<!-- Experiment parameters such as starting, ending dates -->
 	<!ENTITY SDATE_12    "201910171200">
-	<!ENTITY EDATE_12    "202002241200">
+	<!ENTITY EDATE_12    "202003151200">
 	<!ENTITY SDATE_00    "201910230000">
-	<!ENTITY EDATE_00    "202002200000">
+	<!ENTITY EDATE_00    "202003110000">
 	<!ENTITY INTERVAL "240:00:00">
 
 	<!-- Run Envrionment -->
