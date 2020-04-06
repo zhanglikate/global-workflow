@@ -8,6 +8,7 @@
 *.mod
 *.so
 *.pyc
+*.i90
 
 # Temporary files #
 ###################
