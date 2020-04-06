@@ -1449,7 +1449,7 @@ subroutine general_read_gfsatm_nems(grd,sp_a,filename,uvflag,vordivflag,zflag, &
          work=zero
          call nemsio_readrecv(gfile,'clwmr','mid layer',k,rwork1d0,iret=iret)
          if (iret /= 0) call error_msg(trim(my_name),trim(filename),'clwmr','read',istop+9,iret)
-         if (imp_physics == 11) then
+         if (imp_physics == 11 .or. imp_physics == 8) then
             call nemsio_readrecv(gfile,'icmr','mid layer',k,rwork1d1,iret=iret)
             if (iret /= 0) then
                call error_msg(trim(my_name),trim(filename),'icmr','read',istop+10,iret)
