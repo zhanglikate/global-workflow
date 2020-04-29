@@ -6,10 +6,26 @@ checkout of GitHub fork: jkhender/global-workflow   (jan06 ufs_weather_model.fd)
    * GSDsuite runs successfully
    * GSDsuite no thompson crashes
 
+
 Jan 16, 2020
 ============
 checkout of GitHub fork: jkhender/global-workflow   (jan11 ufs_weather_model.fd)
    * test GSDsuite no thompson crashes
+
+Jan 29,2020
+============
+  GSDsuite no thompson runs successfully 
+    * config.fcst_GSDsuite_nothmp was missing RUC LSM and MYNN variables under GFDL MP option 
+
+  testing L128 
+    * numerical instability errors
+   
+
+Feb 05, 2020 
+============
+commit to feature/gsd-ccpp-dev branch in jkhender/global-workflow fork
+  workflow is based on 14Jan2020 global workflow develop branch, 3ed9267
+  GSD changes
 
 
 Feb 21, 2020

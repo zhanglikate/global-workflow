@@ -8,13 +8,8 @@ EXPDIR=$GITDIR/FV3GFSwfm                                         ## default EXPD
 #    ICSDIR is assumed to be under $COMROT/FV3ICS
 
 # make links for config.fcst and config.base.emc.dyn
-#  comment the next 2 lines if you want to run with RUCLSM
-ln -fs $GITDIR/parm/config/config.fcst_GSDsuite_noah $GITDIR/parm/config/config.fcst
-ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite_noah $GITDIR/parm/config/config.base.emc.dyn
-
-# uncomment the next 2 lines if you want to run with RUCLSM
-#ln -fs $GITDIR/parm/config/config.fcst_GSDsuite $GITDIR/parm/config/config.fcst
-#ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite_l128 $GITDIR/parm/config/config.base.emc.dyn
+ln -fs $GITDIR/parm/config/config.fcst_v16beta $GITDIR/parm/config/config.fcst
+ln -fs $GITDIR/parm/config/config.base.emc.dyn_v16beta  $GITDIR/parm/config/config.base.emc.dyn
 
 cp $GITDIR/parm/config/config.base.emc.dyn $GITDIR/parm/config/config.base
 
