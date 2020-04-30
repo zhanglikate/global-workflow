@@ -1,7 +1,7 @@
 USER=Judy.K.Henderson
 PTMP=/scratch1/BMC/gsd-fv3-dev/NCEPDEV/stmp3/$USER               ## default PTMP directory
 STMP=/scratch1/BMC/gsd-fv3-dev/NCEPDEV/stmp4/$USER               ## default STMP directory
-GITDIR=/scratch1/BMC/gsd-fv3-dev/$USER/test/gsd-ccpp-dev         ## where your git checkout is located
+GITDIR=/scratch1/BMC/gsd-fv3-dev/$USER/test/gsd-ccpp-chem        ## where your git checkout is located
 COMROT=$GITDIR/FV3GFSrun                                         ## default COMROT directory
 EXPDIR=$GITDIR/FV3GFSwfm                                         ## default EXPDIR directory
 
