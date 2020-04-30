@@ -76,7 +76,7 @@ def edit_baseconfig():
                     .replace('@ACCOUNT@', account) \
                     .replace('@QUEUE@', queue) \
                     .replace('@QUEUE_ARCH@', queue_arch) \
-                    .replace('@gfs_cyc@', '%d' % gfs_cyc)
+                    .replace('@gfs_cyc@', '%d' % gfs_cyc) 
                 if expdir is not None:
                     line = line.replace('@EXPDIR@', os.path.dirname(expdir))
                 if comrot is not None:
@@ -167,6 +167,7 @@ Create COMROT experiment directory structure'''
       ptmp = '/scratch1/NCEPDEV/stmp4/$USER'
       noscrub = '$HOMEDIR'
       account = 'fv3-cpu'
+      atardir = '/NCEPDEV/$HPSS_PROJECT/1year/$USER/$machine/scratch/$PSLOT'
       queue = 'batch'
       queue_arch = 'service'
 
