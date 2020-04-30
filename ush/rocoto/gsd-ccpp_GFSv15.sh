@@ -15,7 +15,7 @@ cp $GITDIR/parm/config/config.base.emc.dyn $GITDIR/parm/config/config.base
 PSLOT=GFSv15
 IDATE=2020010700
 EDATE=2020010700
-RESDET=768               ## 96 192 384 768
+RESDET=384               ## 96 192 384 768
 
 ### gfs_cyc 1  00Z only;  gfs_cyc 2  00Z and 12Z
 
