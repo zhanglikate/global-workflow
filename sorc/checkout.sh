@@ -21,7 +21,7 @@ if [[ ! -d fv3gfs_ccpp.fd ]] ; then
     rm -f ${topdir}/checkout-fv3gfs_ccpp.log
     git clone --recursive -b gsd/develop https://github.com/NOAA-GSD/ufs-weather-model  fv3gfs_ccpp.fd >> ${topdir}/checkout-fv3gfs_ccpp.log 2>&1
     cd fv3gfs_ccpp.fd
-    git checkout 2b5768b19409ba04a37b89833268b7a1d9233139
+    git checkout badba272cc32f95d79dc2742d457d7fb16423df5
     git submodule sync
     git submodule update --init --recursive
     cd ${topdir}

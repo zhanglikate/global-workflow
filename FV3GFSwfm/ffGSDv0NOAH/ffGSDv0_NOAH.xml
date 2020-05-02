@@ -232,7 +232,7 @@
 
 <task name="gfsarch" cycledefs="gfs" maxtries="&MAXTRIES;" final="true">
 
-	<command>&JOBS_DIR;/arch.sh</command>
+	<command>&JOBS_DIR;/arch_gsd.sh</command>
 
 	<jobname><cyclestr>&PSLOT;_gfsarch_@H</cyclestr></jobname>
 	<account>&ACCOUNT;</account>

@@ -10,16 +10,18 @@
 		rahul.mahajan@noaa.gov
 
 	NOTES:
-		This workflow was automatically generated at 2020-02-24 18:30:22.020916
+		This workflow was automatically generated at 2020-02-20 18:37:01.305285
 	-->
 
 	<!-- Experiment parameters such as name, starting, ending dates -->
-	<!ENTITY PSLOT "cycemc">
+	<!ENTITY PSLOT "cycGSDv0NOAH">
 	<!ENTITY SDATE "201909301800">
+	<!ENTITY EDATE "201910010000">
 	<!ENTITY EDATE "201910050000">
 
 	<!-- Starting and ending dates for GFS cycle -->
 	<!ENTITY SDATE_GFS    "201910010000">
+	<!ENTITY EDATE_GFS    "201910010000">
 	<!ENTITY EDATE_GFS    "201910050000">
 	<!ENTITY INTERVAL_GFS "24:00:00">
 
@@ -27,8 +29,8 @@
 	<!ENTITY RUN_ENVIR "emc">
 
 	<!-- Experiment and Rotation directory -->
-	<!ENTITY EXPDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemc">
-	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSrun/cycemc">
+	<!ENTITY EXPDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycGSDv0NOAH">
+	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSrun/cycGSDv0NOAH">
 
 	<!-- Directories for driving the workflow -->
 	<!ENTITY HOMEgfs  "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev">

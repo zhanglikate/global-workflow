@@ -18,9 +18,10 @@ ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite_noah $GITDIR/parm/config
 
 cp $GITDIR/parm/config/config.base.emc.dyn $GITDIR/parm/config/config.base
 
-PSLOT=cycCCPP
+PSLOT=cycGSDv0NOAH_40
 IDATE=2019093018
 EDATE=2019100200
+NENS=40
 
 ### gfs_cyc 1  00Z only;  gfs_cyc 2  00Z and 12Z
 
@@ -31,6 +32,7 @@ EDATE=2019100200
 ./setup_expt.py --pslot $PSLOT  \
        --idate $IDATE --edate $EDATE \
        --configdir $GITDIR/parm/config \
+       --nens $NENS \
        --comrot $COMROT --expdir $EXPDIR
 
 #for running chgres, forecast, and post 

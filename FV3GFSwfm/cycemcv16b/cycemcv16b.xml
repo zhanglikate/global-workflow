@@ -10,11 +10,11 @@
 		rahul.mahajan@noaa.gov
 
 	NOTES:
-		This workflow was automatically generated at 2020-02-20 18:37:01.305285
+		This workflow was automatically generated at 2020-02-24 18:30:22.020916
 	-->
 
 	<!-- Experiment parameters such as name, starting, ending dates -->
-	<!ENTITY PSLOT "cycCCPP">
+	<!ENTITY PSLOT "cycemcv16b">
 	<!ENTITY SDATE "201909301800">
 	<!ENTITY EDATE "201910050000">
 
@@ -27,8 +27,8 @@
 	<!ENTITY RUN_ENVIR "emc">
 
 	<!-- Experiment and Rotation directory -->
-	<!ENTITY EXPDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycCCPP">
-	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSrun/cycCCPP">
+	<!ENTITY EXPDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemcv16b">
+	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSrun/cycemcv16b">
 
 	<!-- Directories for driving the workflow -->
 	<!ENTITY HOMEgfs  "/scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev">

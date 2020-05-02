@@ -1,5 +1,5 @@
-rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/GSDv0_NOAH.xml -d ~/dbfiles/GSDv0_NOAH.db
-rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/GSDv0_NOAH.xml -d ~/dbfiles/GSDv0_NOAH.db
+rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/ffGSDv0_NOAH.xml -d ~/dbfiles/ffGSDv0_NOAH.db
+rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/ffGSDv0_NOAH.xml -d ~/dbfiles/ffGSDv0_NOAH.db
 
 rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/postonly.xml -d /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/postonly.db
 rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/postonly.xml -d /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffGSDv0NOAH/postonly.db

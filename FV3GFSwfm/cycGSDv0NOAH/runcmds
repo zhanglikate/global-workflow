@@ -1,5 +1,5 @@
-rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycCCPP/cycCCPP.xml -d ~/dbfiles/cycCCPP.db
-rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycCCPP/cycCCPP.xml -d ~/dbfiles/cycCCPP.db
+rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycGSDv0NOAH/cycGSDv0NOAH.xml -d ~/dbfiles/cycGSDv0NOAH.db
+rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycGSDv0NOAH/cycGSDv0NOAH.xml -d ~/dbfiles/cycGSDv0NOAH.db
 
 rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycCCPP/gfspostonly.xml -d /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycCCPP/gfspostonly.db
 rocotostat  -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycCCPP/gfspostonly.xml -d /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycCCPP/gfspostonly.db

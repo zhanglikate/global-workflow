@@ -1,5 +1,5 @@
 sub update_sfc_summaries {
-    my($model,$valid_time,$fcst_len,$region,$max_retro_secs,
+    my($model,$valid_time,$fcst_len,$region,$retro_flag,
        $dbh,$db_name,$DEBUG) = @_;
     use strict;
     use Time::Local;
@@ -8,16 +8,16 @@ sub update_sfc_summaries {
     my $sth;
     my $table = "surface_sums2.${model}_metar_v2_$region";
     my $madis_table = "$db_name.${model}qp";
-    if($fcst_len == 1) {
-        $madis_table .= "1f";
-    }
     print "updating summaries in $table\n";
-    print "max_retro_secs is $max_retro_secs\n";
+    print "retro_flag is $retro_flag\n";
     my $obs_table = "hr_obs_$valid_time";
-#    my $obs_table = "obs";
-#    if($valid_time < $max_retro_secs) {
-#       $obs_table = "obs_retro";
-#    }
+    if($retro_flag == 1) {
+       $obs_table = "obs_retro";
+    } else {
+       if($fcst_len == 1) {
+          $madis_table .= "1f";
+       }
+    }
     $query =<<"EOI";
 replace into $table
 (valid_day,hour,fcst_len,N_dt,sum_ob_t,sum_dt,sum2_dt,

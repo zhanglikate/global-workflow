@@ -8,19 +8,14 @@ EXPDIR=$GITDIR/FV3GFSwfm                                         ## default EXPD
 #    ICSDIR is assumed to be under $COMROT/FV3ICS
 
 # make links for config.fcst and config.base.emc.dyn
-#  comment the next 2 lines if you want to run with RUCLSM
-ln -fs $GITDIR/parm/config/config.fcst_GSDsuite_noah $GITDIR/parm/config/config.fcst
-ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite_noah $GITDIR/parm/config/config.base.emc.dyn
-
-# uncomment the next 2 lines if you want to run with RUCLSM
-#ln -fs $GITDIR/parm/config/config.fcst_GSDsuite $GITDIR/parm/config/config.fcst
-#ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite $GITDIR/parm/config/config.base.emc.dyn
+ln -fs $GITDIR/parm/config/config.fcst_v16beta $GITDIR/parm/config/config.fcst
+ln -fs $GITDIR/parm/config/config.base.emc.dyn_v16beta  $GITDIR/parm/config/config.base.emc.dyn
 
 cp $GITDIR/parm/config/config.base.emc.dyn $GITDIR/parm/config/config.base
 
-PSLOT=GSDv0_NOAH
-IDATE=2019010100
-EDATE=2019010100
+PSLOT=ffemcv16b
+IDATE=2019100100
+EDATE=2019100500
 RESDET=768               ## 96 192 384 768
 
 ### gfs_cyc 1  00Z only;  gfs_cyc 2  00Z and 12Z
@@ -32,11 +27,11 @@ RESDET=768               ## 96 192 384 768
 
 
 #for running chgres, forecast, and post 
-./setup_workflow_fcstonly_gsd_aeroic.py --expdir $EXPDIR/$PSLOT
+./setup_workflow_fcstonly_gsd.py --expdir $EXPDIR/$PSLOT
 
 # call jobs/rocoto/makefv3ic_link.sh for fv3ic task
 sed -i "s/fv3ic.sh/makefv3ic_link.sh/" $EXPDIR/$PSLOT/$PSLOT.xml
+
 # call jobs/rocoto/arch_gsd.sh for gfsarch task
 sed -i "s/arch.sh/arch_gsd.sh/" $EXPDIR/$PSLOT/$PSLOT.xml
-
 

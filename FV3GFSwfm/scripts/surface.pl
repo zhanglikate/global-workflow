@@ -126,9 +126,14 @@ if($qsubbed == 1) {
     STDOUT->fdopen( \*OUTPUT, 'w' ) or die $!; # send stdout to output file
 }
 # see if we should use the obs_retro table for obs
-my @res = $dbh->selectrow_array("select max(time) from obs");
-my $max_retro_secs = $res[0];
-print "max retro secs is $max_retro_secs\n";
+my $res = $dbh->selectrow_array("select max(time) from obs_retro where time >= $startSecs and time <= $endSecs");
+my $retro_flag = 1;
+unless($res) {
+  # no obs found for the time period in the retro table. Assuming realtime
+  $retro_flag = 0;
+  print "No obs in the retro database for this run. Assuming realtime\n";
+}
+print "retro_flag is $retro_flag\n";
 
 my $db_machine = "137.75.133.134";
 my $db_name = "madis3";
@@ -246,7 +251,7 @@ if($WRF == 1) {
     $arg_unsafe = "${FV3GFS_SURFACE} ".
         "$data_source $valid_time $file $grib_type $fcst_len ".
         "$la1 $lo1 $lov $latin1 $dx ".
-        "$nx $ny 1 $max_retro_secs ".
+        "$nx $ny 1 $retro_flag ".
         "$tmp_file $data_file $data_1f_file $coastal_file $coastal_station_file ".
         "$DEBUG";
     $arg_unsafe =~ /([a-zA-Z0-9\.\/\~\_\-\, ]*)/;
@@ -276,7 +281,7 @@ if($n_stations_loaded > 0) {
         my $valid_time_string = gmtime($valid_time);
         print "GENERATING SUMMARIES for $data_source,$valid_time_string,$fcst_len,$region\n";
         update_sfc_summaries($data_source,$valid_time,$fcst_len,$region,
-                                $max_retro_secs,$dbh,$db_name,0);
+                                $retro_flag,$dbh,$db_name,0);
     }
 } else {
     print "NOT GENERATING SUMMARIES\n\n";

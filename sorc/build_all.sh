@@ -70,6 +70,20 @@ fi
 }
 
 #------------------------------------
+# build fv3_ccpp
+#------------------------------------
+$Build_fv3gfs_ccpp && {
+echo " .... Building fv3_ccpp .... "
+./build_fv3_ccpp.sh > $logs_dir/build_fv3_ccpp.log 2>&1
+rc=$?
+if [[ $rc -ne 0 ]] ; then
+    echo "Fatal error in building fv3_ccpp."
+    echo "The log file is in $logs_dir/build_fv3_ccpp.log"
+fi
+((err+=$rc))
+}
+
+#------------------------------------
 # build gsi
 #------------------------------------
 $Build_gsi && {

@@ -127,6 +127,7 @@ elif [ $imp_physics -eq 8 ]; then # Thompson
     export cal_pre=".false."
     export random_clds=".false."
 
+    export effr_in=".true."
     export ttendlim=0.005
     export vtdm4_nh_nonmono=0.02
     export nord=2
@@ -174,7 +175,8 @@ if [[ "$CDUMP" == "gdas" ]] ; then # GDAS cycle specific parameters
 
     # Variables used in DA cycling
     if [ $QUILTING = ".true." -a $OUTPUT_GRID = "gaussian_grid" ]; then
-        export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_da"
+        #export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_da"
+        export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_da_gsd"      ## JKH
     else
         export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_da_orig"
     fi
@@ -189,12 +191,8 @@ elif [[ "$CDUMP" == "gfs" ]] ; then # GFS cycle specific parameters
 
     # Write more variables to output
     if [ $QUILTING = ".true." -a $OUTPUT_GRID = "gaussian_grid" ]; then
-        if [ $imp_physics -eq 8 ]; then # Thompson
-            export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table"
-            #export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_gsd"
-        else
-            export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table"
-        fi
+        #export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table"
+        export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_gsd"       ## JKH
     else
         export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_orig"
     fi
