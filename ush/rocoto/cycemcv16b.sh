@@ -13,7 +13,7 @@ ln -fs $GITDIR/parm/config/config.base.emc.dyn_v16beta  $GITDIR/parm/config/conf
 
 cp $GITDIR/parm/config/config.base.emc.dyn $GITDIR/parm/config/config.base
 
-PSLOT=cycemc
+PSLOT=cycemcv16b
 IDATE=2019093018
 EDATE=2019100200
 

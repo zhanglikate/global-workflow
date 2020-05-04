@@ -14,27 +14,29 @@ ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite_noah $GITDIR/parm/config
 
 # uncomment the next 2 lines if you want to run with RUCLSM
 #ln -fs $GITDIR/parm/config/config.fcst_GSDsuite $GITDIR/parm/config/config.fcst
-#ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite_l128 $GITDIR/parm/config/config.base.emc.dyn
+#ln -fs $GITDIR/parm/config/config.base.emc.dyn_GSDsuite $GITDIR/parm/config/config.base.emc.dyn
 
 cp $GITDIR/parm/config/config.base.emc.dyn $GITDIR/parm/config/config.base
 
-PSLOT=cycCCPP
-IDATE=2019093018
-EDATE=2019100200
+PSLOT=ffGSDv0_NOAH
+IDATE=2019010100
+EDATE=2019010100
+RESDET=768               ## 96 192 384 768
 
 ### gfs_cyc 1  00Z only;  gfs_cyc 2  00Z and 12Z
 
-### note default RESDET=384 RESEND=192
-###./setup_expt.py --pslot $PSLOT --configdir $CONFIGDIR --idate $IDATE --edate $EDATE --comrot $COMROT --expdir $EXPDIR [ --icsdir $ICSDIR --resdet $RESDET --resens $RESENS --nens $NENS --gfs_cyc $GFS_CYC ]
-#       --icsdir $ICSDIR --idate $IDATE --edate $EDATE \
-
-./setup_expt.py --pslot $PSLOT  \
-       --idate $IDATE --edate $EDATE \
+./setup_expt_fcstonly.py --pslot $PSLOT  \
+       --gfs_cyc 1 --idate $IDATE --edate $EDATE \
        --configdir $GITDIR/parm/config \
-       --comrot $COMROT --expdir $EXPDIR
+       --res $RESDET --comrot $COMROT --expdir $EXPDIR
+
 
 #for running chgres, forecast, and post 
-./setup_workflow.py --expdir $EXPDIR/$PSLOT
+./setup_workflow_fcstonly_gsd_aeroic.py --expdir $EXPDIR/$PSLOT
 
-# copy over config.efcs for GSDsuite
-cp $GITDIR/parm/config/config.efcs_GSDsuite_noah $EXPDIR/$PSLOT/config.efcs
+# call jobs/rocoto/makefv3ic_link.sh for fv3ic task
+sed -i "s/fv3ic.sh/makefv3ic_link.sh/" $EXPDIR/$PSLOT/$PSLOT.xml
+# call jobs/rocoto/arch_gsd.sh for gfsarch task
+sed -i "s/arch.sh/arch_gsd.sh/" $EXPDIR/$PSLOT/$PSLOT.xml
+
+
