@@ -56,20 +56,6 @@ echo " .... Library build not currently supported .... "
 }
 
 #------------------------------------
-# build fv3
-#------------------------------------
-$Build_fv3gfs && {
-echo " .... Building fv3 .... "
-./build_fv3.sh > $logs_dir/build_fv3.log 2>&1
-rc=$?
-if [[ $rc -ne 0 ]] ; then
-    echo "Fatal error in building fv3."
-    echo "The log file is in $logs_dir/build_fv3.log"
-fi
-((err+=$rc))
-}
-
-#------------------------------------
 # build fv3_ccpp
 #------------------------------------
 $Build_fv3gfs_ccpp && {
