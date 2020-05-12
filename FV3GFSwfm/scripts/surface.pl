@@ -219,6 +219,11 @@ unless(-r $file) {
 } else {
     print "FILE FOUND $data_source $fcst_len h fcst valid at $valid_str\n";
 }
+my $file_size = -s $file;
+if($file_size == 0) {
+    print "FILE EMPTY $data_source $fcst_len h fcst valid at $valid_str\n";
+    next;
+}
 # get grid details
 my($la1,$lo1,$lov,$latin1,$nx,$ny,$dx,$grib_type,$grid_type,$valid_date_from_file,$fcst_proj)
     = get_grid($file,$thisDir,$DEBUG);
