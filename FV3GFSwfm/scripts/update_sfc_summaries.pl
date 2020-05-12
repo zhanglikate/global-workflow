@@ -11,6 +11,17 @@ sub update_sfc_summaries {
     print "updating summaries in $table\n";
     print "retro_flag is $retro_flag\n";
     my $obs_table = "hr_obs_$valid_time";
+    my $rh_flag = 0;
+
+    # see if the obs table exists
+    $dbh->do("use madis3");
+    $query = qq(show tables like '$obs_table');
+    my $result = $dbh->selectrow_array($query);
+    unless($result) {
+       print "$obs_table doesn't exist, use the obs table\n";
+       $obs_table = "obs";
+       $rh_flag = 1;
+    }
     if($retro_flag == 1) {
        $obs_table = "obs_retro";
     } else {
@@ -18,11 +29,13 @@ sub update_sfc_summaries {
           $madis_table .= "1f";
        }
     }
-    $query =<<"EOI";
+# retro
+    if($retro_flag == 1 || $rh_flag ==1) {
+       $query =<<"EOI";
 replace into $table
 (valid_day,hour,fcst_len,N_dt,sum_ob_t,sum_dt,sum2_dt,
  N_dw,sum_ob_ws,sum_model_ws,sum_du,sum_dv,sum2_dw,
- N_dtd,sum_ob_td,sum_dtd,sum2_dtd,N_drh,sum_ob_rh,sum_drh,sum2_drh)
+ N_dtd,sum_ob_td,sum_dtd,sum2_dtd)
 select floor((m.time+1800)/(24*3600))*(24*3600) as valid_day
 ,floor(((m.time+1800)%(24*3600))/3600) as hour
 ,m.fcst_len
@@ -40,10 +53,6 @@ select floor((m.time+1800)/(24*3600))*(24*3600) as valid_day
 ,sum(if(m.dp is not null,o.dp,null))/10 as avg_ob_dp
 ,sum(o.dp - m.dp)/10 as sum_dtd
 ,sum(pow(o.dp - m.dp,2))/100 as sum2_dtd
-,count(o.rh - m.rh) as N_drh
-,sum(if(m.rh is not null,o.rh,null))/10 as sum_ob_rh
-,sum(o.rh - m.rh)/10 as sum_drh
-,sum(pow(o.rh - m.rh,2))/100 as sum2_drh
 from $db_name.$obs_table as o
      ,$db_name.${model}qp as m #ignore index (time_id)
      ,$db_name.metars as s
@@ -58,9 +67,10 @@ and o.time < $valid_time + 1800
 #group by valid_day,hour,fcst_len
 EOI
     ;
-    print "$query";
-$dbh->do($query);
-# surface_sums2
+      print "$query";
+      $dbh->do($query);
+# realtime
+    } else {
     my $table = "surface_sums2.${model}_metar_v2_$region";
 $query =<<"EOI";
 replace into $table
@@ -102,8 +112,9 @@ and o.time < $valid_time + 1800
 #group by valid_day,hour,fcst_len
 EOI
     ;
-    print "$query";
-$dbh->do($query);
+       print "$query";
+       $dbh->do($query);
+    }
 }
   1;
 

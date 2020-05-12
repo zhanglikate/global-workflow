@@ -63,7 +63,7 @@ while(<I>) {
         $inventory{$1} = $_;
     } else {
 #       if(/((DPT|TMP|RH|SPFH)):2 m above ground:/) {
-        if(/((TMP|RH|SPFH)):2 m above ground:/) {
+        if(/:((TMP|RH|SPFH)):2 m above ground:/) {
             $inventory{$1} = $_;
         } elsif(/((UGRD|VGRD)):10 m above ground:/) {
             $inventory{$1} = $_;

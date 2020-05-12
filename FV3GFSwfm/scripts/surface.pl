@@ -192,13 +192,7 @@ my ($dym,$dym,$hour,$mday,$month,$year,$wday,$yday) =
     gmtime($run_time);
 my $jday=$yday+1;
 
-if($reprocess == 0 &&
-   already_processed($data_source,$valid_time,$fcst_len,$regions[0],$DEBUG)) {
-    print "\nALREADY LOADED: $data_source $fcst_len h fcst valid at $valid_str\n";
-    next;
-} else {
-    print "\nTO PROCESS: $fcst_len h fcst valid at $valid_str\n";
-}
+print "\nTO PROCESS: $fcst_len h fcst valid at $valid_str\n";
 
 my $start = "";                 # not looking for 'latest'
 
