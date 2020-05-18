@@ -20,9 +20,9 @@ echo fv3gfs_ccpp_chem checkout ...
 if [[ ! -d fv3gfs_ccpp_chem.fd ]] ; then
     rm -f ${topdir}/checkout-fv3gfs_ccpp_chem.log
     rm fv3gfs.fd
-    git clone --recursive -b gsd/develop https://github.com/haiqinli/ufs-weather-model  fv3gfs_ccpp_chem.fd >> ${topdir}/checkout-fv3gfs_ccpp_chem.log 2>&1
+    git clone --recursive -b gsd/develop-chem https://github.com/haiqinli/ufs-weather-model  fv3gfs_ccpp_chem.fd >> ${topdir}/checkout-fv3gfs_ccpp_chem.log 2>&1
     cd fv3gfs_ccpp_chem.fd
-    git checkout badba272cc32f95d79dc2742d457d7fb16423df5
+    git checkout 433fc66b55e154d7c42fe108f1d8b2ab3f629ec4
     git submodule sync
     git submodule update --init --recursive
     cd ${topdir}
