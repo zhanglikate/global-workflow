@@ -12,7 +12,7 @@ echo "CDATE = $CDATE"
 echo "CDUMP = $CDUMP"
 echo "ICSDIR = $ICSDIR"
 echo "PUBDIR = $PUBDIR"
-echo "ARCDIR = $ARCDIR"
+echo "RETRODIR = $RETRODIR"
 echo "ROTDIR = $ROTDIR"
 echo "PSLOT = $PSLOT"
 echo
@@ -36,13 +36,13 @@ then
     ln -fs $PUBDIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.nstanl.nemsio nstanl.gfs.${CDATE}
   fi
 else 
-  if [[ -f $ARCDIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.sfcanl.nemsio ]]
+  if [[ -f $RETRODIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.sfcanl.nemsio ]]
   then
-    ln -fs $ARCDIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.sfcanl.nemsio sfcanl.gfs.${CDATE}
-    ln -fs $ARCDIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.atmanl.nemsio siganl.gfs.${CDATE}
-    if [[ -f $ARCDIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.nstanl.nemsio ]] 
+    ln -fs $RETRODIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.sfcanl.nemsio sfcanl.gfs.${CDATE}
+    ln -fs $RETRODIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.atmanl.nemsio siganl.gfs.${CDATE}
+    if [[ -f $RETRODIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.nstanl.nemsio ]] 
     then
-      ln -fs $ARCDIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.nstanl.nemsio nstanl.gfs.${CDATE}
+      ln -fs $RETRODIR/${yyddd}${hh}00.${CDUMP}.t${hh}z.nstanl.nemsio nstanl.gfs.${CDATE}
     fi 
   fi
 fi
