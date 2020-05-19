@@ -1,4 +1,9 @@
+May 19, 2020
+============
+ - updated to feature/gfsv16b 18May2020 branch, 9f7df9d
+ - GSD changes
+
+
 May 12, 2020
 ============
-created new branch, feature/gsd-ccpp-v16b based on global workflow feature/gfsv16b 12May2020 branch, 4291349
-GSD changes
+ - created new branch, feature/gsd-ccpp-v16b based on global workflow feature/gfsv16b 12May2020 branch, 4291349
