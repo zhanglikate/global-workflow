@@ -188,6 +188,8 @@ cd ${pwd}/../ush                ||exit 8
 cd $pwd/../exec
 [[ -s global_fv3gfs.x ]] && rm -f global_fv3gfs.x
 $LINK ../sorc/fv3gfs.fd/NEMS/exe/global_fv3gfs.x .
+[[ -s global_fv3gfs_ccpp.x ]] && rm -f global_fv3gfs_ccpp.x
+$LINK ../sorc/fv3gfs_ccpp.fd/NEMS/exe/global_fv3gfs_ccpp.x .
 if [ -d ../sorc/fv3gfs.fd/WW3/exec ]; then # Wave execs
   for waveexe in ww3_gint ww3_grib ww3_grid ww3_multi ww3_ounf ww3_ounp ww3_outf ww3_outp ww3_prep ww3_prnc; do
     [[ -s $waveexe ]] && rm -f $waveexe
