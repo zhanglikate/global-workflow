@@ -259,7 +259,7 @@ export netcdf_diag=".true."
 export binary_diag=".false."
 
 # Verification options
-export DO_METP="YES"                  # Run MET+ jobs
+export DO_METP="NO"                  # Run MET+ jobs          ## JKH
 
 # Archiving options
 export HPSSARCH="NO"         # save data to HPSS archive
