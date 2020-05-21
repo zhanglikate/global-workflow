@@ -6,7 +6,7 @@ EXPDIR=$GITDIR/FV3GFSwfm                                         ## default EXPD
 #    ICSDIR is assumed to be under $COMROT/FV3ICS
 #cp $GITDIR/parm/config/config.base.emc.dyn $GITDIR/parm/config/config.base
 
-PSLOT=exp_GSDnoah
+PSLOT=ffGSDnoah
 IDATE=2020051800
 EDATE=2020051800
 RESDET=768               ## 96 192 384 768
