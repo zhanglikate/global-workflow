@@ -72,16 +72,16 @@ fi
 #------------------------------------
 # build fv3
 #------------------------------------
-$Build_fv3gfs && {
-echo " .... Building fv3 .... "
-./build_fv3.sh > $logs_dir/build_fv3.log 2>&1
-rc=$?
-if [[ $rc -ne 0 ]] ; then
-    echo "Fatal error in building fv3."
-    echo "The log file is in $logs_dir/build_fv3.log"
-fi
-((err+=$rc))
-}
+##JKH$Build_fv3gfs && {
+##JKHecho " .... Building fv3 .... "
+##JKH./build_fv3.sh > $logs_dir/build_fv3.log 2>&1
+##JKHrc=$?
+##JKHif [[ $rc -ne 0 ]] ; then
+##JKH    echo "Fatal error in building fv3."
+##JKH    echo "The log file is in $logs_dir/build_fv3.log"
+##JKHfi
+##JKH((err+=$rc))
+##JKH}
 
 #------------------------------------
 # build gsi
