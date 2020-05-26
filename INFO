@@ -1,4 +1,18 @@
 ============
+May 18, 2020
+============
+updated to 18May2020 gsd/develop-chem branch from Haiqin Li's fork, 433fc66
+   708b8d5e5e044860bfc409c22524eb9fb8b25ff3 FMS (2019.01)
+    2a28f9167e5ad7082df07fd6fe5078695b12719f FV3 (remotes/origin/gsd/develop-chem)
+     e53a24be1bee834a14f5f85ef5d8d18f431d6b16 atmos_cubed_sphere (heads/gsd/develop)
+     c0faa3a31fa10a9740ab94d75dd548565e0c8c08 ccpp/framework (ccpp_transition_to_vlab_master_20190705-81-gc0faa3a)
+     cd71dd3483d11fb446563be8b764f90f150c52dd ccpp/physics (ccpp_transition_to_vlab_master_20190705-171-gcd71dd3)
+   8248a782d7193d41b773f6d90611c936e11e3c7f NEMS (8248a78)
+   f6ebf95ff3bfa0bcbde1e5dbddf5a3e7760c6965 WW3 (6.07.1-27-gf6ebf95f)
+   1745422af76d830757cd6035b6ea101e92b4cac1 stochastic_physics (GFS_v16.0.0)
+
+
+============
 Apr 29, 2020
 ============
 create feature/gsd-ccpp-chem branch from 29Apr2020 feature/gsd-ccpp-dev branch
