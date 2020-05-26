@@ -851,7 +851,8 @@ endif
  endif
 
 ! Initial GFDL saturation water vapor pressure tables
-  if (n_actual_aerosols_wk>0 .or. n_clouds_fwd_wk>0 .and. imp_physics==11) then
+  if (n_actual_aerosols_wk>0 .or. n_clouds_fwd_wk>0 .and. &
+     (imp_physics==11 .or. imp_physics==8)) then
 
      if (mype==0) write(6,*)myname_,':initial and load GFDL saturation water vapor pressure tables'
 
@@ -906,7 +907,7 @@ subroutine destroy_crtm
      write(6,*)myname_,':  ***ERROR*** error_status=',error_status
   if (n_actual_aerosols_wk>0 .or. n_clouds_fwd_wk>0) then  
      deallocate(gesqsat)
-     if (imp_physics==11) then
+     if (imp_physics==11 .or. imp_physics==8) then
         deallocate(table)
         deallocate(table2)
         deallocate(tablew)
@@ -1784,7 +1785,8 @@ subroutine call_crtm(obstype,obstime,data_s,nchanl,nreal,ich, &
      endif ! <n_clouds_fwd_wk>
   end do
   ! Calculate GFDL effective radius for each hydrometeor
-  if ( icmask .and. n_clouds_fwd_wk > 0 .and. imp_physics==11 .and. lprecip_wk) then
+  if ( icmask .and. n_clouds_fwd_wk > 0 .and. (imp_physics==11 .or. imp_physics==8) .and. &
+       lprecip_wk) then
      do ii = 1, n_clouds_fwd_wk
         iii=jcloud(ii)
        call calc_gfdl_reff(rho_air,h,cloud(:,ii),cloud_names(iii),cloudefr(:,ii))
@@ -1792,7 +1794,8 @@ subroutine call_crtm(obstype,obstime,data_s,nchanl,nreal,ich, &
   endif
 
   ! Calculate GFDL cloud fraction (if no cf in metguess table) based on PDF scheme 
-  if ( icmask .and. n_clouds_fwd_wk > 0 .and. imp_physics==11 .and.  lcalc_gfdl_cfrac ) then
+  if ( icmask .and. n_clouds_fwd_wk > 0 .and. (imp_physics==11 .or. imp_physics==8) .and. &
+       lcalc_gfdl_cfrac ) then
      cf_calc  = zero
      call calc_gfdl_cloudfrac(rho_air,h,qmix,cloud,hs,garea,cf_calc)
      cf   = cf_calc
@@ -2022,7 +2025,7 @@ subroutine call_crtm(obstype,obstime,data_s,nchanl,nreal,ich, &
               do ii=1,n_clouds_fwd_wk
                 !cloud_cont(k,ii)=cloud(kk2,ii)*kgkg_kgm2 
                  cloud_cont(k,ii)=cloud(kk2,ii)*c6(k)
-                 if (imp_physics==11 .and. lprecip_wk .and.  cloud_cont(k,ii) > 1.0e-6_r_kind) then
+                 if ((imp_physics==11 .or. imp_physics==8) .and. lprecip_wk .and.  cloud_cont(k,ii) > 1.0e-6_r_kind) then
                     cloud_efr (k,ii)=cloudefr(kk2,ii)
                  else
                     cloud_efr (k,ii)=zero

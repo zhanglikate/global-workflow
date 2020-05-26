@@ -875,7 +875,7 @@ subroutine parallel_read_nemsio_state_(en_full,m_cvars2d,m_cvars3d,nlon,nlat,nsi
    odate(4) = idate(1)  !year
 
    allocate(work(nlon*(nlat-2)))
-   if (imp_physics == 11) allocate(work2(nlon*(nlat-2)))
+   if (imp_physics == 11 .or. imp_physics == 8) allocate(work2(nlon*(nlat-2)))
    allocate(temp3(nlat,nlon,nsig,nc3d))
    allocate(temp2(nlat,nlon,nc2d))
    k3u=0 ; k3v=0 ; k3t=0 ; k3q=0 ; k3cw=0 ; k3oz=0
@@ -896,7 +896,7 @@ subroutine parallel_read_nemsio_state_(en_full,m_cvars2d,m_cvars3d,nlon,nlat,nsi
          if(trim(cvars3d(k3))=='cw') then
             call nemsio_readrecv(gfile,'clwmr','mid layer',k,work,iret=iret)
             if (iret /= 0) call error_msg(trim(myname_),trim(filename),'clwmr','read',istop+6,iret,.true.)
-            if (imp_physics == 11) then
+            if (imp_physics == 11 .or. imp_physics == 8) then
                call nemsio_readrecv(gfile,'icmr','mid layer',k,work2,iret=iret)
                if (iret /= 0) then
                   call error_msg(trim(myname_),trim(filename),'icmr','read',istop+7,iret,.true.)
@@ -978,7 +978,7 @@ subroutine parallel_read_nemsio_state_(en_full,m_cvars2d,m_cvars3d,nlon,nlat,nsi
       endif
    enddo
    deallocate(work)
-   if (imp_physics == 11) deallocate(work2)
+   if (imp_physics == 11 .or. imp_physics == 8) deallocate(work2)
 
 !  move temp2,temp3 to en_full
    kf=0

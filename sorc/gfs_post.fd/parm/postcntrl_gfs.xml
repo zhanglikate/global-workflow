@@ -450,7 +450,7 @@
     </param>
 
     <param>
-       <shortname>AVE_DSWRF_ON_SURFACE</shortname>
+       <shortname>INST_DSWRF_ON_SURFACE</shortname>
        <table_info>NCEP</table_info>
        <scale>3.0</scale>
     </param>
@@ -468,31 +468,31 @@
     </param>
 
     <param>
-       <shortname>AVE_DLWRF_ON_SURFACE</shortname>
+       <shortname>INST_DLWRF_ON_SURFACE</shortname>
        <table_info>NCEP</table_info>
        <scale>3.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_USWRF_ON_SURFACE</shortname>
+       <shortname>INST_USWRF_ON_SURFACE</shortname>
        <table_info>NCEP</table_info>
        <scale>3.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_ULWRF_ON_SURFACE</shortname>
+       <shortname>INST_ULWRF_ON_SURFACE</shortname>
        <table_info>NCEP</table_info>
        <scale>3.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_USWRF_ON_TOP_OF_ATMOS</shortname>
+       <shortname>INST_USWRF_ON_TOP_OF_ATMOS</shortname>
        <table_info>NCEP</table_info>
        <scale>3.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_ULWRF_ON_TOP_OF_ATMOS</shortname>
+       <shortname>INST_ULWRF_ON_TOP_OF_ATMOS</shortname>
        <table_info>NCEP</table_info>
        <scale>3.0</scale>
     </param>
@@ -514,28 +514,28 @@
     </param>
 
     <param>
-       <shortname>AVE_SHTFL_ON_SURFACE</shortname>
+       <shortname>INST_SHTFL_ON_SURFACE</shortname>
        <scale>4.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_GFLUX_ON_SURFACE</shortname>
+       <shortname>INST_GFLUX_ON_SURFACE</shortname>
        <table_info>NCEP</table_info>
        <scale>4.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_LHTFL_ON_SURFACE</shortname>
+       <shortname>INST_LHTFL_ON_SURFACE</shortname>
        <scale>4.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_UFLX_ON_SURFACE</shortname>
+       <shortname>INST_UFLX_ON_SURFACE</shortname>
        <scale>4.0</scale>
     </param>
 
     <param>
-       <shortname>AVE_VFLX_ON_SURFACE</shortname>
+       <shortname>INST_VFLX_ON_SURFACE</shortname>
        <scale>4.0</scale>
     </param>
 
