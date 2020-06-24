@@ -1,3 +1,0 @@
-rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffemcv16b/ffemcv16b.xml -d ~/dbfiles/ffemcv16b.db
-rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/ffemcv16b/ffemcv16b.xml -d ~/dbfiles/ffemcv16b.db
-

@@ -1,5 +1,0 @@
-rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemcv16b/cycemcv16b.xml -d ~/dbfiles/cycemcv16b.db
-rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemcv16b/cycemcv16b.xml -d ~/dbfiles/cycemcv16b.db
-
-rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemc/gfspostonly.xml -d /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemc/gfspostonly.db
-rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemc/gfspostonly.xml -d /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycemc/gfspostonly.db

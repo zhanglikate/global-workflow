@@ -1,3 +1,0 @@
-rocotorun -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycGSDv0NOAH_40/cycGSDv0NOAH_40.xml -d ~/dbfiles/cycGSDv0NOAH_40.db
-rocotostat -w /scratch1/BMC/gsd-fv3-dev/Judy.K.Henderson/test/gsd-ccpp-dev/FV3GFSwfm/cycGSDv0NOAH_40/cycGSDv0NOAH_40.xml -d ~/dbfiles/cycGSDv0NOAH_40.db
-
