@@ -1,6 +1,0 @@
-  <!ENTITY % jet          SYSTEM "jet.xml">
-  <!ENTITY % jet_retro    SYSTEM "jet_retro.xml">
-  <!ENTITY % theia        SYSTEM "theia.xml">
-  <!ENTITY % theia_retro  SYSTEM "theia_retro.xml">
-  <!ENTITY % hera        SYSTEM "hera.xml">
-  <!ENTITY % hera_retro  SYSTEM "hera_retro.xml">
