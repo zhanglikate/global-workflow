@@ -431,13 +431,13 @@ def get_workflow(dict_configs, cdump='gdas'):
     #    tasks.append('\n')
 
     # vrfy
-    deps = []
-    dep_dict = {'type':'metatask', 'name':'%spost' % cdump}
-    deps.append(rocoto.add_dependency(dep_dict))
-    dependencies = rocoto.create_dependency(dep=deps)
-    task = wfu.create_wf_task('vrfy', cdump=cdump, envar=envars, dependency=dependencies)
-    tasks.append(task)
-    tasks.append('\n')
+#JKH    deps = []
+#JKH    dep_dict = {'type':'metatask', 'name':'%spost' % cdump}
+#JKH    deps.append(rocoto.add_dependency(dep_dict))
+#JKH    dependencies = rocoto.create_dependency(dep=deps)
+#JKH    task = wfu.create_wf_task('vrfy', cdump=cdump, envar=envars, dependency=dependencies)
+#JKH    tasks.append(task)
+#JKH    tasks.append('\n')
 
     # metp
     if do_metp in ['Y', 'YES']:

@@ -4,11 +4,11 @@ set -xue
 topdir=$(pwd)
 echo $topdir
 
-echo fv3gfs checkout ...
-if [[ ! -d fv3gfs.fd ]] ; then
-    rm -f ${topdir}/checkout-fv3gfs.log
-    git clone https://github.com/ufs-community/ufs-weather-model fv3gfs.fd >> ${topdir}/checkout-fv3gfs.log 2>&1
-    cd fv3gfs.fd
+echo fv3gfs_emc checkout ...
+if [[ ! -d fv3gfs_emc.fd ]] ; then
+    rm -f ${topdir}/checkout-fv3gfs_emc.log
+    git clone https://github.com/ufs-community/ufs-weather-model fv3gfs_emc.fd >> ${topdir}/checkout-fv3gfs_emc.log 2>&1
+    cd fv3gfs_emc.fd
     git checkout  GFS.v16.0.10
     git submodule update --init --recursive
     cd ${topdir}
