@@ -45,6 +45,12 @@ export NOSCRUB="@NOSCRUB@"
 export BASE_GIT="@BASE_GIT@"
 export BASE_SVN="@BASE_SVN@"
 
+#### CCPP Suite
+#### export CCPP_SUITE="FV3_GSD_v0"        # GSDsuite 
+#### export CCPP_SUITE="FV3_GSD_noah"      # GSDsuite + NOAH LSM  
+#### export CCPP_SUITE="FV3_GFS_v16beta"   # EMC v16beta
+export CCPP_SUITE="FV3_GFS_v15"            # EMC v15
+
 # Toggle to turn on/off GFS downstream processing.
 export DO_BUFRSND="YES"
 export DO_GEMPAK="NO"
@@ -133,7 +139,11 @@ if [[ "$CDUMP" == "gdas" ]] ; then
    export FHCYC=1
    export FTSFS=10
 elif [[ "$CDUMP" == "gfs" ]] ; then
-   export FHCYC=24
+   if [[ "$CCPP_SUITE" == "FV3_GSD_v0" ]] ; then
+       export FHCYC=0
+   else
+       export FHCYC=24
+   fi
 fi
 
 # Output frequency of the forecast model (for cycling)
@@ -211,11 +221,11 @@ export DO_WAVE="NO"                                                        ## JK
 export WAVE_CDUMP="both"
 
 # Microphysics Options: 99-ZhaoCarr, 8-Thompson; 6-WSM6, 10-MG, 11-GFDL
-export imp_physics=11
-
-# Convection Options: 2-SASAS, 3-GF
-export imfdeepcnv=2
-export imfshalcnv=2
+if [[ "$CCPP_SUITE" == "FV3_GSD_v0" || "$CCPP_SUITE" == "FV3_GSD_noah" ]] ; then
+       export imp_physics=8
+else
+       export imp_physics=11
+fi
 
 # Shared parameters
 # Hybrid related
@@ -263,7 +273,7 @@ export netcdf_diag=".true."
 export binary_diag=".false."
 
 # Verification options
-export DO_METP="YES"                  # Run MET+ jobs
+export DO_METP="NO"                  # Run MET+ jobs          ## JKH
 
 # Archiving options
 export HPSSARCH="YES"        # save data to HPSS archive
