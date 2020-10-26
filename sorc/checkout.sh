@@ -13,7 +13,36 @@ if [[ ! -d fv3gfs.fd ]] ; then
     git submodule update --init --recursive
     cd ${topdir}
 else
-    echo 'Skip.  Directory fv3gfs.fd already exists.'
+    echo 'Skip.  Directory fv3gfs_emc.fd already exists.'
+fi
+
+echo fv3gfs_ccpp_chem checkout ...
+if [[ ! -d fv3gfs_ccpp_chem.fd ]] ; then
+    rm -f ${topdir}/checkout-fv3gfs_ccpp_chem.log
+    rm fv3gfs.fd
+    git clone --recursive -b gsd/develop-chem https://github.com/haiqinli/ufs-weather-model  fv3gfs_ccpp_chem.fd >> ${topdir}/checkout-fv3gfs_ccpp_chem.log 2>&1
+    cd fv3gfs_ccpp_chem.fd
+    git checkout 433fc66b55e154d7c42fe108f1d8b2ab3f629ec4
+    git submodule sync
+    git submodule update --init --recursive
+    cd ${topdir}
+    ln -fs fv3gfs_ccpp_chem.fd fv3gfs.fd
+else
+    echo 'Skip.  Directory fv3gfs_ccpp_chem.fd already exists.'
+fi
+
+echo fv3gfs_ccpp checkout ...
+if [[ ! -d fv3gfs_ccpp.fd ]] ; then
+    rm -f ${topdir}/checkout-fv3gfs_ccpp.log
+    git clone --recursive -b gsd/develop https://github.com/NOAA-GSD/ufs-weather-model  fv3gfs_ccpp.fd >> ${topdir}/checkout-fv3gfs_ccpp.log 2>&1
+    cd fv3gfs_ccpp.fd
+    git checkout 2b5768b19409ba04a37b89833268b7a1d9233139
+    git submodule sync
+    git submodule update --init --recursive
+    cd ${topdir}
+    ln -fs fv3gfs_ccpp.fd fv3gfs.fd
+else
+    echo 'Skip.  Directory fv3gfs_ccpp.fd already exists.'
 fi
 
 echo gsi checkout ...

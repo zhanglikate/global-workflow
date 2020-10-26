@@ -867,6 +867,7 @@ cat > input.nml <<EOF
   blocksize = $blocksize
   chksum_debug = $chksum_debug
   dycore_only = $dycore_only
+  ccpp_suite = $CCPP_SUITE
   fdiag = $FDIAG
   fhmax = $FHMAX
   fhout = $FHOUT
@@ -1053,6 +1054,8 @@ deflate_level=${deflate_level:-1}
   iopt_tbot    = ${iopt_tbot:-"2"}
   iopt_stc     = ${iopt_stc:-"1"}
   debug        = ${gfs_phys_debug:-".false."}
+  oz_phys      = ${oz_phys:-".false."}
+  oz_phys_2015 = ${oz_phys_2015:-".true."}
   nstf_name    = $nstf_name
   nst_anl      = $nst_anl
   psautco      = ${psautco:-"0.0008,0.0005"}
@@ -1298,6 +1301,9 @@ else
     eval $NLN atmos_4xdaily.tile${n}.nc $memdir/atmos_4xdaily.tile${n}.nc
   done
 fi
+
+# Copy namelist file
+$NCP input.nml $memdir
 
 #------------------------------------------------------------------
 # run the executable

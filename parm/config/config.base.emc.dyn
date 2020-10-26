@@ -17,7 +17,7 @@ export QUEUE="@QUEUE@"
 export QUEUE_ARCH="@QUEUE_ARCH@"
 
 # Project to use in mass store:
-HPSS_PROJECT=emc-global
+HPSS_PROJECT=fim
 
 # Directories relative to installation areas:
 export HOMEgfs=@HOMEgfs@
@@ -104,7 +104,7 @@ export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export DATAROOT="$RUNDIR/$CDATE/$CDUMP"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="@ICSDIR@"
-export ATARDIR="/NCEPDEV/$HPSS_PROJECT/1year/$USER/$machine/scratch/$PSLOT"
+export ATARDIR="/BMC/$HPSS_PROJECT/1year/gsd-ccpp-chem/$PSLOT"
 
 # Commonly defined parameters in JJOBS
 export envir=${envir:-"prod"}
@@ -124,7 +124,7 @@ export SENDDBN="NO"
 export SENDSDM="NO"
 
 # Resolution specific parameters
-export LEVS=128
+export LEVS=65                                                 ## JKH
 export CASE="@CASECTL@"
 export CASE_ENKF="@CASEENS@"
 
@@ -150,13 +150,13 @@ export gfs_cyc=@gfs_cyc@ # 0: no GFS cycle, 1: 00Z only, 2: 00Z and 12Z only, 4:
 # GFS output and frequency
 export FHMIN_GFS=0
 
-export FHMAX_GFS_00=384
-export FHMAX_GFS_06=384
-export FHMAX_GFS_12=384
-export FHMAX_GFS_18=384
+export FHMAX_GFS_00=168                                      ## JKH
+export FHMAX_GFS_06=168                                      ## JKH
+export FHMAX_GFS_12=168                                      ## JKH
+export FHMAX_GFS_18=168                                      ## JKH
 export FHMAX_GFS=$(eval echo \${FHMAX_GFS_$cyc})
 
-export FHOUT_GFS=3
+export FHOUT_GFS=6                                           ## JKH
 export FHMAX_HF_GFS=0
 export FHOUT_HF_GFS=1
 export ILPOST=1           # gempak output frequency up to F120
@@ -186,12 +186,12 @@ else
 fi
 
 # IAU related parameters
-export DOIAU="YES"        # Enable 4DIAU for control with 3 increments
+export DOIAU="NO"        # Enable 4DIAU for control with 3 increments        ## JKH
 export IAUFHRS="3,6,9"
 export IAU_FHROT=`echo $IAUFHRS | cut -c1`
 export IAU_DELTHRS=6
 export IAU_OFFSET=6
-export DOIAU_ENKF="YES"   # Enable 4DIAU for EnKF ensemble
+export DOIAU_ENKF="NO"   # Enable 4DIAU for EnKF ensemble                    ## JKH
 export IAUFHRS_ENKF="3,6,9"
 export IAU_DELTHRS_ENKF=6
 if [[ "$SDATE" = "$CDATE" ]]; then
@@ -203,15 +203,19 @@ fi
 export lobsdiag_forenkf=".true."
 
 # run GLDAS to spin up land ICs
-export DO_GLDAS=YES
+export DO_GLDAS="NO"                                                       ## JKH
 export gldas_cyc=00
 
 # run wave component
-export DO_WAVE=YES
+export DO_WAVE="NO"                                                        ## JKH
 export WAVE_CDUMP="both"
 
 # Microphysics Options: 99-ZhaoCarr, 8-Thompson; 6-WSM6, 10-MG, 11-GFDL
 export imp_physics=11
+
+# Convection Options: 2-SASAS, 3-GF
+export imfdeepcnv=2
+export imfshalcnv=2
 
 # Shared parameters
 # Hybrid related
