@@ -49,7 +49,8 @@ export BASE_SVN="@BASE_SVN@"
 #### export CCPP_SUITE="FV3_GSD_v0"        # GSDsuite 
 #### export CCPP_SUITE="FV3_GSD_noah"      # GSDsuite + NOAH LSM  
 #### export CCPP_SUITE="FV3_GFS_v16beta"   # EMC v16beta
-export CCPP_SUITE="FV3_GFS_v15"            # EMC v15
+#export CCPP_SUITE="FV3_GFS_v15"            # EMC v15
+export CCPP_SUITE="GFS_2017_gfdlmp_gsd_chem"            # GSL:GFS_2017_gfdlmp_gsd_chem
 
 # Toggle to turn on/off GFS downstream processing.
 export DO_BUFRSND="YES"
@@ -129,6 +130,11 @@ export SENDCOM="NO"
 export SENDDBN="NO"
 export SENDSDM="NO"
 
+# Include GSDChem coupling: off:0, on:1 !lzhang
+export GSDChem=1
+export EMITYPE=2 # 1: MODIS, 2: GBBEPx 
+
+
 # Resolution specific parameters
 export LEVS=65                                                 ## JKH
 export CASE="@CASECTL@"
@@ -204,7 +210,8 @@ export IAU_OFFSET=6
 export DOIAU_ENKF="NO"   # Enable 4DIAU for EnKF ensemble                    ## JKH
 export IAUFHRS_ENKF="3,6,9"
 export IAU_DELTHRS_ENKF=6
-if [[ "$SDATE" = "$CDATE" ]]; then
+#if [[ "$SDATE" = "$CDATE" ]]; then
+if [[ "$SDATE" = "$CDATE" ]] || [[ "$DOIAU" = "NO" ]]; then
   export IAU_OFFSET=0
   export IAU_FHROT=0
 fi
@@ -255,7 +262,8 @@ if [ $DONST = "YES" ]; then export FNTSFA="        "; fi
 export nst_anl=.true.
 
 # Analysis increments to zero in CALCINCEXEC
-export INCREMENTS_TO_ZERO="'liq_wat_inc','icmr_inc'"
+#export INCREMENTS_TO_ZERO="'liq_wat_inc','icmr_inc'"   #v16
+export INCREMENTS_TO_ZERO="'delz_inc','clwmr_inc','icmr_inc'"   #v15
 
 if [ $OUTPUT_FILE = "nemsio" ]; then
     export DO_CALC_INCREMENT="YES"
@@ -263,8 +271,8 @@ if [ $OUTPUT_FILE = "nemsio" ]; then
 fi
 
 # Stratospheric increments to zero
-export INCVARS_ZERO_STRAT="'sphum_inc','liq_wat_inc','icmr_inc'"
-export INCVARS_EFOLD="5"
+#export INCVARS_ZERO_STRAT="'sphum_inc','liq_wat_inc','icmr_inc'"
+#export INCVARS_EFOLD="5"
 
 # Swith to generate netcdf or binary diagnostic files.  If not specified,
 # script default to binary diagnostic files.   Set diagnostic file
