@@ -339,7 +339,7 @@ EOF
   for file in $memdir/INPUT/*.nc; do
     file2=$(echo $(basename $file))
     fsuf=$(echo $file2 | cut -c1-3)
-    if [ $fsuf = $fsuf = "sfc" ]; then
+    if [ $fsuf = "sfc" ]; then
       $NLN $file $DATA/INPUT/$file2
     fi
   done

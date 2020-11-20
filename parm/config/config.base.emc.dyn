@@ -49,8 +49,8 @@ export BASE_SVN="@BASE_SVN@"
 #### export CCPP_SUITE="FV3_GSD_v0"        # GSDsuite 
 #### export CCPP_SUITE="FV3_GSD_noah"      # GSDsuite + NOAH LSM  
 #### export CCPP_SUITE="FV3_GFS_v16beta"   # EMC v16beta
-#export CCPP_SUITE="FV3_GFS_v15"            # EMC v15
-export CCPP_SUITE="GFS_2017_gfdlmp_gsd_chem"            # GSL:GFS_2017_gfdlmp_gsd_chem
+export CCPP_SUITE="FV3_GFS_v15_gsd_chem"            # EMC v15_gsd_chem , using newer ozone_2015
+#export CCPP_SUITE="FV3_GFS_2017_gfdlmp_gsd_chem"            # GSL:FV3_GFS_2017_gfdlmp_gsd_chem
 
 # Toggle to turn on/off GFS downstream processing.
 export DO_BUFRSND="YES"
