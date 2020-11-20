@@ -26,10 +26,13 @@ export GFSDWNSH="$HOMEpost/ush/fv3gfs_dwn_nems.sh"
 
 export POSTGPSH="$HOMEpost/ush/gfs_nceppost.sh"
 export POSTGPEXEC="$HOMEpost/exec/gfs_ncep_post"
-export GOESF=YES                              # goes image
+#export GOESF=YES                              # goes image
+export GOESF=NO                              # goes image
 export WAFSF=NO                               # WAFS products
-export FLXF=YES                               # grib2 flux file written by post
-export PGB1F=YES                              
+#export FLXF=YES                               # grib2 flux file written by post
+export FLXF=NO                               # grib2 flux file written by post
+#export PGB1F=YES                              
+export PGB1F=NO                              
 if [ $RUN_ENVIR = "nco" ]; then
     export PGB1F=NO
     export GTGF=YES
@@ -39,7 +42,8 @@ export npe_postgp=$npe_post
 export nth_postgp=1
 
 export GFS_DOWNSTREAM="YES"
-export downset=2
+#export downset=2
+export downset=1
 if [ $machine = "WCOSS_DELL_P3" ]; then
     export npe_dwn=28
 else

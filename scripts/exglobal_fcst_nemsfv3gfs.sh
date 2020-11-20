@@ -42,10 +42,10 @@ machine=$(echo $machine | tr '[a-z]' '[A-Z]')
 # Cycling and forecast hour specific parameters 
 CASE=${CASE:-C768}
 CDATE=${CDATE:-2017032500}
-CDUMP=${CDUMP:-gdas}
+CDUMP=${CDUMP:-gfs}
 FHMIN=${FHMIN:-0}
 FHMAX=${FHMAX:-9}
-FHOUT=${FHOUT:-3}
+FHOUT=${FHOUT:-6}
 FHZER=${FHZER:-6}
 FHCYC=${FHCYC:-24}
 FHMAX_HF=${FHMAX_HF:-0}
@@ -71,7 +71,8 @@ DATA=${DATA:-$pwd/fv3tmp$$}    # temporary running directory
 ROTDIR=${ROTDIR:-$pwd}         # rotating archive directory
 ICSDIR=${ICSDIR:-$pwd}         # cold start initial conditions
 DMPDIR=${DMPDIR:-$pwd}         # global dumps for seaice, snow and sst analysis
-
+EMIDIR=${EMIDIR:-$pwd}         # anthro. emission 
+EMITYPE=${EMITYPE:-1}         # 1:MODIS, 2:GBBEPx 
 # Model resolution specific parameters
 DELTIM=${DELTIM:-225}
 layout_x=${layout_x:-8}
@@ -105,6 +106,9 @@ PARM_POST=${PARM_POST:-$HOMEgfs/parm/post}
 
 # Wave coupling parameter defaults to false
 cplwav=${cplwav:-.false.}
+
+# Chem coupling parameter defaults to true
+cplchm=${cplchm:-.true.}
 
 # Model config options
 APRUN_FV3=${APRUN_FV3:-${APRUN_FCST:-${APRUN:-""}}}
@@ -143,9 +147,17 @@ fi
 if [ ! -d $ROTDIR ]; then mkdir -p $ROTDIR; fi
 mkdata=NO
 if [ ! -d $DATA ]; then
-   mkdata=YES
+#   mkdata=YES #lzhang do not clean the RUNDIR
    mkdir -p $DATA
 fi
+
+# Stage the FV3 initial conditions to ROTDIR  
+export OUTDIR="$ICSDIR/$CDATE/$CDUMP/$CASE/INPUT" #lzhang
+COMOUT="$ROTDIR/$CDUMP.$PDY/$cyc"
+[[ ! -d $COMOUT ]] && mkdir -p $COMOUT
+cd $COMOUT || exit 99
+[[ ! -d $INPUT ]] && $NLN $OUTDIR .
+#----------------------------------------------------
 cd $DATA || exit 8
 mkdir -p $DATA/INPUT
 
@@ -159,10 +171,12 @@ if [ $cplwav = ".true." ]; then
     $NLN $RSTDIR_WAVE restart_wave
 fi
 
-if [ $CDUMP = "gfs" -a $rst_invt1 -gt 0 ]; then
-    RSTDIR_ATM=${RSTDIR:-$ROTDIR}/${CDUMP}.${PDY}/${cyc}/RERUN_RESTART
-    if [ ! -d $RSTDIR_ATM ]; then mkdir -p $RSTDIR_ATM ; fi
-    $NLN $RSTDIR_ATM RESTART
+#lzhang we do not need so much restart file in the output
+if [ $CDUMP = "gfs" -a $restart_interval -gt 0 ]; then
+    RSTDIR_TMP=${RSTDIR:-$ROTDIR}/${CDUMP}.${PDY}/${cyc}/RERUN_RESTART
+    rm -rf  RSTDIR_TMP #lzhang temperal setting
+    if [ ! -d $RSTDIR_TMP ]; then mkdir -p $RSTDIR_TMP ; fi
+    $NLN $RSTDIR_TMP RESTART
 else
     mkdir -p $DATA/RESTART
 fi
@@ -208,7 +222,8 @@ if [ ! -d $memdir ]; then mkdir -p $memdir; fi
 GDATE=$($NDATE -$assim_freq $CDATE)
 gPDY=$(echo $GDATE | cut -c1-8)
 gcyc=$(echo $GDATE | cut -c9-10)
-gmemdir=$ROTDIR/${rprefix}.$gPDY/$gcyc/$memchar
+#gmemdir=$ROTDIR/${rprefix}.$gPDY/$gcyc/$memchar !lzhang
+gmemdir=$ROTDIR/${prefix}.$gPDY/$gcyc/$memchar
 sCDATE=$($NDATE -3 $CDATE)
 
 if [[ "$DOIAU" = "YES" ]]; then
@@ -252,6 +267,7 @@ fi
 
 #-------------------------------------------------------
 if [ $warm_start = ".true." -o $RERUN = "YES" ]; then
+   CHEMIN=1 #lzhang
 #-------------------------------------------------------
 #.............................
   if [ $RERUN = "NO" ]; then
@@ -277,6 +293,10 @@ if [ $warm_start = ".true." -o $RERUN = "YES" ]; then
         $NLN $file $DATA/INPUT/$file2
       fi
     done
+#lzhang cp atminc.nc to output dir
+   cd $DATA
+   $NCP ../calcinc/atminc.nc $memdir/${CDUMP}.t${cyc}z.atminc.nc
+
 
   # Need a coupler.res when doing IAU
     if [ $DOIAU = "YES" ]; then
@@ -315,7 +335,15 @@ EOF
         res_latlon_dynamics="fv_increment.nc"
       fi
     fi
-  
+#lzhang: link sfc data from gfs initial conditions
+  for file in $memdir/INPUT/*.nc; do
+    file2=$(echo $(basename $file))
+    fsuf=$(echo $file2 | cut -c1-3)
+    if [ $fsuf = "sfc" ]; then
+      $NLN $file $DATA/INPUT/$file2
+    fi
+  done
+#lzhang
 #.............................
   else  ##RERUN                         
 
@@ -341,6 +369,7 @@ EOF
 #.............................
 
 else ## cold start                            
+  CHEMIN=0 #lzhang
 
   for file in $(ls $memdir/INPUT/*.nc); do
     file2=$(echo $(basename $file))
@@ -502,7 +531,13 @@ if [ $WRITE_DOPOST = ".true." ]; then
     $NLN $PARM_POST/params_grib2_tbl_new            $DATA/params_grib2_tbl_new
 fi
 #------------------------------------------------------------------
-
+#link GSDChem input files   !lzhang
+if [ $GSDChem -gt 0 ] ; then
+  for file in $(ls $DATA/../prep/*.nc) ; do
+    $NLN $file $DATA/INPUT/$(echo $(basename $file))
+  done
+fi
+#------------------------------------------------------------------
 # changeable parameters
 # dycore definitions
 res=$(echo $CASE |cut -c2-5)
@@ -1036,10 +1071,10 @@ deflate_level=${deflate_level:-1}
   cal_pre      = ${cal_pre:-".true."}
   redrag       = ${redrag:-".true."}
   dspheat      = ${dspheat:-".true."}
-  hybedmf      = ${hybedmf:-".false."}
-  satmedmf     = ${satmedmf-".true."}
+  hybedmf      = ${hybedmf:-".true."}
+  satmedmf     = ${satmedmf-".false."}
   isatmedmf    = ${isatmedmf-"1"}
-  lheatstrg    = ${lheatstrg-".false."}
+  lheatstrg    = ${lheatstrg-".true."}
   do_mynnedmf  = ${do_mynnedmf:-".false."}
   do_mynnsfclay= ${do_mynnsfclay:-".false."}
   random_clds  = ${random_clds:-".true."}
@@ -1081,12 +1116,48 @@ deflate_level=${deflate_level:-1}
   lgfdlmprad   = ${lgfdlmprad:-".false."}
   effr_in      = ${effr_in:-".false."}
   cplwav       = ${cplwav:-".false."}
+  cplchm       = ${cplchm:-".true."}
   ldiag_ugwp   = ${ldiag_ugwp:-".false."}
   do_ugwp      = ${do_ugwp:-".true."}
   do_tofd      = ${do_tofd:-".true."}
   do_sppt      = ${do_sppt:-".false."}
   do_shum      = ${do_shum:-".false."}
   do_skeb      = ${do_skeb:-".false."}
+  fscav_aero   = "sulf:0.2", "bc1:0.2","bc2:0.2","oc1:0.2","oc2:0.2",
+  cplchm_rad_opt=F
+  aer_bc_opt=1
+  aer_ic_opt=1
+  aer_ra_feedback=2
+  aer_ra_frq=60
+  aerchem_onoff=1
+  bio_emiss_opt=0
+  biomass_burn_opt=1
+  chem_conv_tr=0
+  chem_in_opt=$CHEMIN
+  chem_opt=300
+  chemdt=3
+  cldchem_onoff=0
+  dmsemis_opt=1
+  dust_opt=5
+  dust_alpha = 2.0
+  dust_gamma = 1.8
+  dust_calcdrag=1
+  emiss_inpt_opt=1
+  emiss_opt=5
+  gas_bc_opt=1
+  gas_ic_opt=1
+  gaschem_onoff=1
+  kemit=1
+  plumerisefire_frq=60
+  PLUMERISE_flag=$EMITYPE
+  seas_opt=2
+  seas_emis_scheme=-1
+  seas_emis_scale=1.,1.,1.,1.,1.
+  vertmix_onoff=1
+  aer_ra_frq     = 60
+  wetdep_ls_opt  = 1
+  restart_inname    = "$DATA/INPUT/"
+  restart_outname   = "$RSTDIR_TMP/"
 EOF
 
 # Add namelist for IAU
@@ -1335,6 +1406,39 @@ $ERRSCRIPT || exit $err
 
 #------------------------------------------------------------------
 if [ $SEND = "YES" ]; then
+  # Copy model restart files
+  cd $RSTDIR_TMP
+  #mkdir -p $memdir/RESTART
+
+  # Only save restarts at single time in RESTART directory
+  # Either at restart_interval or at end of the forecast
+  if [ $restart_interval -eq 0 -o $restart_interval -eq $FHMAX ]; then
+
+    # Add time-stamp to restart files at FHMAX
+    RDATE=$($NDATE +$FHMAX $CDATE)
+    rPDY=$(echo $RDATE | cut -c1-8)
+    rcyc=$(echo $RDATE | cut -c9-10)
+    for file in $(ls * | grep -v 0000); do
+      $NMV $file ${rPDY}.${rcyc}0000.$file
+      #$NCP ${rPDY}.${rcyc}0000.$file $memdir/RESTART/${rPDY}.${rcyc}0000.$file #lzhang
+    done
+    cd $memdir/
+    $NLN RERUN_RESTART  RESTART 
+  #  $NLN $memdir/RESTART  $RSTDIR_TMP
+   
+
+  else
+
+    # time-stamp exists at restart_interval time, just copy
+    RDATE=$($NDATE +$restart_interval $CDATE)
+    rPDY=$(echo $RDATE | cut -c1-8)
+    rcyc=$(echo $RDATE | cut -c9-10)
+    for file in ${rPDY}.${rcyc}0000.* ; do
+      $NCP $file $memdir/RESTART/$file
+    done
+  fi
+
+
 
   # Copy gdas and enkf member restart files
   if [ $CDUMP = "gdas" -a $rst_invt1 -gt 0 ]; then

@@ -67,7 +67,7 @@ if [ $LEVS = "128" -a "$CDUMP" = "gdas" ]; then
 fi
 
 # PBL/turbulence schemes
-export hybedmf=".false."
+export hybedmf=".true."
 if [[ "$CCPP_SUITE" == "FV3_GSD_v0" || "$CCPP_SUITE" == "FV3_GSD_noah" ]] ; then
     export satmedmf=".false."
     export isatmedmf=0
@@ -79,7 +79,7 @@ if [[ "$CCPP_SUITE" == "FV3_GSD_v0" || "$CCPP_SUITE" == "FV3_GSD_noah" ]] ; then
     export bl_mynn_edmf=1        
     export bl_mynn_edmf_mom=1
 else
-    export satmedmf=".true."   
+    export satmedmf=".false."   
     export isatmedmf=1        
 fi
 
@@ -139,7 +139,8 @@ export random_clds=".true."
 
 if [ $imp_physics -eq 99 ]; then # ZhaoCarr
     export ncld=1
-    export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/field_table_zhaocarr${tbf}"
+    #export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/field_table_zhaocarr" !lzhang
+    export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/chm_field_table"
     export nwat=2
 
 elif [ $imp_physics -eq 6 ]; then # WSM6
@@ -171,7 +172,7 @@ elif [ $imp_physics -eq 8 ]; then # Thompson
 
 elif [ $imp_physics -eq 11 ]; then # GFDL
     export ncld=5
-    export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/field_table_gfdl${tbf}"
+    export FIELD_TABLE="$HOMEgfs/parm/parm_fv3diag/chm_field_table_gfdl"
     export nwat=6
     export dnats=1
     export cal_pre=".false."
@@ -275,16 +276,19 @@ elif [[ "$CDUMP" == "gfs" ]] ; then # GFS cycle specific parameters
         elif [[ "$CCPP_SUITE" == "FV3_GSD_noah" ]]; then
             export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_gsd"
         else
-            export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table"
+            #export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table" #lzhang
+            export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/chm_diag_table" 
         fi
     else
-        export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_orig"
+        #export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/diag_table_orig"  !lzhang
+        export DIAG_TABLE="$HOMEgfs/parm/parm_fv3diag/chm_diag_table"
     fi
 
     # Write gfs restart files to rerun fcst from any break point         
     export restart_interval_gfs=${restart_interval_gfs:-0}
     if [ $restart_interval_gfs -le 0 ]; then
-        export restart_interval=0
+        #export restart_interval=0
+        export restart_interval=24 #lzhang
     else
         rst_list=""
         IAU_OFFSET=${IAU_OFFSET:-0}
@@ -307,11 +311,13 @@ elif [[ "$CDUMP" == "gfs" ]] ; then # GFS cycle specific parameters
     export adjust_dry_mass=".false."
 
     # Write each restart file in 16 small files to save time
-    export io_layout="4,4"
+    #export io_layout="4,4"  #lzhang
+    export io_layout="1,1"
 
     # Set number of layers from the top over 
     # which two delta-Z filter is applied
-    export n_sponge=42
+    #export n_sponge=42   #127 layer
+    export n_sponge=23    #23 layer
 
     # Debug load balancing 
     #export KEEPDATA="YES"

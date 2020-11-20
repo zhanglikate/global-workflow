@@ -20,29 +20,15 @@ echo fv3gfs_ccpp_chem checkout ...
 if [[ ! -d fv3gfs_ccpp_chem.fd ]] ; then
     rm -f ${topdir}/checkout-fv3gfs_ccpp_chem.log
     rm fv3gfs.fd
-    git clone --recursive -b gsd/develop-chem https://github.com/haiqinli/ufs-weather-model  fv3gfs_ccpp_chem.fd >> ${topdir}/checkout-fv3gfs_ccpp_chem.log 2>&1
-    cd fv3gfs_ccpp_chem.fd
-    git checkout 433fc66b55e154d7c42fe108f1d8b2ab3f629ec4
-    git submodule sync
-    git submodule update --init --recursive
-    cd ${topdir}
-    ln -fs fv3gfs_ccpp_chem.fd fv3gfs.fd
+   git clone --recursive --branch gsd/develop-chem https://github.com/NOAA-GSL/ufs-weather-model  fv3gfs_ccpp_chem.fd >> ${topdir}/checkout-fv3gfs_ccpp_chem.log 2>&1
+   cd fv3gfs_ccpp_chem.fd
+   git checkout ea18809250e4de0fa410fceecad50415460bb8ca 
+   git submodule sync
+   git submodule update --init --recursive
+   cd ${topdir}
+   ln -fs fv3gfs_ccpp_chem.fd fv3gfs.fd
 else
     echo 'Skip.  Directory fv3gfs_ccpp_chem.fd already exists.'
-fi
-
-echo fv3gfs_ccpp checkout ...
-if [[ ! -d fv3gfs_ccpp.fd ]] ; then
-    rm -f ${topdir}/checkout-fv3gfs_ccpp.log
-    git clone --recursive -b gsd/develop https://github.com/NOAA-GSD/ufs-weather-model  fv3gfs_ccpp.fd >> ${topdir}/checkout-fv3gfs_ccpp.log 2>&1
-    cd fv3gfs_ccpp.fd
-    git checkout 2b5768b19409ba04a37b89833268b7a1d9233139
-    git submodule sync
-    git submodule update --init --recursive
-    cd ${topdir}
-    ln -fs fv3gfs_ccpp.fd fv3gfs.fd
-else
-    echo 'Skip.  Directory fv3gfs_ccpp.fd already exists.'
 fi
 
 echo gsi checkout ...
@@ -53,6 +39,7 @@ if [[ ! -d gsi.fd ]] ; then
     git checkout release/gfsda.v16.0.0
     git submodule update
     cd ${topdir}
+    rsync -ax gsi.fd_chem/ gsi.fd/
 else
     echo 'Skip.  Directory gsi.fd already exists.'
 fi
@@ -79,16 +66,26 @@ else
     echo 'Skip.  Directory ufs_utils.fd already exists.'
 fi
 
-echo EMC_post checkout ...
-if [[ ! -d gfs_post.fd ]] ; then
-    rm -f ${topdir}/checkout-gfs_post.log
-    git clone https://github.com/NOAA-EMC/EMC_post.git gfs_post.fd >> ${topdir}/checkout-gfs_post.log 2>&1
-    cd gfs_post.fd
-    git checkout upp_gfsv16_release.v1.0.10
+echo prepchem_NC.fd checkout ...
+if [[ ! -d prepchem_NC.fd ]] ; then
+    rm -f ${topdir}/checkout-prepchem_NC.fd.log
+    git clone  gerrit:GSD-prep-chem prepchem_NC.fd >> ${topdir}/checkout-prepchem_NC.fd.log 2>&1
+    cd prepchem_NC.fd
     cd ${topdir}
 else
-    echo 'Skip.  Directory gfs_post.fd already exists.'
+    echo 'Skip.  Directory prepchem_NC.fd already exists.'
 fi
+
+#echo EMC_post checkout ...
+#if [[ ! -d gfs_post.fd ]] ; then
+#    rm -f ${topdir}/checkout-gfs_post.log
+#    git clone https://github.com/NOAA-EMC/EMC_post.git gfs_post.fd >> ${topdir}/checkout-gfs_post.log 2>&1
+#    cd gfs_post.fd
+#    git checkout upp_gfsv16_release.v1.0.10
+#    cd ${topdir}
+#else
+    echo 'Skip.  Directory gfs_post.fd already exists.'
+#fi
 
 echo EMC_gfs_wafs checkout ...
 if [[ ! -d gfs_wafs.fd ]] ; then

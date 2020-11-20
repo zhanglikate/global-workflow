@@ -149,6 +149,35 @@ elif [ $step = "gldas" ]; then
     if [[ "$machine" = "WCOSS_DELL_P3" ]]; then export npe_gldas=112 ; fi
     if [[ "$machine" == "WCOSS_C" ]]; then export memory_gldas="3072M"; fi
 
+elif [ $step = "checkgdas" ]; then
+
+    export wtime_checkgdas="00:10:00"
+    export npe_checkgdas=1
+    export npe_node_checkgdas=1
+elif [ $step = "gfsgetic" ]; then
+
+    export wtime_getic="00:15:00"
+    export npe_getic=1
+    export npe_node_getic=1
+
+elif [ $step = "regrid" ]; then
+
+    export wtime_regrid="00:15:00"
+    export npe_regrid=2
+    export npe_node_regrid=1
+
+elif [ $step = "calcinc" ]; then
+
+    export wtime_calcinc="00:15:00"
+    export npe_calcinc=2
+    export npe_node_calcinc=1
+
+elif [ $step = "prepchem" ]; then
+
+    export wtime_prepchem="00:15:00"
+    export npe_prepchem=2
+    export npe_node_prepchem=1
+
 elif [ $step = "fcst" ]; then
 
     export wtime_fcst="01:00:00"

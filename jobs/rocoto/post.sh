@@ -34,13 +34,13 @@ for fhr in $fhrlst; do
     fi
 
     #master=$ROTDIR/${CDUMP}.${PDY}/${cyc}/${CDUMP}.t${cyc}z.master.grb2f${fhr}
-    pgb0p25=$ROTDIR/${CDUMP}.${PDY}/${cyc}/${CDUMP}.t${cyc}z.pgrb2.0p25.f${fhr}
-    if [ ! -s $pgb0p25 ]; then
+#    pgb0p25=$ROTDIR/${CDUMP}.${PDY}/${cyc}/${CDUMP}.t${cyc}z.pgrb2.0p25.f${fhr}
+#    if [ ! -s $pgb0p25 ]; then
         export post_times=$fhr
         $HOMEgfs/jobs/JGLOBAL_NCEPPOST
         status=$?
         [[ $status -ne 0 ]] && exit $status
-    fi
+#    fi
 
 done
 
