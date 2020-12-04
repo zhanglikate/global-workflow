@@ -6,21 +6,21 @@
 echo "BEGIN: config.base"
 
 # Machine environment
-export machine="@MACHINE@"
+export machine="HERA"
 
 # EMC parallel or NCO production
 export RUN_ENVIR="emc"
 
 # Account, queue, etc.
-export ACCOUNT="@ACCOUNT@"
-export QUEUE="@QUEUE@"
-export QUEUE_ARCH="@QUEUE_ARCH@"
+export ACCOUNT="gsd-fv3"
+export QUEUE="batch"
+export QUEUE_ARCH="service"
 
 # Project to use in mass store:
 HPSS_PROJECT=fim
 
 # Directories relative to installation areas:
-export HOMEgfs=@HOMEgfs@
+export HOMEgfs=/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem
 export PARMgfs=$HOMEgfs/parm
 export FIXgfs=$HOMEgfs/fix
 export USHgfs=$HOMEgfs/ush
@@ -31,19 +31,19 @@ export SCRgfs=$HOMEgfs/scripts
 ########################################################################
 
 # GLOBAL static environment parameters
-export NWPROD="@NWPROD@"
-export DMPDIR="@DMPDIR@"
+export NWPROD="/scratch1/NCEPDEV/global/glopara/nwpara"
+export DMPDIR="/scratch1/NCEPDEV/global/glopara/dump"
 export RTMFIX=$CRTM_FIX
 
 # USER specific paths
-export HOMEDIR="@HOMEDIR@"
-export STMP="@STMP@"
-export PTMP="@PTMP@"
-export NOSCRUB="@NOSCRUB@"
+export HOMEDIR="/scratch1/NCEPDEV/global/$USER"
+export STMP="/scratch1/BMC/gsd-fv3/NCEPDEV/stmp3/$USER"
+export PTMP="/scratch1/BMC/gsd-fv3/NCEPDEV/stmp4/$USER"
+export NOSCRUB="$HOMEDIR"
 
 # Base directories for various builds
-export BASE_GIT="@BASE_GIT@"
-export BASE_SVN="@BASE_SVN@"
+export BASE_GIT="/scratch1/NCEPDEV/global/glopara/git"
+export BASE_SVN="/scratch1/NCEPDEV/global/glopara/svn"
 
 #### CCPP Suite
 #### export CCPP_SUITE="FV3_GSD_v0"        # GSDsuite 
@@ -85,7 +85,7 @@ export NCP="/bin/cp -p"
 export NMV="/bin/mv"
 export NLN="/bin/ln -sf"
 export VERBOSE="YES"
-export KEEPDATA="NO"
+export KEEPDATA="YES"
 export CHGRP_CMD="chgrp rstprod"
 export NEMSIOGET="$HOMEgfs/exec/nemsio_get"
 export NCDUMP="$NETCDF/bin/ncdump"
@@ -96,12 +96,12 @@ export BASE_ENV="$HOMEgfs/env"
 export BASE_JOB="$HOMEgfs/jobs/rocoto"
 
 # EXPERIMENT specific environment parameters
-export SDATE=@SDATE@
-export EDATE=@EDATE@
-export assim_freq=24                     ## JKH
-export PSLOT="@PSLOT@"
-export EXPDIR="@EXPDIR@/$PSLOT"
-export ROTDIR="@ROTDIR@/$PSLOT"
+export SDATE=2020111500
+export EDATE=2030011000
+export assim_freq=24
+export PSLOT="rt_ccpp-chem"
+export EXPDIR="/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/$PSLOT"
+export ROTDIR="/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSrun/$PSLOT"
 export ROTDIR_DUMP="YES"                #Note: A value of "NO" does not currently work
 export DUMP_SUFFIX=""
 if [[ "$CDATE" -ge "2019092100" && "$CDATE" -le "2019110700" ]]; then
@@ -110,8 +110,8 @@ fi
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
 export DATAROOT="$RUNDIR/$CDATE/$CDUMP"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
-export ICSDIR="@ICSDIR@"
-export ATARDIR="/BMC/$HPSS_PROJECT/1year/gsd-ccpp-chem/$PSLOT"
+export ICSDIR="/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3ICS"
+export ATARDIR="/BMC/$HPSS_PROJECT/2year/rt-CCPP-Chem"
 
 # Commonly defined parameters in JJOBS
 export envir=${envir:-"prod"}
@@ -137,7 +137,7 @@ export EMITYPE=2 # 1: MODIS, 2: GBBEPx
 
 # Resolution specific parameters
 export LEVS=65                                                 ## JKH
-export CASE="@CASECTL@"
+export CASE="C384"
 export CASE_ENKF="@CASEENS@"
 
 # Surface cycle update frequency
@@ -161,7 +161,7 @@ export FHOUT=3
 export EUPD_CYC="gdas"
 
 # GFS cycle info
-export gfs_cyc=@gfs_cyc@ # 0: no GFS cycle, 1: 00Z only, 2: 00Z and 12Z only, 4: all 4 cycles.
+export gfs_cyc=1 # 0: no GFS cycle, 1: 00Z only, 2: 00Z and 12Z only, 4: all 4 cycles.
 
 # GFS output and frequency
 export FHMIN_GFS=0

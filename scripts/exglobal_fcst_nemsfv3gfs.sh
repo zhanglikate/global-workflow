@@ -284,7 +284,8 @@ if [ $warm_start = ".true." -o $RERUN = "YES" ]; then
     done
 
   # Link sfcanl_data restart files from $memdir
-    for file in $(ls $memdir/RESTART/${sPDY}.${scyc}0000.*.nc); do
+    #for file in $(ls $memdir/RESTART/${sPDY}.${scyc}0000.*.nc); do   #lzhang
+    for file in $memdir/RESTART/${sPDY}.${scyc}0000.*.nc; do
       file2=$(echo $(basename $file))
       file2=$(echo $file2 | cut -d. -f3-) # remove the date from file
       fsufanl=$(echo $file2 | cut -d. -f1)
@@ -1124,7 +1125,7 @@ deflate_level=${deflate_level:-1}
   do_shum      = ${do_shum:-".false."}
   do_skeb      = ${do_skeb:-".false."}
   fscav_aero   = "sulf:0.2", "bc1:0.2","bc2:0.2","oc1:0.2","oc2:0.2",
-  cplchm_rad_opt=F
+  cplchm_rad_opt= ${cplchm_rad_opt:="F"}
   aer_bc_opt=1
   aer_ic_opt=1
   aer_ra_feedback=2
