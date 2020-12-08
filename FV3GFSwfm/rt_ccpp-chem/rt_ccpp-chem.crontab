@@ -1,0 +1,6 @@
+
+#################### rt_ccpp-chem ####################
+MAILTO=""
+*/5 * * * * /apps/rocoto/1.3.2/bin/rocotorun -d /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp-chem/rt_ccpp-chem.db -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp-chem/rt_ccpp-chem.xml
+#################################################################
+

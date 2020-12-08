@@ -4,22 +4,9 @@ set -xue
 topdir=$(pwd)
 echo $topdir
 
-echo fv3gfs_emc checkout ...
-if [[ ! -d fv3gfs_emc.fd ]] ; then
-    rm -f ${topdir}/checkout-fv3gfs_emc.log
-    git clone https://github.com/ufs-community/ufs-weather-model fv3gfs_emc.fd >> ${topdir}/checkout-fv3gfs_emc.log 2>&1
-    cd fv3gfs_emc.fd
-    git checkout  GFS.v16.0.10
-    git submodule update --init --recursive
-    cd ${topdir}
-else
-    echo 'Skip.  Directory fv3gfs_emc.fd already exists.'
-fi
-
 echo fv3gfs_ccpp_chem checkout ...
 if [[ ! -d fv3gfs_ccpp_chem.fd ]] ; then
     rm -f ${topdir}/checkout-fv3gfs_ccpp_chem.log
-    rm fv3gfs.fd
    git clone --recursive --branch gsd/develop-chem https://github.com/NOAA-GSL/ufs-weather-model  fv3gfs_ccpp_chem.fd >> ${topdir}/checkout-fv3gfs_ccpp_chem.log 2>&1
    cd fv3gfs_ccpp_chem.fd
    git checkout ea18809250e4de0fa410fceecad50415460bb8ca 
@@ -70,7 +57,6 @@ echo prepchem_NC.fd checkout ...
 if [[ ! -d prepchem_NC.fd ]] ; then
     rm -f ${topdir}/checkout-prepchem_NC.fd.log
     git clone  gerrit:GSD-prep-chem prepchem_NC.fd >> ${topdir}/checkout-prepchem_NC.fd.log 2>&1
-    cd prepchem_NC.fd
     cd ${topdir}
 else
     echo 'Skip.  Directory prepchem_NC.fd already exists.'
