@@ -1426,20 +1426,20 @@ if [ $SEND = "YES" ]; then
     cd $memdir/
     $NLN RERUN_RESTART  RESTART 
   #  $NLN $memdir/RESTART  $RSTDIR_TMP
-   
 
   else
-
+    mkdir -p ../RESTART
     # time-stamp exists at restart_interval time, just copy
     RDATE=$($NDATE +$restart_interval $CDATE)
     rPDY=$(echo $RDATE | cut -c1-8)
     rcyc=$(echo $RDATE | cut -c9-10)
     for file in ${rPDY}.${rcyc}0000.* ; do
-      $NCP $file $memdir/RESTART/$file
+      $NMV $file $memdir/RESTART/$file
     done
+    cd $memdir/
+    rm -rf RERUN_RESTART
+    $NLN RESTART RERUN_RESTART
   fi
-
-
 
   # Copy gdas and enkf member restart files
   if [ $CDUMP = "gdas" -a $rst_invt1 -gt 0 ]; then
