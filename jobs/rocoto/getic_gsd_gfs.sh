@@ -13,6 +13,7 @@ echo "CDUMP = $CDUMP"
 echo "ICSDIR = $ICSDIR"
 echo "PUBDIR = $PUBDIR"
 echo "RETRODIR = $RETRODIR"
+echo "GDASDIR = $GDASDIR"
 echo "ROTDIR = $ROTDIR"
 echo "PSLOT = $PSLOT"
 echo
@@ -21,7 +22,7 @@ echo
 yyyymmdd=`echo $CDATE | cut -c1-8`
 hh=`echo $CDATE | cut -c9-10`
 yyddd=`date +%y%j -u -d $yyyymmdd`
-fv3ic_dir=$ICSDIR/${CDATE}/${CDUMP}
+fv3ic_dir=$ICSDIR/${CDATE}/${CDUMP}/$CDUMP.$yyyymmdd/$hh
 
 ## create links in FV3ICS directory
 mkdir -p $fv3ic_dir
@@ -46,3 +47,14 @@ else
     fi 
   fi
 fi
+
+echo "YYYYMMDDHH:  ${yyyymmdd}${hh}"
+gdasfile=$GDASDIR/${yyddd}${hh}00.gdas.t${hh}z.atmanl.nemsio
+
+if [[ -f $gdasfile ]]
+then
+  ln -fs $gdasfile gdas.t${hh}z.atmanl.nemsio
+fi
+
+echo $GDASDIR
+echo $gdasfile

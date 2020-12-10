@@ -30,10 +30,14 @@
 	<!ENTITY EXPDIR "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp-chem">
 	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSrun/rt_ccpp-chem">
 	<!ENTITY ICSDIR "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3ICS">
-        <!ENTITY PUBDIR "/scratch1/BMC/public/data/grids/gfs/nemsio">
+        <!-- use RUNDIR1 as long as FV3-CHEM is still running in realtime   -->
+        <!ENTITY RUNDIR1 "/scratch1/BMC/gsd-fv3/NCEPDEV/stmp3/rtfim/RUNDIRS/rt_fv3gfs_chem">
+        <!ENTITY PUBDIR "/scratch2/BMC/public/data/grids/gfs/nemsio">
+        <!ENTITY RETRODIR "/scratch1/BMC/gsd-fv3-dev/GFS_RETRO_NEMSIO/">
         <!ENTITY GFSDIR "/ESRL/BMC/fdr/Permanent">
         <!ENTITY EMIDIR "/scratch2/BMC/public/data/grids/sdsu/emissions">
-        <!ENTITY GDASDIR "/5year/NCEPDEV/emc-global/emc.glopara/WCOSS_C/Q2FY19/prfv3rt1">
+        <!ENTITY GDASDIR "/scratch2/BMC/public/data/grids/gdas/bufr">
+<!--         <!ENTITY GDASDIR "/5year/NCEPDEV/emc-global/emc.glopara/WCOSS_C/Q2FY19/prfv3rt1">  -->
         <!ENTITY RUNDIR "/scratch1/BMC/gsd-fv3/NCEPDEV/stmp3/rtfim/RUNDIRS/rt_ccpp-chem">
 	<!ENTITY PREDIR "/scratch2/BMC/public/data/grids/sdsu/emissions">
          
@@ -71,7 +75,7 @@
 
 	<!ENTITY QUEUE_FV3IC_GFS     "&QUEUE;">
 	<!ENTITY WALLTIME_FV3IC_GFS  "00:30:00">
-	<!ENTITY RESOURCES_FV3IC_GFS "<nodes>1:ppn=4:tpp=1</nodes>">
+	<!ENTITY RESOURCES_FV3IC_GFS "<nodes>1:ppn=24:tpp=1</nodes>">
 	<!ENTITY NATIVE_FV3IC_GFS    "--export=NONE">
 
         <!ENTITY QUEUE_REGRID     "&QUEUE;">
@@ -140,10 +144,14 @@
         <envar><name>CDUMP</name><value>&CDUMP;</value></envar>
         <envar><name>ICSDIR</name><value>&ICSDIR;</value></envar>
         <envar><name>PUBDIR</name><value>&PUBDIR;</value></envar>
+        <envar><name>RETRODIR</name><value>&RETRODIR;</value></envar>
         <envar><name>GDASDIR</name><value>&GDASDIR;</value></envar>
         <envar><name>ROTDIR</name><value>&ROTDIR;</value></envar>
         <dependency>
-          	<timedep><cyclestr offset="09:15:00">@Y@m@d@H@M00</cyclestr></timedep>
+	  <or>
+		<timedep><cyclestr offset="23:50:00">@Y@m@d@H@M00</cyclestr></timedep>
+		<datadep><cyclestr>&GDASDIR;/@y@j0000.gdas.t00z.atmanl.nemsio</cyclestr></datadep>
+	  </or>
 	</dependency>
 
 </task>
@@ -173,11 +181,19 @@
 	<envar><name>ROTDIR</name><value>&ROTDIR;</value></envar>
 
 	<dependency>
-             <and>
-             <datadep><cyclestr>&PUBDIR;/@y@j@H00.&CDUMP;.t@Hz.atmanl.nemsio</cyclestr></datadep>
-             <datadep><cyclestr>&PUBDIR;/@y@j@H00.&CDUMP;.t@Hz.sfcanl.nemsio</cyclestr></datadep>
-             <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/gdas_available</cyclestr></datadep>
-             </and>
+           <and>
+             <or>
+               <and>
+                 <datadep><cyclestr>&PUBDIR;/@y@j@H00.gfs.t@Hz.atmanl.nemsio</cyclestr></datadep>
+                 <datadep><cyclestr>&PUBDIR;/@y@j@H00.gfs.t@Hz.sfcanl.nemsio</cyclestr></datadep>
+               </and>
+               <and>
+                 <datadep><cyclestr>&RETRODIR;/@y@j@H00.gfs.t@Hz.atmanl.nemsio</cyclestr></datadep>
+                 <datadep><cyclestr>&RETRODIR;/@y@j@H00.gfs.t@Hz.sfcanl.nemsio</cyclestr></datadep>
+               </and>
+             </or>
+             <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/gdas_available</cyclestr></datadep>
+           </and>
 	</dependency>
 </task>
 
@@ -207,10 +223,16 @@
 
 	<dependency>
 		<and>
-			<and>
-				<datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/gfs_data.tile6.nc</cyclestr></datadep>
-				<datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/sfc_data.tile6.nc</cyclestr></datadep>
-			</and>
+                        <or>
+                                <and>
+                                        <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/&CDUMP;.t@Hz.atmanl.nemsio</cyclestr></datadep>
+                                        <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/&CDUMP;.t@Hz.sfcanl.nemsio</cyclestr></datadep>
+                                </and>
+                                <and>
+                                        <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/siganl.&CDUMP;.@Y@m@d@H</cyclestr></datadep>
+                                        <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/sfcanl.&CDUMP;.@Y@m@d@H</cyclestr></datadep>
+                                </and>
+                        </or>
 			<not>
 				<and>
 					<datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/gfs_data.tile6.nc</cyclestr></datadep>
@@ -250,13 +272,13 @@
         <dependency>
   	    <or>
 	        <and>
-	               <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/gdas.t@Hz.atmanl.nemsio</cyclestr></datadep>
+	               <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/gdas.t@Hz.atmanl.nemsio</cyclestr></datadep>
 	               <datadep><cyclestr offset="-24:00:00">&ROTDIR;/&CDUMP;.@Y@m@d/@H/&CDUMP;.t@Hz.atmf000.nemsio</cyclestr></datadep>
 		</and> 
                 <and>
-                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/gdas.t@Hz.atmanl.nemsio</cyclestr></datadep>
-                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/siganl.&CDUMP;.@Y@m@d@H</cyclestr></datadep>
-                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/sfcanl.&CDUMP;.@Y@m@d@H</cyclestr></datadep>
+                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/gdas.t@Hz.atmanl.nemsio</cyclestr></datadep>
+                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/siganl.&CDUMP;.@Y@m@d@H</cyclestr></datadep>
+                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CDUMP;.@Y@m@d/@H/sfcanl.&CDUMP;.@Y@m@d@H</cyclestr></datadep>
                        <datadep><cyclestr offset="-24:00:00">&ROTDIR;/&CDUMP;.@Y@m@d/@H/&CDUMP;.t@Hz.atmf000.nemsio</cyclestr></datadep>
                 </and> 
   	    </or>
@@ -287,7 +309,8 @@
         <envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
         <dependency>
 	        <and>
-                      <datadep><cyclestr>&RUNDIR;/@Y@m@d@H/&CDUMP;/regrid/atmanl.@Y@m@d@H</cyclestr></datadep>
+                      <!--<datadep><cyclestr>&RUNDIR;/@Y@m@d@H/&CDUMP;/regrid/atmanl.@Y@m@d@H</cyclestr></datadep> -->
+                      <datadep><cyclestr>&RUNDIR1;/@Y@m@d@H/&CDUMP;/regrid/atmanl.@Y@m@d@H</cyclestr></datadep>
 	              <datadep><cyclestr offset="-24:00:00">&ROTDIR;/&CDUMP;.@Y@m@d/@H/&CDUMP;.t@Hz.atmf024.nemsio</cyclestr></datadep>  
                 </and> 
         </dependency>

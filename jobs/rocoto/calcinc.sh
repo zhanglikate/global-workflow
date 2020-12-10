@@ -48,9 +48,6 @@ export DATA="$RUNDIR/$CDATE/$CDUMP"
 [[ ! -d $DATA ]] && mkdir -p $DATA
 
 cd $DATA
-
-#ln -sf  /scratch1/BMC/gsd-fv3/NCEPDEV/stmp3/rtfim/RUNDIRS/rt_fv3gfs_chem/$CDATE/$CDUMP/regrid  regrid #lzhang
-ln -sf $RUNDIR1/$CDATE/$CDUMP/regrid regrid #lzhang
 mkdir -p calcinc
 cd calcinc
 
