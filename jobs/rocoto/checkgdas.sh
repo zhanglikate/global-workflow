@@ -1,9 +1,11 @@
 #!/bin/bash 
 
-## this script makes links to GFS nemsio files under /public and copies over GFS analysis file for verification
-##   /scratch4/BMC/rtfim/rtfuns/FV3GFS/FV3ICS/YYYYMMDDHH/gfs
-##     sfcanl.gfs.YYYYMMDDHH -> /scratch4/BMC/public/data/grids/gfs/nemsio/YYDDDHH00.gfs.tHHz.sfcanl.nemsio
-##     siganl.gfs.YYYYMMDDHH -> /scratch4/BMC/public/data/grids/gfs/nemsio/YYDDDHH00.gfs.tHHz.atmanl.nemsio
+## this script checks to see if GDAS atmanal file exists on $PUBDIR
+##   [/scratch2/BMC/public/data/grids/gdas/bufr]
+##   and creates gdas_available file under $ICSDIR/${CDATE}/${CDUMP}/$CDUMP.$yyyymmdd/$hh
+##
+## if file is missing from $PUBDIR, pulls file from mass store
+##
 
 ###############################################################
 ## Abstract:
