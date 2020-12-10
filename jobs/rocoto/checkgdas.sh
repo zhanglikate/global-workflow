@@ -1,10 +1,10 @@
 #!/bin/bash 
 
-## this script checks to see if GDAS atmanal file exists on $PUBDIR
+## this script checks to see if GDAS atmanal file exists on $GDASDIR
 ##   [/scratch2/BMC/public/data/grids/gdas/bufr]
 ##   and creates gdas_available file under $ICSDIR/${CDATE}/${CDUMP}/$CDUMP.$yyyymmdd/$hh
 ##
-## if file is missing from $PUBDIR, pulls file from mass store
+## if file is missing from $GDASDIR, pulls file from mass store
 ##
 
 ###############################################################
