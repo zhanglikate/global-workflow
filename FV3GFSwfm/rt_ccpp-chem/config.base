@@ -108,10 +108,11 @@ if [[ "$CDATE" -ge "2019092100" && "$CDATE" -le "2019110700" ]]; then
     export DUMP_SUFFIX="p"              # Use dumps from NCO GFS v15.3 parallel
 fi
 export RUNDIR="$STMP/RUNDIRS/$PSLOT"
+export RUNDIR1="/scratch1/BMC/gsd-fv3/NCEPDEV/stmp3/rtfim/RUNDIRS/rt_fv3gfs_chem"
 export DATAROOT="$RUNDIR/$CDATE/$CDUMP"
 export ARCDIR="$NOSCRUB/archive/$PSLOT"
 export ICSDIR="/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3ICS"
-export ATARDIR="/BMC/$HPSS_PROJECT/2year/rt-CCPP-Chem"
+export ATARDIR="/BMC/$HPSS_PROJECT/2year/rt_CCPP-Chem"
 
 # Commonly defined parameters in JJOBS
 export envir=${envir:-"prod"}
