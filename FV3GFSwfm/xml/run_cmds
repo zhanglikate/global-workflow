@@ -1,0 +1,11 @@
+REALTIME
+rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/xml/ccppchem_img.xml -d /home/rtfim/rt_dbfiles/ccppchem_chem_img.db
+rocotostat -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/xml/ccppchem_img.xml -d /home/rtfim/rt_dbfiles/ccppchem_chem_img.db  -c `date --date='4 days ago'  +%Y%m%d0000`: | m
+ 
+RETRO
+rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/xml/ccppchem_retro_img.xml -d /home/rtfim/rt_dbfiles/ccppchem_chem_retro_img2.db
+rocotostat -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/xml/ccppchem_retro_img.xml -d /home/rtfim/rt_dbfiles/ccppchem_chem_retro_img2.db
+
+rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/xml/ccppchem_retro_nclzip.xml -d /home/rtfim/rt_dbfiles/ccppchem_chem_retro_nclzip.db
+rocotostat -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/xml/ccppchem_retro_nclzip.xml -d /home/rtfim/rt_dbfiles/ccppchem_chem_retro_nclzip.db
+

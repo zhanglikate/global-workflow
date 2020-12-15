@@ -3,3 +3,5 @@ REALTIME
 rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp-chem/rt_ccpp-chem.xml -d /home/rtfim/rt_dbfiles/rt_ccpp-chem.db
 rocotostat  -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp-chem/rt_ccpp-chem.xml -d /home/rtfim/rt_dbfiles/rt_ccpp-chem.db -c `date --date='4 days ago' +%Y%m%d0000`: | m
 
+rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp-chem/ccpp-chem.xml -d /home/rtfim/retro_dbfiles/ccpp-chem.db
+rocotostat -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp-chem/ccpp-chem.xml -d /home/rtfim/retro_dbfiles/ccpp-chem.db | m

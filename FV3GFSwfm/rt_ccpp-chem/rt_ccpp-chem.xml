@@ -117,7 +117,7 @@
 
 ]>
 
-<workflow realtime="F" scheduler="&SCHEDULER;" cyclethrottle="&CYCLETHROTTLE;" taskthrottle="&TASKTHROTTLE;">
+<workflow realtime="T" scheduler="&SCHEDULER;" cyclethrottle="&CYCLETHROTTLE;" taskthrottle="&TASKTHROTTLE;">
 
 	<log verbosity="10"><cyclestr>&EXPDIR;/logs/@Y@m@d@H.log</cyclestr></log>
 
@@ -342,11 +342,9 @@
 	<envar><name>SDAY</name><value><cyclestr>@d</cyclestr></value></envar>
 	<envar><name>SHOUR</name><value><cyclestr>@H</cyclestr></value></envar>
 	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
-<!--
         <dependency>
-                  <datadep><cyclestr>&EMIDIR;/@Y@m@d.meanFRP.FV3.C384Grid.tile6.bin</cyclestr></datadep>	
+                  <datadep><cyclestr>&EMIDIR;/meanFRP.@Y@m@d.FV3.C384Grid.tile6.bin</cyclestr></datadep>	
 	</dependency>
--->
 </task>
 
 <task name="gfsfcst" cycledefs="gfs" maxtries="&MAXTRIES;">

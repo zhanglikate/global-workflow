@@ -1,0 +1,30 @@
+  <task name="chemplot_000" maxtries="2">
+      <command>&SCRIPTS;/ncl_FV3chem_smoke.ksh</command>
+      <account>&PROJECT;</account>
+      <cores>1</cores>
+      <walltime>00:35:00</walltime>
+      <jobname>FV3chem_smoke_ncl</jobname>
+      <join><cyclestr>&FV3GFS_LOG;/ncl/ncl_FV3chem_smoke_@Y@m@d@H00.log</cyclestr></join>
+
+      <envar><name>FV3GFS_HOME</name><value>&FV3GFS_HOME;</value> </envar>
+      <envar><name>START_TIME</name><value><cyclestr>@Y@m@d</cyclestr></value> </envar>
+      <envar><name>FCST_TIME</name><value>00</value></envar>
+      <envar><name>DATAROOT</name><value>&PUBEMI;</value></envar>
+      <envar><name>NCL_ROOT</name><value>&NCL_ROOT;/..</value></envar>
+      <envar><name>OUTPUT_ROOT</name><value>&OUTPUT_ROOT;</value></envar>
+      <envar><name>MODEL</name><value>FV3-Chem</value></envar>
+      <envar><name>FIXfv3</name><value>&FIXfv3;</value></envar>
+      <envar><name>CASE</name><value>&CASE;</value></envar>
+
+      <dependency>
+         <and>
+            <datadep age="300">&PUBEMI;/<cyclestr>meanFRP.@Y@m@d.FV3.C384Grid.tile1.bin</cyclestr></datadep>
+            <datadep age="300">&PUBEMI;/<cyclestr>meanFRP.@Y@m@d.FV3.C384Grid.tile2.bin</cyclestr></datadep>
+            <datadep age="300">&PUBEMI;/<cyclestr>meanFRP.@Y@m@d.FV3.C384Grid.tile3.bin</cyclestr></datadep>
+            <datadep age="300">&PUBEMI;/<cyclestr>meanFRP.@Y@m@d.FV3.C384Grid.tile4.bin</cyclestr></datadep>
+            <datadep age="300">&PUBEMI;/<cyclestr>meanFRP.@Y@m@d.FV3.C384Grid.tile5.bin</cyclestr></datadep>
+            <datadep age="300">&PUBEMI;/<cyclestr>meanFRP.@Y@m@d.FV3.C384Grid.tile6.bin</cyclestr></datadep>
+         </and>
+      </dependency>
+
+  </task>

@@ -1,0 +1,1 @@
+/scratch1/BMC/gsd-fv3/rtruns/nclvx/FV3GFSwfm/scripts/fv3_nclzip.ksh

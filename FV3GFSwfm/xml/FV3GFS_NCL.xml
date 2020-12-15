@@ -1,0 +1,34 @@
+  <task name="ncl_#T#" maxtries="3">
+    <command>&SCRIPTS;/nclfv3_driver.ksh</command>
+    <account>&PROJECT;</account>
+    <memory>4G</memory>
+    <cores>2</cores>
+    <walltime>03:35:00</walltime>
+    <jobname><cyclestr>ncl_#T#</cyclestr></jobname>
+    <join><cyclestr>&FV3GFS_LOG;/ncl/ncl#T#_@Y@m@d@H00.log</cyclestr></join>
+    <envar><name>FV3GFS_HOME</name><value>&FV3GFS_HOME;</value></envar>
+    <envar><name>FV3GFS_RUN</name><value><cyclestr>&FV3GFS_RUN;/&PSLOT;/&CDUMP;.@Y@m@d/@H/</cyclestr></value></envar>
+    <envar><name>SCRIPTS</name><value>&SCRIPTS;</value></envar>
+    <envar><name>NCL_ROOT</name><value>&NCL_ROOT;</value></envar>
+    <envar><name>NCL_HOME</name><value>&NCL_ROOT;</value></envar>
+    <envar><name>MODL</name><value>&MODL;</value></envar>
+    <envar><name>ATCFNAME</name><value>&ATCFNAME;</value></envar>
+    <envar><name>yyyymmdd</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+    <envar><name>H</name><value><cyclestr>@H</cyclestr></value></envar>
+    <envar><name>yyjjjhhmm</name><value><cyclestr>@y@j@H00</cyclestr></value></envar>
+    <envar><name>PSLOT</name><value>&PSLOT;</value></envar>
+    <envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+    <envar><name>RES</name><value>&RES;</value></envar>
+    <envar><name>T</name><value>#T#</value></envar>
+    <envar><name>FCST_TIME</name><value>#fcst#</value></envar>
+    <envar><name>FCST_LENGTH</name><value>&FCST_LENGTH;</value></envar>
+<!--    <envar><name>GRID_NAMES</name><value>224</value></envar> 
+ <envar><name>GRID_NAMES</name><value>fim</value></envar> -->
+    <envar><name>GRID_NAMES</name><value>fimD201D130D244D236D224D242</value></envar> 
+    <dependency>
+       <and>
+         <taskdep task="remapgrib_#T#"/>
+         <datadep age="120"> <cyclestr>&FV3GFS_RUN;/&PSLOT;/&CDUMP;.@Y@m@d/@H/&CDUMP;.t@Hz.pgrb2.&RES;.f#T#</cyclestr></datadep>
+       </and>
+    </dependency>
+  </task>
