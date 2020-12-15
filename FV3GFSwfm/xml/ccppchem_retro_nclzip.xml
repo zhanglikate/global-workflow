@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE workflow [
+
+  <!ENTITY FV3GFS_HOME "/home/rtfim/CCPP-Chem">
+  <!ENTITY PSLOT  "rt_ccpp-chem">
+  <!ENTITY ATCFNAME "FV3CCPP_CHEM">          <!-- tracker name -->
+  <!ENTITY MODL "FV3CCPP_Chem">              <!-- plot name;  needs to have 'FV3' in name for NCL -->
+  <!ENTITY RES "0p25">
+  <!ENTITY FCST_INTERVAL "6">
+  <!ENTITY FCST_LENGTH "168">
+
+  <!-- External parameter entites -->
+  <!ENTITY % SITES  SYSTEM "all_sites.xml">  %SITES;
+  <!ENTITY % TASKS  SYSTEM "all_tasks.xml">  %TASKS;
+  <!ENTITY % DEFS   SYSTEM "all_defs.xml">   %DEFS;
+
+  %hera;
+  %metatasks;
+]>
+
+<workflow realtime="F" scheduler="&SCHEDULER;" cyclethrottle="8">
+  <log>
+    <cyclestr>&FV3GFS_LOG;/workflow/workflow_@Y@m@d@H_nclzipretro.log</cyclestr>
+  </log>
+
+  <cycledef>202011260000 202011270000 24:00:00</cycledef>
+
+  &nclzipretro_task;  
+<!--    
+-->
+</workflow>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE workflow [
+
+  <!ENTITY FV3GFS_HOME "/home/rtfim/CCPP-Chem">
+  <!ENTITY PSLOT  "rt_ccpp-chem">
+  <!ENTITY ATCFNAME "FV3CCPP_CHEM">          <!-- tracker name -->
+  <!ENTITY MODL "FV3CCPP_Chem">              <!-- plot name;  needs to have 'FV3' in name for NCL -->
+  <!ENTITY RES "0p25">
+  <!ENTITY FCST_INTERVAL "6">
+  <!ENTITY FCST_LENGTH "168">
+
+  <!-- External parameter entites -->
+  <!ENTITY % SITES  SYSTEM "all_sites.xml">  %SITES;
+  <!ENTITY % TASKS  SYSTEM "all_tasks.xml">  %TASKS;
+  <!ENTITY % DEFS   SYSTEM "all_defs.xml">   %DEFS;
+
+  %hera;
+  <!ENTITY PUBEMI "&PUB_DIR;/data/grids/sdsu/emissions">
+  <!ENTITY FIXfv3 "/scratch1/NCEPDEV/global/glopara/fix/fix_fv3">
+  <!ENTITY OUTPUT_ROOT "&FV3GFS_RUN;/&PSLOT;">
+  %metatasks;
+]>
+
+<workflow realtime="F" scheduler="&SCHEDULER;" cyclethrottle="4" cyclelifespan="72:00:00">
+  <log>
+    <cyclestr>&FV3GFS_LOG;/workflow/workflow_@Y@m@d@H_ncl.log</cyclestr>
+  </log>
+
+  <cycledef>202011150000 202011150000 24:00:00</cycledef>
+  <!--<cycledef>202011150000 202806190000 24:00:00</cycledef> -->
+
+  <metatask name="remap_ncl" throttle="25">
+    &fcst_168hr_metatask;
+    &t168hr_metatask;
+    &remapgrib_task; 
+    &ncl_task;
+  </metatask>
+  &chemplot_task;
+  &nclzip_task;  
+</workflow>
