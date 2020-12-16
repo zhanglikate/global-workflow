@@ -1155,7 +1155,6 @@ deflate_level=${deflate_level:-1}
   seas_emis_scheme=-1
   seas_emis_scale=1.,1.,1.,1.,1.
   vertmix_onoff=1
-  aer_ra_frq     = 60
   wetdep_ls_opt  = 1
   restart_inname    = "$DATA/INPUT/"
   restart_outname   = "$RSTDIR_TMP/"
