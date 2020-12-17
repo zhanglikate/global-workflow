@@ -1125,7 +1125,7 @@ deflate_level=${deflate_level:-1}
   do_shum      = ${do_shum:-".false."}
   do_skeb      = ${do_skeb:-".false."}
   fscav_aero   = "sulf:0.2", "bc1:0.2","bc2:0.2","oc1:0.2","oc2:0.2",
-  cplchm_rad_opt= ${cplchm_rad_opt:="F"}
+  cplchm_rad_opt= ${cplchm_rad_opt:-"F"}
   aer_bc_opt=1
   aer_ic_opt=1
   aer_ra_feedback=2
