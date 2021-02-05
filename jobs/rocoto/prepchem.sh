@@ -129,22 +129,22 @@ for n in $(seq 1 6); do
         module load intel netcdf szip hdf5
         set -x
         $NLN $EXECgfs/mkncgbbepx .
-        ./mkncgbbepx <<EOF
-        &mkncgbbepx
-           title = "GBBEPx emission input (${CASE}, 10, tile${n})"
-           tile = ${n}
-           date = '$SYEAR-$SMONTH-$SDAY'
-           nlon = ${res}
-           nlat = ${res}
-           outfile     = "$NCGB/${emiss_date1}/FIRE_GBBEPx_data.tile${n}.nc"
-           pathoro     = "$FIXgfs/fix_fv3/${CASE}/${CASE}_oro_data.tile${n}.nc"
-           pathebc     = "$DIRGB/${emiss_date1}/$BC"
-           patheoc     = "$DIRGB/${emiss_date1}/$OC"
-           pathepm25   = "$DIRGB/${emiss_date1}/$PM25"
-           patheso2    = "$DIRGB/${emiss_date1}/$SO2"
-           patheplume  = "$DIRGB/${emiss_date1}/$FRP"
-        /
-        EOF
+ ./mkncgbbepx <<EOF
+&mkncgbbepx
+       title = "GBBEPx emission input (${CASE}, 10, tile${n})"
+       tile = ${n}
+       date = '$SYEAR-$SMONTH-$SDAY'
+       nlon = ${res}
+       nlat = ${res}
+       outfile     = "$NCGB/${emiss_date1}/FIRE_GBBEPx_data.tile${n}.nc"
+       pathoro     = "$FIXgfs/fix_fv3/${CASE}/${CASE}_oro_data.tile${n}.nc"
+       pathebc     = "$DIRGB/${emiss_date1}/$BC"
+       patheoc     = "$DIRGB/${emiss_date1}/$OC"
+       pathepm25   = "$DIRGB/${emiss_date1}/$PM25"
+       patheso2    = "$DIRGB/${emiss_date1}/$SO2"
+       patheplume  = "$DIRGB/${emiss_date1}/$FRP"
+/
+EOF
         status=$?
         if [ $status -ne 0 ]; then
              echo "error mkncgbbepx failed  $status "
