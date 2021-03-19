@@ -69,7 +69,7 @@ cd ${pwd}/../ush                ||exit 8
     done
     for file in emcsfc_ice_blend.sh  fv3gfs_driver_grid.sh  fv3gfs_make_orog.sh  global_cycle_driver.sh \
         emcsfc_snow.sh  fv3gfs_filter_topo.sh  global_chgres_driver.sh  global_cycle.sh \
-        fv3gfs_chgres.sh  fv3gfs_make_grid.sh  global_chgres.sh  ; do
+        fv3gfs_chgres.sh  fv3gfs_make_grid.sh  global_chgres.sh chgres_cube.sh; do
         $LINK ../sorc/ufs_utils.fd/ush/$file                  .
     done
     for file in gldas_archive.sh  gldas_forcing.sh gldas_get_data.sh  gldas_process_data.sh gldas_liscrd.sh  gldas_post.sh ; do
