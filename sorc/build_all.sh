@@ -112,6 +112,20 @@ fi
 }
 
 #------------------------------------
+# build nemsio2nc
+#------------------------------------
+$Build_nemsio2nc && {
+echo " .... Building nemsio2nc .... "
+./build_nemsio2nc.sh > $logs_dir/build_nemsio2nc.log 2>&1
+rc=$?
+if [[ $rc -ne 0 ]] ; then
+    echo "Fatal error in building nemsio2nc."
+    echo "The log file is in $logs_dir/build_nemsio2nc.log"
+fi
+((err+=$rc))
+}
+
+#------------------------------------
 # build prepchem_NC
 #------------------------------------
 $Build_prepchem_NC && {

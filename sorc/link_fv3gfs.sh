@@ -194,6 +194,10 @@ $LINK ../sorc/fv3gfs.fd/NEMS/exe/global_fv3gfs.x .
 [[ -s global_fv3gfs_ccpp.x ]] && rm -f global_fv3gfs_ccpp.x
 $LINK ../sorc/fv3gfs.fd/NEMS/exe/global_fv3gfs_ccpp.x .
 
+#lzhang nemsio2nc link 
+[[ -s nemsioatm2nc ]] && rm -f
+$LINK ../sorc/nemsio2nc.fd/bin/nemsioatm2nc .
+
 if [ -d ../sorc/fv3gfs.fd/WW3/exec ]; then # Wave execs
   for waveexe in ww3_gint ww3_grib ww3_grid ww3_multi ww3_ounf ww3_ounp ww3_outf ww3_outp ww3_prep ww3_prnc; do
     [[ -s $waveexe ]] && rm -f $waveexe
@@ -215,7 +219,7 @@ if [ -d ${pwd}/gfs_wafs.fd ]; then
 fi
 
 for ufs_utilsexe in \
-     chgres_cube.exe   fregrid           make_hgrid           nemsio_get    shave.x \
+     chgres_cube   fregrid           make_hgrid           nemsio_get    shave.x \
      emcsfc_ice_blend  fregrid_parallel  make_hgrid_parallel  nemsio_read \
      emcsfc_snow2mdl   global_chgres     make_solo_mosaic     nst_tf_chg.x \
      filter_topo       global_cycle      mkgfsnemsioctl       orog.x ; do

@@ -2,7 +2,7 @@
 
 ###############################################################
 ## Abstract:
-## Calculate increment of Met. fields for FV3-CHEM
+## Create biomass burning emissions for FV3-CHEM
 ## RUN_ENVIR : runtime environment (emc | nco)
 ## HOMEgfs   : /full/path/to/workflow
 ## EXPDIR : /full/path/to/config/files
@@ -18,73 +18,24 @@ status=$?
 
 ###############################################################
 # Source relevant configs
-configs="base calcinc"
+configs="base"
 for config in $configs; do
     . $EXPDIR/config.${config}
     status=$?
     [[ $status -ne 0 ]] && exit $status
 done
-
-# Source machine runtime environment
-. $BASE_ENV/${machine}.env calcinc
-status=$?
-[[ $status -ne 0 ]] && exit $status
 ###############################################################
-CALCINCEXEC=${CALCINCEXEC:-$HOMEgfs/exec/calc_increment_ens.x}
-NTHREADS_CALCINC=${NTHREADS_CALCINC:-1}
-ncmd=${ncmd:-1}
-imp_physics=${imp_physics:-99}
-INCREMENTS_TO_ZERO=${INCREMENTS_TO_ZERO:-"'NONE'"}
-DO_CALC_INCREMENT=${DO_CALC_INCREMENT:-"YES"}
-export ERRSCRIPT=${ERRSCRIPT:-'eval [[ $err = 0 ]]'}
-
-TMPDAY=`$NDATE -24 $PDY$cyc`
-HISDAY=`echo $TMPDAY | cut -c1-8`
-
-if [ $DO_CALC_INCREMENT = "YES" ]; then
-
-export DATA="$RUNDIR/$CDATE/$CDUMP"
-
-[[ ! -d $DATA ]] && mkdir -p $DATA
-
-cd $DATA
-mkdir -p calcinc
-cd calcinc
-
-#     $NLN sigf06 atmges_mem001 ; $NLN siganl atmanl_mem001 ; 
-
-  export OMP_NUM_THREADS=$NTHREADS_CALCINC
-  $NCP $CALCINCEXEC .
-  $NLN $OUTDIR/$CDUMP.$HISDAY/00/$CDUMP.t00z.atmf024.nemsio atmges_mem001
-  $NLN ../regrid/atmanl.$PDY$cyc atmanl_mem001
-  $NLN atminc.nc atminc_mem001
-  rm calc_increment.nml
-  cat > calc_increment.nml << EOF
-&setup
-  datapath = './'
-  analysis_filename = 'atmanl'
-  firstguess_filename = 'atmges'
-  increment_filename = 'atminc'
-  debug = .false.
-  nens = $ncmd
-  imp_physics = $imp_physics
-/
-&zeroinc
-  incvars_to_zero = $INCREMENTS_TO_ZERO
-/
-EOF
-  cat calc_increment.nml
-
-  APRUN=$(eval echo $APRUN_CALCINC)
-  $APRUN $(basename $CALCINCEXEC)
-  rc=$?
-
-  export ERR=$rc
-  export err=$ERR
-  $ERRSCRIPT || exit 3
+if [ $CDATE -ge "2021030100" ]; then
+    $HOMEgfs/jobs/rocoto/calcinc_gfsv16.sh
+else
+    $HOMEgfs/jobs/rocoto/calcinc_gfsv15.sh
 fi
-   
+echo "error regrid $rc "
+     exit $rc
+
+
 ###############################################################
 
 ###############################################################
 # Exit cleanly
+
