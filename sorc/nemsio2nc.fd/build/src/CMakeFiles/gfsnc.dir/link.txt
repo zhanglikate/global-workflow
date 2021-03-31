@@ -1,0 +1,2 @@
+/usr/bin/ar qc libgfsnc.a  CMakeFiles/gfsnc.dir/gfsnc.cc.o
+/usr/bin/ranlib libgfsnc.a

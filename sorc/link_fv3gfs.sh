@@ -69,7 +69,7 @@ cd ${pwd}/../ush                ||exit 8
     done
     for file in emcsfc_ice_blend.sh  fv3gfs_driver_grid.sh  fv3gfs_make_orog.sh  global_cycle_driver.sh \
         emcsfc_snow.sh  fv3gfs_filter_topo.sh  global_chgres_driver.sh  global_cycle.sh \
-        fv3gfs_chgres.sh  fv3gfs_make_grid.sh  global_chgres.sh  ; do
+        fv3gfs_chgres.sh  fv3gfs_make_grid.sh  global_chgres.sh chgres_cube.sh; do
         $LINK ../sorc/ufs_utils.fd/ush/$file                  .
     done
     for file in gldas_archive.sh  gldas_forcing.sh gldas_get_data.sh  gldas_process_data.sh gldas_liscrd.sh  gldas_post.sh ; do
@@ -194,6 +194,10 @@ $LINK ../sorc/fv3gfs.fd/NEMS/exe/global_fv3gfs.x .
 [[ -s global_fv3gfs_ccpp.x ]] && rm -f global_fv3gfs_ccpp.x
 $LINK ../sorc/fv3gfs.fd/NEMS/exe/global_fv3gfs_ccpp.x .
 
+#lzhang nemsio2nc link 
+[[ -s nemsioatm2nc ]] && rm -f
+$LINK ../sorc/nemsio2nc.fd/bin/nemsioatm2nc .
+
 if [ -d ../sorc/fv3gfs.fd/WW3/exec ]; then # Wave execs
   for waveexe in ww3_gint ww3_grib ww3_grid ww3_multi ww3_ounf ww3_ounp ww3_outf ww3_outp ww3_prep ww3_prnc; do
     [[ -s $waveexe ]] && rm -f $waveexe
@@ -215,7 +219,7 @@ if [ -d ${pwd}/gfs_wafs.fd ]; then
 fi
 
 for ufs_utilsexe in \
-     chgres_cube.exe   fregrid           make_hgrid           nemsio_get    shave.x \
+     chgres_cube   fregrid           make_hgrid           nemsio_get    shave.x \
      emcsfc_ice_blend  fregrid_parallel  make_hgrid_parallel  nemsio_read \
      emcsfc_snow2mdl   global_chgres     make_solo_mosaic     nst_tf_chg.x \
      filter_topo       global_cycle      mkgfsnemsioctl       orog.x ; do

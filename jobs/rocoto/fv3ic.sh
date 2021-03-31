@@ -2,7 +2,7 @@
 
 ###############################################################
 ## Abstract:
-## Create FV3 initial conditions from GFS intitial conditions
+## Create biomass burning emissions for FV3-CHEM
 ## RUN_ENVIR : runtime environment (emc | nco)
 ## HOMEgfs   : /full/path/to/workflow
 ## EXPDIR : /full/path/to/config/files
@@ -11,8 +11,6 @@
 ## PDY    : current date (YYYYMMDD)
 ## cyc    : current cycle (HH)
 ###############################################################
-
-###############################################################
 # Source FV3GFS workflow modules
 . $HOMEgfs/ush/load_fv3gfs_modules.sh
 status=$?
@@ -20,47 +18,24 @@ status=$?
 
 ###############################################################
 # Source relevant configs
-configs="base fv3ic"
+configs="base"
 for config in $configs; do
     . $EXPDIR/config.${config}
     status=$?
     [[ $status -ne 0 ]] && exit $status
 done
+###############################################################
+if [ $CDATE -ge "2021030100" ]; then
+    $HOMEgfs/jobs/rocoto/fv3ic_gfsv16.sh
+else
+    $HOMEgfs/jobs/rocoto/fv3ic_gfsv15.sh
+fi
+echo "error fv3ic $rc "
+     exit $rc
+
 
 ###############################################################
-# Source machine runtime environment
-. $BASE_ENV/${machine}.env fv3ic
-status=$?
-[[ $status -ne 0 ]] && exit $status
-
-# Temporary runtime directory
-export DATA="$RUNDIR/$CDATE/$CDUMP/fv3ic$$"
-[[ -d $DATA ]] && rm -rf $DATA
-
-# Input GFS initial condition directory
-export INIDIR="$ICSDIR/$CDATE/$CDUMP/$CDUMP.$PDY/$cyc"
-
-# Output FV3 initial condition directory
-export OUTDIR="$ICSDIR/$CDATE/$CDUMP/$CASE/INPUT"
-
-export OMP_NUM_THREADS_CH=$NTHREADS_CHGRES
-export APRUNC=$APRUN_CHGRES
-
-# Call global_chgres_driver.sh
-$HOMEgfs/ush/global_chgres_driver.sh
-status=$?
-if [ $status -ne 0 ]; then
-    echo "global_chgres_driver.sh returned with a non-zero exit code, ABORT!"
-    exit $status
-fi
-
-# Stage the FV3 initial conditions to ROTDIR
-COMOUT="$ROTDIR/$CDUMP.$PDY/$cyc"
-[[ ! -d $COMOUT ]] && mkdir -p $COMOUT
-cd $COMOUT || exit 99
-rm -rf INPUT
-$NLN $OUTDIR .
 
 ###############################################################
 # Exit cleanly
-exit 0
+

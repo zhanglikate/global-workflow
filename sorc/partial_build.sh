@@ -6,6 +6,7 @@
                        "Build_gldas" \
                        "Build_ncep_post" \
                        "Build_ufs_utils" \
+                       "Build_nemsio2nc" \
                        "Build_gldas" \
                        "Build_gfs_wafs" \
                        "Build_gaussian_sfcanl" \

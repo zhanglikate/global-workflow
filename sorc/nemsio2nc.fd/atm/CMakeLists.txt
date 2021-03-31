@@ -1,0 +1,46 @@
+if( NOT DEFINED ENV{CC} )
+  find_path( crayComp "ftn" )
+  find_path( wcossIntel "mpfort" )
+  find_path( intelComp "ifort" )
+  find_path( pgiComp "pgf90" )
+  if( crayComp )
+    message("Setting CrayLinuxEnvironment")
+    set(CMAKE_SYSTEM_NAME "CrayLinuxEnvironment")
+    set(CMAKE_C_COMPILER "${crayComp}/cc")
+    set(CMAKE_CXX_COMPILER "${crayComp}/CC")
+    set(CMAKE_Fortran_COMPILER "${crayComp}/ftn")
+  endif()
+  if( intelComp )
+    set(ENV{CC} "icc")
+    set(ENV{CXX} "icpc")
+    set(ENV{FC} "ifort")
+  endif()
+  if( pgiComp )
+    set(ENV{CC} "pgcc")
+    set(ENV{CXX} "pgCC")
+    set(ENV{FC} "pgf90")
+  endif()
+endif()
+
+cmake_minimum_required(VERSION 3.0)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
+project(nemsio2nc C CXX Fortran)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin)
+
+set (NETCDF_C "YES")
+find_package (NetCDF REQUIRED)
+include_directories(${NETCDF_INCLUDES})
+find_package( NEMSIO REQUIRED)
+find_package( BACIO REQUIRED)
+find_package( W3NCO REQUIRED)
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${NEMSIOINC})
+
+add_subdirectory(src)
+
