@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnemsio_int.a  CMakeFiles/nemsio_int.dir/nemsio_interface.f90.o
-/usr/bin/ranlib libnemsio_int.a

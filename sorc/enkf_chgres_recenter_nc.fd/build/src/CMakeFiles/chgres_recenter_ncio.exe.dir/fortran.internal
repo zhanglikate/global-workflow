@@ -1,7 +1,0 @@
-# The fortran modules provided by this target.
-provides
- input_data
- interp
- output_data
- setup
- utils

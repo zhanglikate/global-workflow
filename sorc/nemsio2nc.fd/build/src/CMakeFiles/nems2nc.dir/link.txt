@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnems2nc.a  CMakeFiles/nems2nc.dir/nems2nc.cc.o
-/usr/bin/ranlib libnems2nc.a

@@ -2,7 +2,7 @@
 
 ###############################################################
 ## Abstract:
-## Create biomass burning emissions for FV3-CHEM
+## Regrid the high resolution Gaussian Met. analysis data (nemsio) into Gaussian model resolution (nemsio)
 ## RUN_ENVIR : runtime environment (emc | nco)
 ## HOMEgfs   : /full/path/to/workflow
 ## EXPDIR : /full/path/to/config/files
@@ -25,14 +25,16 @@ for config in $configs; do
     [[ $status -ne 0 ]] && exit $status
 done
 ###############################################################
-if [ $CDATE -ge "2021030100" ]; then
+if [ $CDATE -ge "2021032212" ]; then
     $HOMEgfs/jobs/rocoto/regrid_gfsv16.sh
 else
     $HOMEgfs/jobs/rocoto/regrid_gfsv15.sh
 fi
-echo "error regrid $rc "
-     exit $rc
-
+rc=$?
+if [ $rc -ne 0 ]; then
+    echo "error regrid $rc "
+    exit $rc
+fi 
 
 ###############################################################
 

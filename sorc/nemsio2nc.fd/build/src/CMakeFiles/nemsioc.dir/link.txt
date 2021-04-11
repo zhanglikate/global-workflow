@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnemsioc.a  CMakeFiles/nemsioc.dir/nemsio.cc.o
-/usr/bin/ranlib libnemsioc.a

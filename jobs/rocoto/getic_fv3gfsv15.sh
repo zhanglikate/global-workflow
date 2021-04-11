@@ -1,0 +1,1 @@
+getic_fv3gfsv15_gsd.sh
