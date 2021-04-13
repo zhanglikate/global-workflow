@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<!DOCTYPE workflow
+[
+	<!--
+	PROGRAM
+		Main workflow manager for Forecast only Global Forecast System
+
+	AUTHOR:
+		Rahul Mahajan
+		rahul.mahajan@noaa.gov
+
+	NOTES:
+		This workflow was automatically generated at 2021-01-28 01:39:45.113189
+	-->
+
+	<!-- Experiment parameters such as name, cycle, resolution -->
+	<!ENTITY PSLOT    "rt_ccpp_c384">
+	<!ENTITY CDUMP    "gfs">
+	<!ENTITY CASE     "C384">
+
+	<!-- Experiment parameters such as starting, ending dates -->
+	<!ENTITY SDATE    "202103230000">
+	<!ENTITY EDATE    "203001100000">
+	<!ENTITY INTERVAL "24:00:00">
+
+	<!-- Run Envrionment -->
+	<!ENTITY RUN_ENVIR "emc">
+
+	<!-- Experiment related directories -->
+	<!ENTITY EXPDIR "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp_c384">
+	<!ENTITY ROTDIR "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSrun/rt_ccpp_c384">
+	<!ENTITY ICSDIR "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3ICS">
+
+        <!-- use RUNDIR1 as long as FV3-CHEM is still running in realtime   -->
+        <!ENTITY RUNDIR1 "/scratch1/BMC/gsd-fv3/NCEPDEV/stmp3/rtfim/RUNDIRS/rt_fv3gfs_chem">
+        <!ENTITY RUNDIR "/scratch1/BMC/gsd-fv3/NCEPDEV/stmp3/rtfim/RUNDIRS/rt_ccpp_c384">
+
+	<!-- Directories for driving the workflow -->
+	<!ENTITY HOMEgfs  "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem">
+	<!ENTITY JOBS_DIR "/scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/jobs/rocoto">
+
+	<!-- Machine related entities -->
+	<!ENTITY ACCOUNT    "gsd-fv3">
+	<!ENTITY QUEUE_URG  "urgent">
+	<!ENTITY QUEUE      "batch">
+	<!ENTITY QUEUE_DEBUG  "debug">
+	<!ENTITY QUEUE_ARCH "service">
+	<!ENTITY SCHEDULER  "slurm">
+
+	<!-- Toggle HPSS archiving -->
+	<!ENTITY ARCHIVE_TO_HPSS "YES">
+
+	<!-- ROCOTO parameters that control workflow -->
+	<!ENTITY CYCLETHROTTLE "6">
+	<!ENTITY TASKTHROTTLE  "25">
+	<!ENTITY MAXTRIES      "2">
+
+	<!-- BEGIN: Resource requirements for the workflow -->
+
+	<!ENTITY QUEUE_FV3IC_GFS     "&QUEUE;">
+	<!ENTITY WALLTIME_FV3IC_GFS  "00:30:00">
+	<!ENTITY RESOURCES_FV3IC_GFS "<nodes>1:ppn=1:tpp=1</nodes>">
+	<!ENTITY NATIVE_FV3IC_GFS    "--export=NONE">
+
+        <!ENTITY QUEUE_CALCINC     "&QUEUE;">
+        <!ENTITY WALLTIME_CALCINC  "00:30:00">
+        <!ENTITY RESOURCES_CALCINC "<nodes>1:ppn=2</nodes>">
+        <!ENTITY MEMORY_CALCINC    "">
+        <!ENTITY NATIVE_CALCINC    "--export=NONE">
+
+	<!ENTITY QUEUE_FCST_GFS     "&QUEUE;">
+	<!ENTITY QUEUE_FCST_GFS     "&QUEUE_URG;">
+	<!ENTITY QUEUE_FCST_GFS     "&QUEUE_DEBUG;">
+	<!ENTITY WALLTIME_FCST_GFS  "04:00:00">
+	<!ENTITY WALLTIME_FCST_GFS  "00:30:00">
+	<!ENTITY RESOURCES_FCST_GFS "<nodes>8:ppn=40:tpp=1</nodes>">
+	<!ENTITY NATIVE_FCST_GFS    "--export=NONE">
+
+	<!ENTITY QUEUE_POST_GFS     "&QUEUE;">
+	<!ENTITY QUEUE_POST_GFS     "&QUEUE_DEBUG;">
+	<!ENTITY WALLTIME_POST_GFS  "00:30:00">
+	<!ENTITY RESOURCES_POST_GFS "<nodes>4:ppn=12:tpp=1</nodes>">
+	<!ENTITY NATIVE_POST_GFS    "--export=NONE">
+
+	<!ENTITY QUEUE_ARCH_GFS     "&QUEUE;">
+	<!ENTITY WALLTIME_ARCH_GFS  "06:00:00">
+	<!ENTITY RESOURCES_ARCH_GFS "<nodes>1:ppn=1:tpp=1</nodes>">
+	<!ENTITY MEMORY_ARCH_GFS    "2048M">
+	<!ENTITY NATIVE_ARCH_GFS    "--export=NONE">
+
+	<!-- END: Resource requirements for the workflow -->
+
+]>
+
+<workflow realtime="T" scheduler="&SCHEDULER;" cyclethrottle="&CYCLETHROTTLE;" taskthrottle="&TASKTHROTTLE;">
+
+	<log verbosity="10"><cyclestr>&EXPDIR;/logs/@Y@m@d@H.log</cyclestr></log>
+
+	<!-- Define the cycles -->
+	<cycledef group="gfs">&SDATE; &EDATE; &INTERVAL;</cycledef>
+
+<task name="gfsfv3ic" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>&JOBS_DIR;/makefv3ic_link.sh</command>
+
+	<jobname><cyclestr>&PSLOT;_gfsfv3ic_@H</cyclestr></jobname>
+	<account>&ACCOUNT;</account>
+	<queue>&QUEUE_FV3IC_GFS;</queue>
+	&RESOURCES_FV3IC_GFS;
+	<walltime>&WALLTIME_FV3IC_GFS;</walltime>
+	
+	<native>&NATIVE_FV3IC_GFS;</native>
+
+	<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfsfv3ic.log</cyclestr></join>
+
+	<envar><name>ROTDIR</name><value>&ROTDIR;</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+	<envar><name>CASE</name><value>&CASE;</value></envar>
+	<envar><name>ICSDIR</name><value>&ICSDIR;</value></envar>
+
+	<dependency>
+		<and>
+			<not>
+				<datadep><cyclestr>&ROTDIR;/&CDUMP;.@Y@m@d/@H/INPUT</cyclestr></datadep>
+			</not>
+			<or>
+				<and>
+					<datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/gfs_data.tile6.nemsio</cyclestr></datadep>
+					<datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/sfc_data.tile6.nemsio</cyclestr></datadep>
+				</and>
+				<and>
+					<datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/gfs_data.tile6.nc</cyclestr></datadep>
+					<datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/sfc_data.tile6.nc</cyclestr></datadep>
+				</and>
+			</or>
+		</and>
+	</dependency>
+
+</task>
+
+<task name="calcinc" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+        <command>&JOBS_DIR;/calcinc.sh</command>
+
+        <jobname><cyclestr>&PSLOT;_clacinc_@H</cyclestr></jobname>
+        <account>&ACCOUNT;</account>
+        <queue>&QUEUE_CALCINC;</queue>
+        &RESOURCES_CALCINC;
+        <walltime>&WALLTIME_CALCINC;</walltime>
+        <native>&NATIVE_CALCINC;</native>
+        <join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/calcinc.log</cyclestr></join>
+
+        <envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+        <envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+        <envar><name>OUTDIR</name><value>&ROTDIR;</value></envar>
+        <envar><name>ICSDIR</name><value>&ICSDIR;</value></envar>
+        <envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+        <envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+        <envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+        <envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+        <envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+        <dependency>
+	        <and>
+			<or>
+                      		<!--<datadep><cyclestr>&RUNDIR;/@Y@m@d@H/&CDUMP;/regrid/atmanl.@Y@m@d@H</cyclestr></datadep> -->
+                      		<!--<datadep><cyclestr>&RUNDIR;/@Y@m@d@H/&CDUMP;/regrid/atmanl.@Y@m@d@H.nc</cyclestr></datadep> -->
+                      		<datadep><cyclestr>&RUNDIR1;/@Y@m@d@H/&CDUMP;/regrid/atmanl.@Y@m@d@H</cyclestr></datadep>
+                      		<datadep><cyclestr>&RUNDIR1;/@Y@m@d@H/&CDUMP;/regrid/atmanl.@Y@m@d@H.nc</cyclestr></datadep>
+			</or>
+	              <datadep><cyclestr offset="-24:00:00">&ROTDIR;/&CDUMP;.@Y@m@d/@H/&CDUMP;.t@Hz.atmf024.nemsio</cyclestr></datadep>  
+                </and> 
+        </dependency>
+</task> 
+
+<task name="gfsfcst" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+	<command>&JOBS_DIR;/fcst.sh</command>
+
+	<jobname><cyclestr>&PSLOT;_gfsfcst_@H</cyclestr></jobname>
+	<account>&ACCOUNT;</account>
+	<queue>&QUEUE_FCST_GFS;</queue>
+	&RESOURCES_FCST_GFS;
+	<walltime>&WALLTIME_FCST_GFS;</walltime>
+	
+	<native>&NATIVE_FCST_GFS;</native>
+
+	<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfsfcst.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+	<envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+	<envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+	<envar><name>ROTDIR</name><value>&ROTDIR;</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+	<envar><name>ROTDIR</name><value>&ROTDIR;</value></envar>
+
+	<dependency>
+		<and>
+                       <taskdep task="calcinc"/>
+                       <datadep><cyclestr>&ROTDIR;/gfs.@Y@m@d/@H/INPUT</cyclestr></datadep>
+                       <datadep><cyclestr>&RUNDIR;/@Y@m@d@H/&CDUMP;/calcinc/atminc.nc</cyclestr></datadep>
+                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/sfc_data.tile6.nc</cyclestr></datadep>
+                       <datadep><cyclestr>&ICSDIR;/@Y@m@d@H/&CDUMP;/&CASE;/INPUT/gfs_data.tile6.nc</cyclestr></datadep>
+               </and>
+        </dependency>
+</task> 
+
+<metatask name="gfspost">
+
+	<var name="grp">001 002 003 004 005 006 007 008 009 010 011 012 013 014 015 016 017 018 019 020 021 022 023 024 025 026 027 028 029</var>
+	<var name="dep">f000 f006 f012 f018 f024 f030 f036 f042 f048 f054 f060 f066 f072 f078 f084 f090 f096 f102 f108 f114 f120 f126 f132 f138 f144 f150 f156 f162 f168</var>
+	<var name="lst">f000 f006 f012 f018 f024 f030 f036 f042 f048 f054 f060 f066 f072 f078 f084 f090 f096 f102 f108 f114 f120 f126 f132 f138 f144 f150 f156 f162 f168</var>
+
+	<task name="gfspost#grp#" cycledefs="gfs" maxtries="&MAXTRIES;">
+
+		<command>&JOBS_DIR;/post.sh</command>
+
+		<jobname><cyclestr>&PSLOT;_gfspost#grp#_@H</cyclestr></jobname>
+		<account>&ACCOUNT;</account>
+		<queue>&QUEUE_POST_GFS;</queue>
+		&RESOURCES_POST_GFS;
+		<walltime>&WALLTIME_POST_GFS;</walltime>
+		
+		<native>&NATIVE_POST_GFS;</native>
+
+		<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfspost#grp#.log</cyclestr></join>
+
+		<envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+		<envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+		<envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+		<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+		<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+		<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+		<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+		<envar><name>FHRGRP</name><value>#grp#</value></envar>
+		<envar><name>FHRLST</name><value>#lst#</value></envar>
+		<envar><name>ROTDIR</name><value>&ROTDIR;</value></envar>
+
+		<dependency>
+			<datadep><cyclestr>&ROTDIR;/gfs.@Y@m@d/@H/gfs.t@Hz.log#dep#.txt</cyclestr></datadep>
+		</dependency>
+
+	</task>
+
+</metatask>
+
+<task name="gfsarch" cycledefs="gfs" maxtries="&MAXTRIES;" final="true">
+
+	<command>&JOBS_DIR;/arch_gsd.sh</command>
+
+	<jobname><cyclestr>&PSLOT;_gfsarch_@H</cyclestr></jobname>
+	<account>&ACCOUNT;</account>
+	<queue>&QUEUE_ARCH_GFS;</queue>
+	&RESOURCES_ARCH_GFS;
+	<walltime>&WALLTIME_ARCH_GFS;</walltime>
+	<memory>&MEMORY_ARCH_GFS;</memory>
+	<native>&NATIVE_ARCH_GFS;</native>
+
+	<join><cyclestr>&ROTDIR;/logs/@Y@m@d@H/gfsarch.log</cyclestr></join>
+
+	<envar><name>RUN_ENVIR</name><value>&RUN_ENVIR;</value></envar>
+	<envar><name>HOMEgfs</name><value>&HOMEgfs;</value></envar>
+	<envar><name>EXPDIR</name><value>&EXPDIR;</value></envar>
+	<envar><name>CDATE</name><value><cyclestr>@Y@m@d@H</cyclestr></value></envar>
+	<envar><name>CDUMP</name><value>&CDUMP;</value></envar>
+	<envar><name>PDY</name><value><cyclestr>@Y@m@d</cyclestr></value></envar>
+	<envar><name>cyc</name><value><cyclestr>@H</cyclestr></value></envar>
+
+	<dependency>
+		<and>
+			<metataskdep metatask="gfspost"/>
+			<streq><left>&ARCHIVE_TO_HPSS;</left><right>YES</right></streq>
+                        <datadep age="600"><cyclestr>&ROTDIR;/&CDUMP;.@Y@m@d/@H/ncl/a2/files.zip</cyclestr></datadep>
+		</and>
+	</dependency>
+
+</task>
+
+
+</workflow>

@@ -1,0 +1,10 @@
+REALTIME
+========
+rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp_c384/rt_ccpp_c384.xml -d /home/rtfim/rt_dbfiles/rt_ccpp_c384.db
+rocotostat  -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp_c384/rt_ccpp_c384.xml -d /home/rtfim/rt_dbfiles/rt_ccpp_c384.db -c `date --date='4 days ago' +%Y%m%d0000`: | m
+
+rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp_c384/ccpp_c384.xml -d /home/rtfim/retro_dbfiles/ccpp_c384.db
+rocotostat -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp_c384/ccpp_c384.xml -d /home/rtfim/retro_dbfiles/ccpp_c384.db | m
+
+rocotorun -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp_c384/ccpp_c384_arch.xml -d /home/rtfim/retro_dbfiles/ccpp_c384_arch.db
+rocotostat -w /scratch1/BMC/gsd-fv3/rtruns/CCPP-Chem/FV3GFSwfm/rt_ccpp_c384/ccpp_c384_arch.xml -d /home/rtfim/retro_dbfiles/ccpp_c384_arch.db | m
