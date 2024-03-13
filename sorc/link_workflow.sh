@@ -167,11 +167,14 @@ declare -a ufs_templates=("model_configure.IN" \
                           "ice_in.IN" \
                           "ufs.configure.atm.IN" \
                           "ufs.configure.atmaero.IN" \
+                          "ufs.configure.atmcatchem.IN" \
                           "ufs.configure.leapfrog_atm_wav.IN" \
                           "ufs.configure.s2s_esmf.IN" \
                           "ufs.configure.s2sa_esmf.IN" \
+                          "ufs.configure.s2scatchem_esmf.IN" \
                           "ufs.configure.s2sw_esmf.IN" \
-                          "ufs.configure.s2swa_esmf.IN" )
+                          "ufs.configure.s2swa_esmf.IN" \
+                          "ufs.configure.s2swcatchem_esmf.IN" )
 for file in "${ufs_templates[@]}"; do
   [[ -s "${file}" ]] && rm -f "${file}"
   ${LINK_OR_COPY} "${HOMEgfs}/sorc/ufs_model.fd/tests/parm/${file}" .

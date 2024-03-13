@@ -895,6 +895,13 @@ CICE_out() {
   ${NCP} "${DATA}/ice_in" "${COM_CONF}/ufs.ice_in"
 }
 
+CATChem_rc() {
+#link input data for CCPP-Chem to RUNDIR
+  for file in $(ls $DATA/../$CDATE/prep/*.nc) ; do
+    $NLN $file $DATA/INPUT/$(echo $(basename $file))
+  done
+}
+
 GOCART_rc() {
   echo "SUB ${FUNCNAME[0]}: Linking input data and copying config files for GOCART"
   # set input directory containing GOCART input data and configuration files
