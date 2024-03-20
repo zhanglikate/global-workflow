@@ -23,17 +23,17 @@
 
 # chemical diag 2D variables
 "gfs_phys",    "maod",        "maod",         "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "maoddt",      "maoddt",       "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "maodbc",      "maodbc",       "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "maodoc",      "maodoc",       "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "maodsu",      "maodsu",       "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "maodss",      "maodss",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maoddt",      "maoddt",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodbc",      "maodbc",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodoc",      "maodoc",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodsu",      "maodsu",         "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "maodss",      "maodss",         "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "bcembb",      "bcembb",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "bceman",      "bceman",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "ocembb",      "ocembb",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "oceman",      "oceman",       "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "so2embb",     "so2embb",      "fv3_history2d",  "all",  .false.,  "none",  2
-"gfs_phys",    "so2eman",     "so2eman",      "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "so2embb",     "so2embb",       "fv3_history2d",  "all",  .false.,  "none",  2
+"gfs_phys",    "so2eman",     "so2eman",       "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "duem001",     "duem001",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "duem002",     "duem002",      "fv3_history2d",  "all",  .false.,  "none",  2
 "gfs_phys",    "duem003",     "duem003",      "fv3_history2d",  "all",  .false.,  "none",  2

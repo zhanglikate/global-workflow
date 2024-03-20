@@ -125,6 +125,9 @@ build_opts["upp"]=""
 build_jobs["ufs_utils"]=2
 build_opts["ufs_utils"]="${_verbose_opt}"
 
+build_jobs["prepchem_NC"]=2
+build_opts["prepchem_NC"]="${_verbose_opt}"
+
 build_jobs["gfs_utils"]=1
 build_opts["gfs_utils"]="${_verbose_opt}"
 

@@ -131,6 +131,7 @@ ${LINK_OR_COPY} "${HOMEgfs}/sorc/ufs_model.fd/tests/parm/noahmptable.tbl" .
 cd "${HOMEgfs}/parm/post" || exit 1
 for file in postxconfig-NT-GEFS-F00.txt postxconfig-NT-GEFS.txt postxconfig-NT-GEFS-WAFS.txt \
     postxconfig-NT-GEFS-F00-aerosol.txt postxconfig-NT-GEFS-aerosol.txt \
+    postxconfig-NT-CCPP-CHEM-F00.txt postxconfig-NT-CCPP-CHEM.txt \
     postxconfig-NT-GFS-ANL.txt postxconfig-NT-GFS-F00.txt postxconfig-NT-GFS-FLUX-F00.txt \
     postxconfig-NT-GFS.txt postxconfig-NT-GFS-FLUX.txt postxconfig-NT-GFS-GOES.txt \
     postxconfig-NT-GFS-F00-TWO.txt postxconfig-NT-GFS-TWO.txt \

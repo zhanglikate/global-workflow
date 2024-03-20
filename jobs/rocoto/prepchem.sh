@@ -33,6 +33,7 @@ status=$?
 
 ###############################################################
 export DATA="$RUNDIR/$CDATE"
+export FIXgfs_2022="/scratch1/BMC/gsd-fv3-dev/lzhang/fix_orog_20220805"
 
 [[ ! -d $DATA ]] && mkdir -p $DATA
 cd $DATA || exit 10
@@ -152,7 +153,7 @@ for n in $(seq 1 6); do
        nlon = ${res}
        nlat = ${res}
        outfile     = "$NCGB/${emiss_date1}/FIRE_GBBEPx_data.tile${n}.nc"
-       pathoro     = "$FIXgfs/fix_orog/${CASE}/${CASE}_oro_data.tile${n}.nc"
+       pathoro     = "$FIXgfs_2022/${CASE}/${CASE}_oro_data.tile${n}.nc"
        pathebc     = "$DIRGB/${emiss_date1}/$BC"
        patheoc     = "$DIRGB/${emiss_date1}/$OC"
        pathepm25   = "$DIRGB/${emiss_date1}/$PM25"
@@ -218,7 +219,7 @@ EOF
        nlon = ${res}
        nlat = ${res}
        outfile     = "$NCGB/${SYEAR}${nmonth}${nday}/FIRE_GBBEPx_data.tile${n}.nc"
-       pathoro     = "$FIXgfs/fix_orog/${CASE}/${CASE}_oro_data.tile${n}.nc"
+       pathoro     = "$FIXgfs_2022/${CASE}/${CASE}_oro_data.tile${n}.nc"
        pathebc     = "$DIRGB/${SYEAR}${nmonth}${nday}/$BC"
        patheoc     = "$DIRGB/${SYEAR}${nmonth}${nday}/$OC"
        pathepm25   = "$DIRGB/${SYEAR}${nmonth}${nday}/$PM25"
