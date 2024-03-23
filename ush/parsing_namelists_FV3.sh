@@ -412,7 +412,7 @@ if [ $cplchp = .true. ]; then
   seas_emis_scheme=2
   seas_emis_scale=${seas_emis_scale:-"1.,1.,1.,1.,1."}
   vertmix_onoff=1
-  wetdep_ls_cplchp =1
+  wetdep_ls_cplchp =0
   restart_inname    = "${COM_ATMOS_INPUT}"
   restart_outname   = "${COM_ATMOS_RESTART}"
 EOF

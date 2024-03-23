@@ -453,6 +453,7 @@ if [[ "${skip_catchem}" == "false" ]]; then
   export CCPP_SUITE="FV3_GFS_v17_p8_ugwpv1_catchem"
   export GBDAY=1
 if [[ "${skip_mom6}" == "false" ]] || [[ "${skip_cice6}" == "false" ]] || [[ "${skip_ww3}" == "false" ]]; then
+  export CCPP_SUITE="FV3_GFS_v17_coupled_p8_ugwpv1_catchem"
   export GBDAY=35
 fi
 
@@ -490,7 +491,7 @@ case "${model_list}" in
   atm.ocean.ice.wave.aero)
     default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2swa_esmf.IN"
     ;;
-  atm.ocean.ice.wave.aero)
+  atm.ocean.ice.wave.catchem)
     default_template="${HOMEgfs}/parm/ufs/ufs.configure.s2swcatchem_esmf.IN"
     ;;
   *)

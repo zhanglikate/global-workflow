@@ -235,7 +235,7 @@ EOF
   ${NLN} "${FIXgfs}/am/global_sfc_emissivity_idx.txt"     "${DATA}/sfc_emissivity_idx.txt"
 
   ## merra2 aerosol climo
-  if [[ ${IAER} -eq "1011" ]]; then
+  if [[ ${IAER} -ge "1011" ]]; then
     for month in $(seq 1 12); do
       MM=$(printf %02d "${month}")
       ${NLN} "${FIXgfs}/aer/merra2.aerclim.2003-2014.m${MM}.nc" "aeroclim.m${MM}.nc"
