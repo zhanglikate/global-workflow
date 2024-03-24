@@ -46,7 +46,7 @@ export dust_alpha_catc="${dust_alpha_catc:-0.04}"
 export dust_gamma_catc="${dust_gamma_catc:-1.0}"
 export seas_emis_scale="${seas_emis_scale:-"1.,1.,1.,1.,1."}"
 # Large scale wet deposition option
-export wetdep_ls_cplchp =${wetdep_ls_cplchp:-"1"}
+export wetdep_ls_cplchp="${wetdep_ls_cplchp:-1}"
 
 #
 # Numbe rof diagnostic aerosol tracers (default: 0)
