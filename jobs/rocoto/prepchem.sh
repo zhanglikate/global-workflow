@@ -109,7 +109,7 @@ for n in $(seq 1 6); do
       else
 
         if [ ${SYEAR} -eq 2016 -o ${emiss_date1} -ge 20230115 ];  then           ## JKH - change date
-	   if [[ ${emiss_date1} -ge 20230509  &&  ${emiss_date1} -le 20240501 ]]; 
+	  if [[ ${emiss_date1} -ge 20230509  &&  ${emiss_date1} -le 20240501 ]]; then 
             BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${emiss_date1}.bin
