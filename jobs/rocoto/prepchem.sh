@@ -109,12 +109,18 @@ for n in $(seq 1 6); do
       else
 
         if [ ${SYEAR} -eq 2016 -o ${emiss_date1} -ge 20230115 ];  then           ## JKH - change date
-          if [ ${emiss_date1} -ge 20230509 ];  then                              ## JKH - change date
+          if [ [ ${emiss_date1} -ge 20230509 ] && [ ${emiss_date1} -le 20240501 ] ];  then                              ## JKH - change date
             BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             PM25=GBBEPxemis-PM25-${CASE}GT${n}_v4r0_${emiss_date1}.bin
+	  elif [ ${emiss_date1} -ge 20230509 ]; then
+            BC=GBBEPxemis-BC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
+            OC=GBBEPxemis-OC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
+            SO2=GBBEPxemis-SO2-${CASE}GT${n}_v5r0_${emiss_date1}.bin
+            FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v5r0_${emiss_date1}.bin
+            PM25=GBBEPxemis-PM25-${CASE}GT${n}_v5r0_${emiss_date1}.bin
           else
             BC=GBBEPx.emis_BC.003.${emiss_date1}.FV3.${CASE}Grid.tile${n}.bin
             OC=GBBEPx.emis_OC.003.${emiss_date1}.FV3.${CASE}Grid.tile${n}.bin
