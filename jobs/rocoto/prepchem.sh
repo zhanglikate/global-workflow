@@ -109,13 +109,13 @@ for n in $(seq 1 6); do
       else
 
         if [ ${SYEAR} -eq 2016 -o ${emiss_date1} -ge 20230115 ];  then           ## JKH - change date
-	   if [[ "${emiss_date1} -ge 20230509"  &&  "${emiss_date1} -le 20240501" ]]; 
+	   if [[ ${emiss_date1} -ge 20230509  &&  ${emiss_date1} -le 20240501 ]]; 
             BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             PM25=GBBEPxemis-PM25-${CASE}GT${n}_v4r0_${emiss_date1}.bin
-	  elif [[ "${emiss_date1} -ge 20240502" ]]; then
+	  elif [[ ${emiss_date1} -ge 20240502 ]]; then
             BC=GBBEPxemis-BC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
             OC=GBBEPxemis-OC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
             SO2=GBBEPxemis-SO2-${CASE}GT${n}_v5r0_${emiss_date1}.bin
@@ -193,13 +193,13 @@ EOF
       else
 
 	 if [ ${SYEAR} -eq 2016 -o ${emiss_date1} -ge 20230115 ];  then           ## JKH - change date
-          if [[ "${emiss_date1} -ge 20230509"  &&  "${emiss_date1} -le 20240501" ]];  then                              ## JKH - change date
+          if [[ ${emiss_date1} -ge 20230509  &&  ${emiss_date1} -le 20240501 ]];  then                              ## JKH - change date
             BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v4r0_${emiss_date1}.bin
             PM25=GBBEPxemis-PM25-${CASE}GT${n}_v4r0_${emiss_date1}.bin
-	  elif [[ "${emiss_date1} -ge 20240502" ]]; then
+	  elif [[ ${emiss_date1} -ge 20240502 ]]; then
             BC=GBBEPxemis-BC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
             OC=GBBEPxemis-OC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
             SO2=GBBEPxemis-SO2-${CASE}GT${n}_v5r0_${emiss_date1}.bin
