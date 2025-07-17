@@ -60,7 +60,7 @@ for MEMDIR in "${MEMDIR_ARRAY[@]}"; do
     YMD=${PDY} HH=${cyc} declare_from_tmpl COM_ATMOS_INPUT
     [[ ! -d "${COM_ATMOS_INPUT}" ]] && mkdir -p "${COM_ATMOS_INPUT}"
     #src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/gfs_ctrl.nc"
-    src="$ICSORG/${PDY}${cyc}/${CDUMP}/C96/INPUT/gfs_ctrl.nc"
+    src="$ICSORG/${PDY}${cyc}/atmos/$CASE/INPUT/gfs_ctrl.nc"
     #src="${BASE_CPLIC}/${CPL_ATMIC:-}/${PDY}${cyc}/${MEMDIR}/atmos/gfs_ctrl.nc"
     tgt="${COM_ATMOS_INPUT}/gfs_ctrl.nc"
     ${NCP} "${src}" "${tgt}"
@@ -70,9 +70,9 @@ for MEMDIR in "${MEMDIR_ARRAY[@]}"; do
     for ftype in gfs_data sfc_data; do
       for ((tt = 1; tt <= ntiles; tt++)); do
         #src="$ICSORG/${CDUMP}.${PDY}/${cyc}/atmos/INPUT/${ftype}.tile${tt}.nc"
-        src="$ICSORG/${PDY}${cyc}/${CDUMP}/C96/INPUT/${ftype}.tile${tt}.nc"
         #src="${BASE_CPLIC}/${CPL_ATMIC:-}/${PDY}${cyc}/${MEMDIR}/atmos/${ftype}.tile${tt}.nc"
-        tgt="${COM_ATMOS_INPUT}/${ftype}.tile${tt}.nc"
+        src="$ICSORG/${PDY}${cyc}/atmos/$CASE/INPUT/${ftype}.tile${tt}.nc"
+	tgt="${COM_ATMOS_INPUT}/${ftype}.tile${tt}.nc"
         ${NCP} "${src}" "${tgt}"
         rc=$?
         ((rc != 0)) && error_message "${src}" "${tgt}" "${rc}"

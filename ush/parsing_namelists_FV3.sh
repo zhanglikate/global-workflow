@@ -68,6 +68,7 @@ else
   ${NCP} "${FIELD_TABLE}" field_table
 fi
 
+
 cat > input.nml <<EOF
 &atmos_model_nml
   blocksize = ${blocksize}
@@ -260,6 +261,8 @@ EOF
   cat >> input.nml << EOF
   iovr         = ${iovr:-"3"}
   ltaerosol    = ${ltaerosol:-".false."}
+  mraerosol    = ${mraerosol:-".false."}
+  gtaerosol    = ${gtaerosol:-".false."}
   lradar       = ${lradar:-".true."}
   ttendlim     = ${ttendlim:-"-999"}
   dt_inner     = ${dt_inner:-"${default_dt_inner}"}
@@ -414,6 +417,7 @@ EOF
 if [[ ${cplchm} = ".true." ]]; then
   cat >> input.nml << EOF
   fscav_aero = ${fscav_aero:-'*:0.0'}
+  wetdep_ls_cpl = ${wetdep_ls_cpl:-"1"}
 EOF
 fi
 

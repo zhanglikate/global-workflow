@@ -621,6 +621,12 @@ GOCART_rc() {
     [[ ${status} -ne 0 ]] && exit "${status}"
   fi
 
+  if [[ -n "${AERO_INPUTS_DIR_GB}" ]]; then
+    ${NLN} "${AERO_INPUTS_DIR_GB}" "${DATA}/ExtData1"
+    status=$?
+    [[ ${status} -ne 0 ]] && exit "${status}"
+  fi
+
   # copying GOCART configuration files
   if [[  -n "${AERO_CONFIG_DIR}" ]]; then
     ${NCP} "${AERO_CONFIG_DIR}"/*.rc "${DATA}"

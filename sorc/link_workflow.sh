@@ -134,6 +134,10 @@ do
   ${LINK_OR_COPY} "${FIX_DIR}/${dir}/${!fix_ver}" "${dir}"
 done
 
+if [[ -d "${HOMEgfs}/sorc/ufs_utils.fd" ]]; then
+  cd "${HOMEgfs}/sorc/ufs_utils.fd/fix" || exit 1
+  ./link_fixdirs.sh "${RUN_ENVIR}" "${machine}" 2> /dev/null
+fi
 
 #---------------------------------------
 #--add files from external repositories
@@ -145,10 +149,14 @@ ${LINK_OR_COPY} "${HOMEgfs}/sorc/ufs_model.fd/tests/parm/noahmptable.tbl" .
 cd "${HOMEgfs}/parm/post" || exit 1
 for file in postxconfig-NT-GEFS-F00.txt postxconfig-NT-GEFS.txt postxconfig-NT-GEFS-WAFS.txt \
     postxconfig-NT-GEFS-F00-aerosol.txt postxconfig-NT-GEFS-aerosol.txt \
+    postxconfig-NT-CCPP-CHEM-F00.txt postxconfig-NT-CCPP-CHEM.txt \
+    postxconfig-NT-CCPP-CHEM-MET-F00.txt postxconfig-NT-CCPP-CHEM-MET.txt \
+    postxconfig-NT-CCPP-CHEM-VER-F00.txt postxconfig-NT-CCPP-CHEM-VER.txt \
     postxconfig-NT-GFS-ANL.txt postxconfig-NT-GFS-F00.txt postxconfig-NT-GFS-FLUX-F00.txt \
     postxconfig-NT-GFS.txt postxconfig-NT-GFS-FLUX.txt postxconfig-NT-GFS-GOES.txt \
     postxconfig-NT-GFS-F00-TWO.txt postxconfig-NT-GFS-TWO.txt \
-    params_grib2_tbl_new post_tag_gfs128 post_tag_gfs65 nam_micro_lookup.dat
+    params_grib2_tbl_new post_tag_gfs128 post_tag_gfs65 post_tag_gfs128_aero \
+    post_tag_gfs65_aero nam_micro_lookup.dat
 do
   ${LINK_OR_COPY} "${HOMEgfs}/sorc/upp.fd/parm/${file}" .
 done
