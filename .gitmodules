@@ -27,5 +27,5 @@
   url = https://github.com/NOAA-EMC/GSI-Monitor.git
 [submodule "sorc/nexus.fd"]
   path = sorc/nexus.fd
-  url = https://github.com/NOAA-OAR-ARL/NEXUS.git
+  url = https://github.com/zhanglikate/NEXUS.git
   branch = feature/gcafs

@@ -10,7 +10,7 @@ experiment:
   idate: 2023083100
   edate: 2023100100
   nens: 0
-  interval: 12
+  interval: 24
   start: cold
   yaml: {{ HOMEgfs }}/dev/ci/cases/yamls/gcafs_cycled_noDA_defaults_ci.yaml
 

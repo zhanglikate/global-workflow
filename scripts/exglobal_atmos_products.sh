@@ -113,6 +113,12 @@ for (( nset=1 ; nset <= downset ; nset++ )); do
     set_strict
     if [[ ${rc} == 0 ]]; then  # Matched the grep
       last=$(( last + 1 ))
+
+      # FIX 1: don't exceed total records
+      if [[ ${last} -gt ${ncount} ]]; then
+        last=${ncount}
+      fi
+
     fi
     if [[ ${iproc} -eq ${nproc} ]]; then
       last=${ncount}
@@ -131,7 +137,11 @@ for (( nset=1 ; nset <= downset ; nset++ )); do
     # if at final record and have not reached the final processor then write echo's to
     # poescript for remaining processors
     if [[ ${last} -eq ${ncount} ]]; then
-      for (( pproc = iproc+1 ; pproc < nproc ; pproc++ )); do
+  # FIX 2a: record how many processors actually did work
+      nproc_used=${iproc}
+ # FIX 2b: pad the rest with dummy lines (<= instead of <)
+      #for (( pproc = iproc+1 ; pproc < nproc ; pproc++ )); do
+      for (( pproc = iproc+1 ; pproc <= nproc ; pproc++ )); do
         echo "/bin/echo ${pproc}" >> "${DATA}/poescript"
       done
       break
@@ -148,13 +158,23 @@ for (( nset=1 ; nset <= downset ; nset++ )); do
   # We are in a loop over downset, save output from mpmd into nset specific output
   mv mpmd.out "mpmd_${nset}.out"
 
+  # ---- FIX 3a: default nproc_used when every rank produced work ----
+    : "${nproc_used:=${nproc}}"
   # Concatenate grib files from each processor into a single one
   # and clean-up as you go
   echo "Concatenating processor-specific grib2 files into a single product file"
   for (( iproc = 1 ; iproc <= nproc ; iproc++ )); do
     for grid in "${grids[@]}"; do
-      cat "pgb2${grp}file_${fhr3}_${iproc}_${grid}" >> "pgb2${grp}file_${fhr3}_${grid}"
-      rm  -f "pgb2${grp}file_${fhr3}_${iproc}_${grid}"
+   # ---- FIX 3b: only append files that exist and are non-empty ----
+#      cat "pgb2${grp}file_${fhr3}_${iproc}_${grid}" >> "pgb2${grp}file_${fhr3}_${grid}"
+#      rm  -f "pgb2${grp}file_${fhr3}_${iproc}_${grid}"
+       file="pgb2${grp}file_${fhr3}_${iproc}_${grid}"
+       # only concatenate if file exists and is non-empty
+       if [[ -s "$file" ]]; then
+       cat "$file" >> "pgb2${grp}file_${fhr3}_${grid}"
+       fi
+       rm -f -- "$file"
+
     done
     # There is no further use of the processor specific tmpfile; delete it
     rm -f "${tmpfile}_${iproc}"
