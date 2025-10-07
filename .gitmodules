@@ -1,6 +1,7 @@
 [submodule "sorc/ufs_model.fd"]
   path = sorc/ufs_model.fd
-  url = https://github.com/ufs-community/ufs-weather-model
+  url = https://github.com/zhanglikate/ufs-weather-model
+  branch = gcafsv1
 [submodule "sorc/wxflow"]
   path = sorc/wxflow
   url = https://github.com/NOAA-EMC/wxflow
@@ -28,4 +29,4 @@
 [submodule "sorc/nexus.fd"]
   path = sorc/nexus.fd
   url = https://github.com/zhanglikate/NEXUS.git
-  branch = feature/gcafs
+  branch = gcafsv1
