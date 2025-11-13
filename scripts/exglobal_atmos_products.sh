@@ -116,14 +116,8 @@ while [[ ${nset} -le ${downset:-1} ]]; do
     # if at final record and have not reached the final processor then write echo's to
     # cmdfile for remaining processors
     if [[ ${last} -eq ${ncount} ]]; then
-<<<<<<< HEAD
-      nproc_used=${iproc}
-      for (( pproc = iproc+1 ; pproc <= nproc ; pproc++ )); do
-        echo "/bin/echo ${pproc}" >> "${DATA}/poescript"
-=======
       for (( pproc = iproc+1 ; pproc < nproc ; pproc++ )); do
         echo "/bin/echo ${pproc}" >> "${DATA}/cmdfile"
->>>>>>> upstream/develop
       done
       break
     fi
@@ -147,21 +141,10 @@ while [[ ${nset} -le ${downset:-1} ]]; do
   iproc=1
   while [[ ${iproc} -le ${nproc} ]]; do
     for grid in "${grids[@]}"; do
-<<<<<<< HEAD
-       # only append files that exist and are non-empty
-       file="pgb2${grp}file_${fhr3}_${iproc}_${grid}"
-       # only concatenate if file exists and is non-empty
-       if [[ -s "${file}" ]]; then
-       cat "${file}" >> "pgb2${grp}file_${fhr3}_${grid}"
-       rm -f "${file}"
-       fi
-
-=======
       if [[ -s "pgb2${grp}file_${fhr3}_${iproc}_${grid}" ]]; then
         cat "pgb2${grp}file_${fhr3}_${iproc}_${grid}" >> "pgb2${grp}file_${fhr3}_${grid}"
         rm -f "pgb2${grp}file_${fhr3}_${iproc}_${grid}"
       fi
->>>>>>> upstream/develop
     done
     # There is no further use of the processor specific tmpfile; delete it
     rm -f "${tmpfile}_${iproc}"
