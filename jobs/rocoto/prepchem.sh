@@ -19,7 +19,7 @@ status=$?
 
 ###############################################################
 # Source relevant configs
-configs="base fcst  prepchem"
+configs="base fcst prepchem"
 for config in $configs; do
     source $EXPDIR/config.${config}
     status=$?
@@ -33,7 +33,7 @@ status=$?
 
 ###############################################################
 export DATA="$RUNDIR/${RUN}fcst.${PDY:-}${cyc}"
-export FIXgfs_2022="/scratch1/BMC/gsd-fv3-dev/lzhang/fix_orog_20220805"
+export FIXgfs_2022="/scratch3/BMC/gsd-fv3-dev/lzhang/fix_orog_20220805"
 
 [[ ! -d $DATA ]] && mkdir -p $DATA
 cd $DATA || exit 10
@@ -83,7 +83,7 @@ for n in $(seq 1 6); do
     tiledir=tile${n}
     #mkdir -p $tiledir
     #cd $tiledir
-    EMIINPUT=/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}
+    EMIINPUT=$EMIIN/emi_${CASE}
 #    if [ ${EMIYEAR} -gt 2018 ];  then
     eval $NLN $EMIINPUT/EMI_$EMIYEAR/$SMONTH/emi_data.tile${n}.nc .
 #    else
@@ -106,8 +106,8 @@ for n in $(seq 1 6); do
       eval $NLN ${CASE}-T-${emiss_date}0000-SO2-bb.bin ebu_so2.dat
     fi
     if [ $EMITYPE -eq 2 ]; then
-      NCGB=/scratch1/BMC/gsd-fv3-dev/Haiqin.Li/Develop/emi_${CASE}/GBBEPx
-      PUBEMI=/scratch2/BMC/public/data/grids/sdsu/emissions
+      NCGB=$EMIIN/emi_${CASE}/GBBEPx
+      #PUBEMI=/scratch2/BMC/public/data/grids/sdsu/emissions
       #PUBEMI=/scratch2/NCEPDEV/stmp1/Li.Pan/tmp
     
       emiss_date1="$SYEAR$SMONTH$SDAY" # default value for branch testing      
@@ -120,14 +120,14 @@ for n in $(seq 1 6); do
         echo "NetCDF GBBEPx File $NCGB/${emiss_date1}/FIRE_GBBEPx_data.tile${n}.nc  exists, just link."
       else
          if [ ${emiss_date1} -le 20240501 ]; then 
-          DIRGB=/scratch2/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/$SYEAR
+          DIRGB=/scratch4/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/$SYEAR
            BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            PM25=GBBEPxemis-PM25-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${emiss_date1}.bin
            FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v4r0_${emiss_date1}.bin
          else
-          DIRGB=/scratch1/BMC/gsd-fv3-dev/lzhang/GBBEPx
+          DIRGB=/scratch3/BMC/gsd-fv3-dev/lzhang/GBBEPx
            BC=GBBEPxemis-BC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            OC=GBBEPxemis-OC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            SO2=GBBEPxemis-SO2-${CASE}GT${n}_v5r0_${emiss_date1}.bin
@@ -136,7 +136,7 @@ for n in $(seq 1 6); do
          fi
         mkdir -p $NCGB/${emiss_date1}
         set -ue
-        module load intel/19.0.5.281 netcdf szip hdf5
+        module load gnu/13.2.0 intel/2023.2.0 netcdf szip hdf5
         set -x
         $NLN $EXECgfs/mkncgbbepx .
  ./mkncgbbepx <<EOF
@@ -186,14 +186,14 @@ EOF
         echo "NetCDF GBBEPx File $NCGB/${SYEAR}${nmonth}${nday}/FIRE_GBBEPx_data.tile${n}.nc  exists, just link."
       else
          if [ ${emiss_date1} -le 20240501 ]; then
-         DIRGB=/scratch2/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/$SYEAR
+         DIRGB=/scratch4/NCEPDEV/naqfc/Kate.Zhang/GBBPEx_v004/$SYEAR
           BC=GBBEPxemis-BC-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
           OC=GBBEPxemis-OC-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
           PM25=GBBEPxemis-PM25-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
           SO2=GBBEPxemis-SO2-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
           FRP=GBBEPxFRP-MeanFRP-${CASE}GT${n}_v4r0_${SYEAR}${nmonth}${nday}.bin
          else
-	 DIRGB=/scratch1/BMC/gsd-fv3-dev/lzhang/GBBEPx 
+	 DIRGB=/scratch3/BMC/gsd-fv3-dev/lzhang/GBBEPx 
            BC=GBBEPxemis-BC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            OC=GBBEPxemis-OC-${CASE}GT${n}_v5r0_${emiss_date1}.bin
            SO2=GBBEPxemis-SO2-${CASE}GT${n}_v5r0_${emiss_date1}.bin

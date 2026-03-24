@@ -1,12 +1,12 @@
 USER=Kate.Zhang
 
 
-BASEDIR=/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-s2s
+BASEDIR=/scratch2/BMC/gsd-fv3-dev/lzhang/UFS-dev/global-workflow-DRSA
 STMP=/scratch1/NCEPDEV/stmp2/$USER/RUNDIRS
 IDATE=2016070100
 EDATE=2016070100
-APP=S2SW
-PSLOT=VCAT_C384_CCPP
+APP=S2S
+PSLOT=WCAT_C384_CCPP
 RES=384
 GFS_CYC=1
 START=cold

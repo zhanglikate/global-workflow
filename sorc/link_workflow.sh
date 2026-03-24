@@ -70,7 +70,7 @@ ${LINK_OR_COPY} "${HOMEgfs}/versions/run.${machine}.ver" "${HOMEgfs}/versions/ru
 #------------------------------
 case "${machine}" in
   "wcoss2")   FIX_DIR="/lfs/h2/emc/global/noscrub/emc.global/FIX/fix" ;;
-  "hera")     FIX_DIR="/scratch1/NCEPDEV/global/glopara/fix" ;;
+  "hera")     FIX_DIR="/scratch3/NCEPDEV/global/role.glopara/fix" ;;
   "orion")    FIX_DIR="/work/noaa/global/glopara/fix" ;;
   "hercules") FIX_DIR="/work/noaa/global/glopara/fix" ;;
   "jet")      FIX_DIR="/lfs4/HFIP/hfv3gfs/glopara/git/fv3gfs/fix" ;;
@@ -150,6 +150,7 @@ cd "${HOMEgfs}/parm/post" || exit 1
 for file in postxconfig-NT-GEFS-F00.txt postxconfig-NT-GEFS.txt postxconfig-NT-GEFS-WAFS.txt \
     postxconfig-NT-GEFS-F00-aerosol.txt postxconfig-NT-GEFS-aerosol.txt \
     postxconfig-NT-CCPP-CHEM-F00.txt postxconfig-NT-CCPP-CHEM.txt \
+    postxconfig-NT-CCPP-CHEM-MET-F00.txt postxconfig-NT-CCPP-CHEM-MET.txt \
     postxconfig-NT-GFS-ANL.txt postxconfig-NT-GFS-F00.txt postxconfig-NT-GFS-FLUX-F00.txt \
     postxconfig-NT-GFS.txt postxconfig-NT-GFS-FLUX.txt postxconfig-NT-GFS-GOES.txt \
     postxconfig-NT-GFS-F00-TWO.txt postxconfig-NT-GFS-TWO.txt \
