@@ -416,6 +416,7 @@ EOF
 if [ $cplchm = .true. ] || [ $cplchp = .true. ]; then
   cat >> input.nml << EOF
   fscav_aero = ${fscav_aero:-'*:0.0'}
+  wetdep_ls_cpl = ${wetdep_ls_cpl:-"1"}
 EOF
 fi
 
@@ -450,7 +451,6 @@ if [ $cplchp = .true. ]; then
   seas_emis_scheme=2
   seas_emis_scale=${seas_emis_scale:-"1.,1.,1.,1.,1."}
   vertmix_onoff=1
-  wetdep_ls_cplchp = ${wetdep_ls_cplchp:-"1"}
   restart_inname    = "${COM_ATMOS_INPUT}"
   restart_outname   = "${COM_ATMOS_RESTART}"
 EOF
